@@ -2,6 +2,7 @@ defmodule Juggler.ProjectController do
   use Juggler.Web, :controller
 
   alias Juggler.Project
+  alias Juggler.Build
 
   def index(conn, _params) do
     projects = Repo.all(Project)
@@ -27,8 +28,9 @@ defmodule Juggler.ProjectController do
   end
 
   def show(conn, %{"id" => id}) do
-    project = Repo.get!(Project, id)
-    render(conn, "show.html", project: project)
+    project = Project |> Repo.get!(id) |> Repo.preload([:builds])
+    build_changeset = Build.changeset(%Build{})
+    render(conn, "show.html", project: project, build_changeset: build_changeset)
   end
 
   def edit(conn, %{"id" => id}) do

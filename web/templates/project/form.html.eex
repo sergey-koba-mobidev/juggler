@@ -12,6 +12,12 @@
   </div>
 
   <div class="form-group">
+    <%= label f, :build_commands, class: "control-label" %>
+    <%= textarea f, :build_commands, class: "form-control" %>
+    <%= error_tag f, :build_commands %>
+  </div>
+
+  <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>

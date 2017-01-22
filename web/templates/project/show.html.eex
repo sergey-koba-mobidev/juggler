@@ -9,5 +9,10 @@
 
 </ul>
 
-<%= link "Edit", to: project_path(@conn, :edit, @project) %>
-<%= link "Back", to: project_path(@conn, :index) %>
+<%= link "Edit", to: project_path(@conn, :edit, @project), class: "btn btn-default btn-xs" %>
+<%= link "Back", to: project_path(@conn, :index), class: "btn btn-default btn-xs" %>
+<%= form_for @build_changeset, project_build_path(@conn, :create, @project), fn f -> %>
+  <div class="form-group">
+    <%= submit "New build", class: "btn btn-success" %>
+  </div>
+<% end %>

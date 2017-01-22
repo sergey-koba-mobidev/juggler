@@ -1,0 +1,12 @@
+<h2>Build</h2>
+
+<ul>
+
+  <li>
+    <strong>Key:</strong>
+    <%= @build.key %>
+  </li>
+
+</ul>
+
+<%= link "Back", to: project_path(@conn, :show, @build.project_id), class: "btn btn-default btn-xs" %>
