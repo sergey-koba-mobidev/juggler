@@ -3,6 +3,7 @@ defmodule Juggler.Build do
 
   schema "builds" do
     field :key, :string
+    field :state, :string
     field :output, :string
     belongs_to :project, Juggler.Project
 
@@ -14,7 +15,7 @@ defmodule Juggler.Build do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:key, :output, :project_id])
-    |> validate_required([:key])
+    |> cast(params, [:key, :output, :project_id, :state])
+    |> validate_required([:key, :state])
   end
 end

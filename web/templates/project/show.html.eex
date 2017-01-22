@@ -16,3 +16,25 @@
     <%= submit "New build", class: "btn btn-success" %>
   </div>
 <% end %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>State</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for build <- @project.builds do %>
+    <tr>
+      <td><%= build.key %></td>
+      <td><%= build.state %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: project_build_path(@conn, :show, @project, build), class: "btn btn-default btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

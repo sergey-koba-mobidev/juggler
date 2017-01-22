@@ -8,5 +8,10 @@
   </li>
 
 </ul>
+<%= for cmd <- @commands do %>
+<div class="panel">
+  <%= cmd %>
+</div>
+<% end %>
 
 <%= link "Back", to: project_path(@conn, :show, @build.project_id), class: "btn btn-default btn-xs" %>
