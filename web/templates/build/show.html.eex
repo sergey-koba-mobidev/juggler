@@ -14,4 +14,8 @@
 </div>
 <% end %>
 
+<div id="build-output">
+
+</div>
+
 <%= link "Back", to: project_path(@conn, :show, @build.project_id), class: "btn btn-default btn-xs" %>

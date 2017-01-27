@@ -2,7 +2,7 @@ defmodule Juggler.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", Juggler.RoomChannel
+  channel "build:*", Juggler.BuildChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
