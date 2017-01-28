@@ -55,16 +55,27 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("build:1", {})
 let buildOutput = $('#build-output')
+let buildId = window.buildId
 
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+if (buildId !== undefined) {
+  let channel = socket.channel("build:" + buildId, {})
 
-channel.on("new_msg", payload => {
-  console.log('new_msg');
-  buildOutput.append(payload.body + '<br />')
-})
+  channel.join()
+    .receive("ok", resp => { console.log("Joined successfully", resp) })
+    .receive("error", resp => { console.log("Unable to join", resp) })
 
+  channel.on("cmd_start", payload => {
+    console.log("cmd_start", payload)
+    buildOutput.append(" --- Started: " + payload.cmd + " --- \n")
+  })
+  channel.on("cmd_data", payload => {
+    console.log("cmd_data", payload)
+    buildOutput.append(payload.output)
+  })
+  channel.on("cmd_result", payload => {
+    console.log("cmd_result", payload)
+    buildOutput.append(" --- Finished: " + payload.cmd + ". Result: " + payload.status + " --- \n\n")
+  })
+}
 export default socket

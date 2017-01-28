@@ -11,14 +11,15 @@
   </li>
 
 </ul>
-<%= for cmd <- @commands do %>
-<div class="panel">
-  <%= cmd %>
-</div>
-<% end %>
 
-<div id="build-output">
+Commands:
+<pre>
+  <%= @build.project.build_commands %>
+</pre>
 
-</div>
+Output:
+<pre id="build-output">
+
+</pre>
 
 <%= link "Back", to: project_path(@conn, :show, @build.project_id), class: "btn btn-default btn-xs" %>
