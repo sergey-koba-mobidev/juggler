@@ -16,24 +16,33 @@ defmodule Juggler.BuildServer do
 
   def handle_cast({:new_build, build_id}, state) do
     build = Build |> Repo.get!(build_id) |> Repo.preload([:project])
-    exec_commands(build.id, build.project.build_commands)
+    commands_arr = String.split(build.project.build_commands, "\n")
+    Logger.info " ---> Started build " <> build_id <> " commands: " <> inspect(commands_arr)
+    spawn fn -> exec_commands(build.id, commands_arr) end
     {:noreply, [build_id | state]}
   end
 
   def exec_commands(build_id, commands) do
-    commands_arr = String.split(commands, "\n")
-    for command <- commands_arr do
-      {:ok, status} = exec_command(build_id, String.trim(command, "\r"))
+    case List.pop_at(commands, 0) do
+      {nil, []} ->
+        Juggler.Endpoint.broadcast("build:" <> Integer.to_string(build_id), "cmd_finished", %{})
+      {cmd, cmds} ->
+        {:ok, status} = exec_command(build_id, String.trim(cmd, "\r"))
+        case status == 0 do
+          true  -> exec_commands(build_id, cmds)
+          false -> Juggler.Endpoint.broadcast("build:" <> Integer.to_string(build_id), "cmd_finished_error", %{})
+        end
     end
   end
 
   def exec_command(build_id, command) do
-    Logger.info "Executing build " <> Integer.to_string(build_id) <> " cmd: " <> inspect(command)
+    Logger.info " ---> Executing build " <> Integer.to_string(build_id) <> " cmd: " <> inspect(command)
     Juggler.Endpoint.broadcast("build:" <> Integer.to_string(build_id), "cmd_start", %{cmd: command})
-    %Result{out: output, status: status} = Porcelain.shell(command)
+    # TODO: refactor to streams
+    %Result{out: output, status: status} = Porcelain.shell(command, err: :out)
     Juggler.Endpoint.broadcast("build:" <> Integer.to_string(build_id), "cmd_data", %{output: output, cmd: command})
     Juggler.Endpoint.broadcast("build:" <> Integer.to_string(build_id), "cmd_result", %{status: status, cmd: command})
-    Logger.info "Finished build " <> Integer.to_string(build_id) <> " cmd: " <> inspect(command) <> " result: " <> Integer.to_string(status)
+    Logger.info " ---> Finished build " <> Integer.to_string(build_id) <> " cmd: " <> inspect(command) <> " result: " <> Integer.to_string(status)
     {:ok, status}
   end
 end

@@ -77,5 +77,13 @@ if (buildId !== undefined) {
     console.log("cmd_result", payload)
     buildOutput.append(" --- Finished: " + payload.cmd + ". Result: " + payload.status + " --- \n\n")
   })
+  channel.on("cmd_finished", payload => {
+    console.log("cmd_finished", payload)
+    buildOutput.append(" --- Finished build --- \n\n")
+  })
+  channel.on("cmd_finished_error", payload => {
+    console.log("cmd_finished_error", payload)
+    buildOutput.append(" --- Finished build with error --- \n\n")
+  })
 }
 export default socket

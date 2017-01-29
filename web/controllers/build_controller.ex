@@ -28,9 +28,6 @@ defmodule Juggler.BuildController do
     build = Build |> Repo.get!(id) |> Repo.preload([:project])
 
     Juggler.BuildServer.new_build(id)
-    # %Result{out: output, status: status} = Porcelain.shell("sleep 3")
-    #IO.inspect status
-    #IO.inspect output
 
     render(conn, "show.html", build: build)
   end
