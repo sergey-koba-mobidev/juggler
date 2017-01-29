@@ -6,7 +6,7 @@ defmodule Juggler.Repo.Migrations.CreateBuild do
       add :key, :string
       add :state, :string
       add :output, :text
-      add :project_id, references(:projects, on_delete: :nothing)
+      add :project_id, references(:projects, on_delete: :delete_all)
 
       timestamps()
     end

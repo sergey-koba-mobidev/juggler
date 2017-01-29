@@ -65,25 +65,62 @@ if (buildId !== undefined) {
     .receive("ok", resp => { console.log("Joined successfully", resp) })
     .receive("error", resp => { console.log("Unable to join", resp) })
 
-  channel.on("cmd_start", payload => {
+  var addMessageToOutput = (msg, append) => {
+    if (append || append == null) {
+      buildOutput.append(msg)
+    } else {
+      buildOutput.prepend(msg)
+    }
+  }
+
+  var cmdStart = (payload, append = true) => {
     console.log("cmd_start", payload)
-    buildOutput.append(" --- Started: " + payload.cmd + " --- \n")
-  })
-  channel.on("cmd_data", payload => {
-    console.log("cmd_data", payload)
-    buildOutput.append(payload.output)
-  })
-  channel.on("cmd_result", payload => {
+    addMessageToOutput(" --- Started: " + payload.cmd + " --- \n", append)
+  }
+  var cmdData = (payload, append = true) => {
+    console.log("cmd_data", payload, append)
+    addMessageToOutput(payload.output, append)
+  }
+  var cmdResult = (payload, append = true) => {
     console.log("cmd_result", payload)
-    buildOutput.append(" --- Finished: " + payload.cmd + ". Result: " + payload.status + " --- \n\n")
-  })
-  channel.on("cmd_finished", payload => {
+    addMessageToOutput(" --- Finished: " + payload.cmd + ". Result: " + payload.status + " --- \n\n", append)
+  }
+  var cmdFinished = (payload, append = true) => {
     console.log("cmd_finished", payload)
-    buildOutput.append(" --- Finished build --- \n\n")
-  })
-  channel.on("cmd_finished_error", payload => {
+    addMessageToOutput(" --- Finished build --- \n\n", append)
+  }
+  var cmdFinishedError = (payload, append = true) => {
     console.log("cmd_finished_error", payload)
-    buildOutput.append(" --- Finished build with error --- \n\n")
+    addMessageToOutput(" --- Finished build with error --- \n\n", append)
+  }
+
+  channel.on("cmd_start", cmdStart)
+  channel.on("cmd_data", cmdData)
+  channel.on("cmd_result", cmdResult)
+  channel.on("cmd_finished", cmdFinished)
+  channel.on("cmd_finished_error", cmdFinishedError)
+
+  channel.on("cmd_old", ({outputs}) => {
+    console.log("cmd_old", outputs)
+    outputs.forEach( output => {
+      switch (output.event) {
+        case "cmd_start":
+          cmdStart(output.payload, false)
+          break;
+        case "cmd_data":
+          cmdData(output.payload, false)
+          break;
+        case "cmd_result":
+          cmdResult(output.payload, false)
+          break;
+        case "cmd_finished":
+          cmdFinished(output.payload, false)
+          break;
+        case "cmd_finished_error":
+          cmdFinishedError(output.payload, false)
+          break;
+      }
+    })
   })
 }
 export default socket
