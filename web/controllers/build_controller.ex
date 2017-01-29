@@ -2,7 +2,8 @@ defmodule Juggler.BuildController do
   use Juggler.Web, :controller
 
   alias Juggler.Build
-  alias Juggler.BuildExecutor
+  alias Porcelain.Process, as: Proc
+  alias Porcelain.Result
 
   def create(conn, %{"project_id" => project_id}) do
     changeset = Build.changeset(%Build{}, %{
@@ -26,7 +27,10 @@ defmodule Juggler.BuildController do
   def show(conn, %{"id" => id}) do
     build = Build |> Repo.get!(id) |> Repo.preload([:project])
 
-    BuildExecutor.exec_commands(build.id, build.project.build_commands)
+    Juggler.BuildServer.new_build(id)
+    # %Result{out: output, status: status} = Porcelain.shell("sleep 3")
+    #IO.inspect status
+    #IO.inspect output
 
     render(conn, "show.html", build: build)
   end
