@@ -18,6 +18,7 @@ defmodule Juggler.BuildServer do
   def handle_cast({:new_build, build_id}, state) do
     build = Build |> Repo.get!(build_id) |> Repo.preload([:project])
     commands_arr = String.split(build.project.build_commands, "\n")
+    update_build_state(build, "running")
     Logger.info " ---> Started build " <> Integer.to_string(build_id) <> " commands: " <> inspect(commands_arr)
     spawn fn -> exec_commands(build, commands_arr) end
     {:noreply, [build_id | state]}
@@ -27,11 +28,14 @@ defmodule Juggler.BuildServer do
     case List.pop_at(commands, 0) do
       {nil, []} ->
         process_build_output(build, "cmd_finished", %{})
+        update_build_state(build, "finished")
       {cmd, cmds} ->
         {:ok, status} = exec_command(build, String.trim(cmd, "\r"))
         case status == 0 do
           true  -> exec_commands(build, cmds)
-          false -> process_build_output(build, "cmd_finished_error", %{})
+          false ->
+            process_build_output(build, "cmd_finished_error", %{})
+            update_build_state(build, "error")
         end
     end
   end
@@ -55,10 +59,21 @@ defmodule Juggler.BuildServer do
     })
 
     case Repo.insert(changeset) do
-      {:ok, build} ->
+      {:ok, build_output} ->
         Juggler.Endpoint.broadcast("build:" <> Integer.to_string(build.id), event, payload)
       {:error, _changeset} ->
         Logger.error "Error inserting BuildOutput for build " <> Integer.to_string(build.id)
+    end
+  end
+
+  def update_build_state(build, new_state) do
+    changeset = Build.changeset(build, %{:state => new_state})
+
+    case Repo.update(changeset) do
+      {:ok, user} ->
+        Logger.info " ---> New build " <> Integer.to_string(build.id) <> " state: " <> new_state
+      {:error, changeset} ->
+        Logger.error "Error updating build " <> Integer.to_string(build.id) <> " state to " <> new_state
     end
   end
 end

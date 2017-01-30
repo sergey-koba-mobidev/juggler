@@ -4,12 +4,14 @@
 <h2>Build</h2>
 
 <ul>
-
   <li>
     <strong>Key:</strong>
     <%= @build.key %>
   </li>
-
+  <li>
+    <strong>State:</strong>
+    <%= @build.state %>
+  </li>
 </ul>
 
 Commands:

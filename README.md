@@ -2,7 +2,9 @@
 A simple elixir/phoenix based deployment tool.
 
 ## TODO
-- change build state
 - stream command output
+- user signup/login
 - git integration
+- project channel to update build states and builds
 - servers/deploys
+- vue js
