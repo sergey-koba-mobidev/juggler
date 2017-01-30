@@ -25,11 +25,3 @@ config :logger, :console,
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
-
-config :addict,
-  secret_key: "243262243132246e4b2e505535513074322f70617a5034477970357a65",
-  extra_validation: fn ({valid, errors}, user_params) -> {valid, errors} end, # define extra validation here
-  user_schema: Juggler.User,
-  repo: Juggler.Repo,
-  from_email: "no-reply@example.com", # CHANGE THIS
-  mail_service: nil
