@@ -1,5 +1,6 @@
 defmodule Juggler.Router do
   use Juggler.Web, :router
+  use Addict.RoutesHelper
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -20,6 +21,10 @@ defmodule Juggler.Router do
     resources "/projects", ProjectController do
       resources "/builds", BuildController, only: [:create, :show]
     end
+  end
+
+  scope "/" do
+    addict :routes
   end
 
   # Other scopes may use custom stacks.
