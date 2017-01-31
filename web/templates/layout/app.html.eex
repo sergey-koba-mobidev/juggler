@@ -18,7 +18,7 @@
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
             <li><a href="#">Log in</a></li>
-            <li><a href="#">Sign up</a></li>
+            <li><a href="<%= user_path(@conn, :new) %>">Sign up</a></li>
           </ul>
         </nav>
         <svg id="SvgjsSvg1026" width="400" height="100" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs">

@@ -2,8 +2,6 @@ defmodule Juggler.BuildController do
   use Juggler.Web, :controller
 
   alias Juggler.Build
-  alias Porcelain.Process, as: Proc
-  alias Porcelain.Result
 
   def create(conn, %{"project_id" => project_id}) do
     changeset = Build.changeset(%Build{}, %{

@@ -16,5 +16,7 @@ defmodule Juggler.User do
     struct
     |> cast(params, [:name, :email, :encrypted_password])
     |> validate_required([:name, :email, :encrypted_password])
+    |> validate_format(:email, ~r/@/)
+    |> unique_constraint(:email)
   end
 end

@@ -20,6 +20,7 @@ defmodule Juggler.Router do
     resources "/projects", ProjectController do
       resources "/builds", BuildController, only: [:create, :show]
     end
+    resources "/users", UserController, except: [:index, :delete]
   end
 
   # Other scopes may use custom stacks.
