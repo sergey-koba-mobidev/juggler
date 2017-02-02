@@ -21,6 +21,8 @@ defmodule Juggler.Router do
       resources "/builds", BuildController, only: [:create, :show]
     end
     resources "/users", UserController, except: [:index, :delete]
+    get "/login", UserController, :login
+    post "/authenticate", UserController, :authenticate
   end
 
   # Other scopes may use custom stacks.
