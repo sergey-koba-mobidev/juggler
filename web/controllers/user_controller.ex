@@ -32,13 +32,15 @@ defmodule Juggler.UserController do
              ~>> fn user -> validate_user_exists(email) end
              ~>> fn user -> validate_password(user, password) end
 
-   if success?(result) do # %Monad.Result{type: :success, value: user}
-    value = unwrap!(result) # Same as result.value
-    conn
-    |> put_flash(:info, "Welcome to Juggler")
-    |> redirect(to: project_path(conn, :index))
+   if success?(result) do
+     value = unwrap!(result)
+     conn
+     |> put_flash(:info, "Welcome to Juggler")
+     |> redirect(to: project_path(conn, :index))
    else
-    render(conn, "login.html")
+     conn
+     |> put_flash(:error, result.error)
+     |> render("login.html")
    end
   end
 end
