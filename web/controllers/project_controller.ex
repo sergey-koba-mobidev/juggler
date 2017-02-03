@@ -5,6 +5,7 @@ defmodule Juggler.ProjectController do
   alias Juggler.Build
 
   plug Juggler.Plugs.Authenticated
+  plug :authorize_project
 
   def index(conn, _params) do
     projects = Repo.preload(current_user(conn), :projects).projects
@@ -65,5 +66,19 @@ defmodule Juggler.ProjectController do
     conn
     |> put_flash(:info, "Project deleted successfully.")
     |> redirect(to: project_path(conn, :index))
+  end
+
+  defp authorize_project(conn, _) do
+    case conn.params do
+      %{"id" => id} ->
+        project = Repo.get!(Project, id)
+        if project.user_id == current_user(conn).id do
+          conn
+        else
+          conn |> put_flash(:info, "You can't access that page") |> redirect(to: project_path(conn, :index)) |> halt
+        end
+      _ ->
+        conn
+    end
   end
 end
