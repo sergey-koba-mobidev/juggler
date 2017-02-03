@@ -7,7 +7,7 @@ defmodule Juggler.ProjectController do
   plug Juggler.Plugs.Authenticated
 
   def index(conn, _params) do
-    projects = Repo.all(Project)
+    projects = Repo.preload(current_user(conn), :projects).projects
     render(conn, "index.html", projects: projects)
   end
 
@@ -17,7 +17,7 @@ defmodule Juggler.ProjectController do
   end
 
   def create(conn, %{"project" => project_params}) do
-    changeset = Project.changeset(%Project{}, project_params)
+    changeset = Project.changeset(%Project{}, Map.merge(project_params, %{"user_id" => current_user(conn).id}))
 
     case Repo.insert(changeset) do
       {:ok, _project} ->

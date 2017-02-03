@@ -6,6 +6,7 @@ defmodule Juggler.User do
     field :email, :string
     field :encrypted_password, :string
 
+    has_many :projects, Juggler.Project
     timestamps()
   end
 
