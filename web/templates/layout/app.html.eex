@@ -17,8 +17,13 @@
       <header class="header">
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
-            <li><a href="<%= user_path(@conn, :login) %>">Log in</a></li>
-            <li><a href="<%= user_path(@conn, :new) %>">Sign up</a></li>
+            <%= if is_logged_in(@conn) do %>
+              <li>Hi, <%= current_user(@conn).name %></li>
+              <li><a href="<%= user_path(@conn, :logout) %>">Log out</a></li>
+            <% else %>
+              <li><a href="<%= user_path(@conn, :login) %>">Log in</a></li>
+              <li><a href="<%= user_path(@conn, :new) %>">Sign up</a></li>
+            <% end %>
           </ul>
         </nav>
         <svg id="SvgjsSvg1026" width="400" height="100" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs">

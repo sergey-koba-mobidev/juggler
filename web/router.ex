@@ -22,6 +22,7 @@ defmodule Juggler.Router do
     end
     resources "/users", UserController, except: [:index, :delete]
     get "/login", UserController, :login
+    get "/logout", UserController, :logout
     post "/authenticate", UserController, :authenticate
   end
 
