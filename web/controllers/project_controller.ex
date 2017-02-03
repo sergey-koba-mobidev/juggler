@@ -4,6 +4,8 @@ defmodule Juggler.ProjectController do
   alias Juggler.Project
   alias Juggler.Build
 
+  plug Juggler.Plugs.Authenticated
+
   def index(conn, _params) do
     projects = Repo.all(Project)
     render(conn, "index.html", projects: projects)

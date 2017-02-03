@@ -3,6 +3,8 @@ defmodule Juggler.BuildController do
 
   alias Juggler.Build
 
+  plug Juggler.Plugs.Authenticated
+
   def create(conn, %{"project_id" => project_id}) do
     changeset = Build.changeset(%Build{}, %{
       :project_id => project_id,
