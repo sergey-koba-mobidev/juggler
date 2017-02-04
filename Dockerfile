@@ -2,6 +2,9 @@ FROM elixir:1.4.0
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Install Docker client
+RUN curl -sSL https://get.docker.com/ | sh
+
 # Install hex
 RUN mix local.hex --force
 

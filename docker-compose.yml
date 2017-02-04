@@ -11,6 +11,7 @@ services:
       - PG_USERNAME=postgres
     volumes:
       - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "4000:4000"
     links:
