@@ -1,0 +1,10 @@
+<%= if get_flash(@conn, :info) != nil do %>
+<div class="ui info message">
+  <p><%= get_flash(@conn, :info) %></p>
+</div>
+<% end %>
+<%= if get_flash(@conn, :error) != nil do %>
+<div class="ui negative message">
+  <p><%= get_flash(@conn, :error) %></p>
+</div>
+<% end %>

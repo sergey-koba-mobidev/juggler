@@ -1,1 +1,17 @@
 /* This file is for your main application css. */
+.masthead.segment {
+      min-height: 700px;
+      padding: 1em 0em;
+}
+.masthead h1.ui.header {
+      margin-top: 3em;
+      margin-bottom: 0em;
+      font-size: 4em;
+      font-weight: normal;
+}
+.pusher {
+  padding-top: 100px;
+}
+.help-block {
+  color: #DB2828!important
+}

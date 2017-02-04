@@ -7,11 +7,11 @@ defmodule Juggler.BuildChannel do
   require Logger
 
   def join("build:" <> build_id, params, socket) do
-    send(self, {:after_join, params})
+    send(self(), {:after_join, params})
     {:ok, assign(socket, :build_id, build_id)}
   end
 
-  def handle_info({:after_join, params}, socket) do
+  def handle_info({:after_join, _params}, socket) do
     build = Repo.get(Build, socket.assigns.build_id)
     #outputs = Repo.all(assoc(build, :build_outputs))
     outputs = Repo.all(

@@ -15,5 +15,5 @@ config :juggler, Juggler.Repo,
   username: "postgres",
   password: "postgres",
   database: "juggler_test",
-  hostname: "localhost",
+  hostname: "postgres",
   pool: Ecto.Adapters.SQL.Sandbox

@@ -1,19 +1,11 @@
-<div class="jumbotron">
-  <h2>Welcome to Juggler</h2>
-  <p class="lead">A productive web deployment tool that<br /> is based on Elixir.</p>
-</div>
+<div class="ui inverted vertical masthead center aligned segment">
 
-<div class="row marketing">
-  <div class="col-lg-6">
-    <h4>Resources</h4>
-    <ul>
-      <li>
-        <a href="<%= project_path(@conn, :index) %>">Projects</a>
-      </li>
-    </ul>
-  </div>
+    <div class="ui text container">
+      <h1 class="ui inverted header">
+        JUGGLER
+      </h1>
+      <h2>Productive Elixir and Docker based deployment tool</h2>
+      <a class="ui huge primary button" href="<%= user_path(@conn, :new) %>">Get Started <i class="right arrow icon"></i></a>
+    </div>
 
-  <div class="col-lg-6">
-    <h4>Help</h4>
-  </div>
 </div>

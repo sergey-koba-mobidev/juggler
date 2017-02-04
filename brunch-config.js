@@ -42,7 +42,8 @@ exports.config = {
     // Dependencies and current project directories to watch
     watched: [
       "web/static",
-      "test/static"
+      "test/static",
+      "node_modules/semantic-ui/dist/semantic.min.js"
     ],
 
     // Where to compile files to
@@ -64,6 +65,13 @@ exports.config = {
   },
 
   npm: {
-    enabled: true
+    enabled: true,
+    styles: {
+      'semantic-ui': ['dist/components/reset.min.css','dist/components/site.min.css','dist/semantic.min.css']
+    },
+    globals: {
+      $: 'jquery',
+      jQuery: 'jquery'
+    }
   }
 };

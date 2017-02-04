@@ -27,10 +27,11 @@ defmodule Juggler.UserController do
   end
   def logout(conn, _params) do
     result = success(conn)
-             ~>> fn user -> destroy_session(conn) end
+             ~>> fn conn -> destroy_session(conn) end
 
    if success?(result) do
      conn = unwrap!(result)
+     conn
      |> put_flash(:info, "You are logged out")
      |> redirect(to: project_path(conn, :index))
    else
@@ -43,12 +44,13 @@ defmodule Juggler.UserController do
   def authenticate(conn, %{"login" => %{"email" => email, "password" => password}}) do
     user = nil
     result = success(user)
-             ~>> fn user -> validate_user_exists(email) end
+             ~>> fn _user -> validate_user_exists(email) end
              ~>> fn user -> validate_password(user, password) end
              ~>> fn user -> create_session(conn, user) end
 
    if success?(result) do
      conn = unwrap!(result)
+     conn
      |> put_flash(:info, "Welcome to Juggler")
      |> redirect(to: project_path(conn, :index))
    else

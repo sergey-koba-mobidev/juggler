@@ -1,1 +1,13 @@
 version: '2'
+services:
+  test:
+    build: .
+    command: mix test
+    environment:
+      - MIX_ENV=test
+      - PG_HOST=postgres
+      - PG_USERNAME=postgres
+    volumes:
+      - .:/app
+    links:
+      - postgres

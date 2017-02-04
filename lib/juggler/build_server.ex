@@ -59,7 +59,7 @@ defmodule Juggler.BuildServer do
     })
 
     case Repo.insert(changeset) do
-      {:ok, build_output} ->
+      {:ok, _build_output} ->
         Juggler.Endpoint.broadcast("build:" <> Integer.to_string(build.id), event, payload)
       {:error, _changeset} ->
         Logger.error "Error inserting BuildOutput for build " <> Integer.to_string(build.id)
@@ -70,9 +70,9 @@ defmodule Juggler.BuildServer do
     changeset = Build.changeset(build, %{:state => new_state})
 
     case Repo.update(changeset) do
-      {:ok, user} ->
+      {:ok, _user} ->
         Logger.info " ---> New build " <> Integer.to_string(build.id) <> " state: " <> new_state
-      {:error, changeset} ->
+      {:error, _changeset} ->
         Logger.error "Error updating build " <> Integer.to_string(build.id) <> " state to " <> new_state
     end
   end
