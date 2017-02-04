@@ -20,3 +20,7 @@ import "phoenix_html"
 
 import "semantic-ui/dist/semantic.min"
 import socket from "./socket"
+
+$(function() {
+  $('.tabular.menu .item').tab();
+})

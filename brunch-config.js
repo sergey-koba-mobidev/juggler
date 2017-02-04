@@ -43,7 +43,8 @@ exports.config = {
     watched: [
       "web/static",
       "test/static",
-      "node_modules/semantic-ui/dist/semantic.min.js"
+      "node_modules/semantic-ui/dist/semantic.min.js",
+      "node_modules/semantic-ui/dist/components"
     ],
 
     // Where to compile files to
@@ -67,7 +68,7 @@ exports.config = {
   npm: {
     enabled: true,
     styles: {
-      'semantic-ui': ['dist/components/reset.min.css','dist/components/site.min.css','dist/semantic.min.css']
+      'semantic-ui': ['dist/semantic.min.css']
     },
     globals: {
       $: 'jquery',

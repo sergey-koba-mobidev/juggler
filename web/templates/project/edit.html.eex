@@ -1,4 +1,4 @@
-<h2>Settings</h2>
+<h2><%= @project.name %> Settings</h2>
 
 <%= render "form.html", changeset: @changeset,
                         action: project_path(@conn, :update, @project),

@@ -14,6 +14,9 @@
     <%= error_tag f, :encrypted_password %>
   </div>
 
-  <%= submit "Login", class: "ui primary button" %>
-  <%= link "Back", to: '/', class: "ui button" %>
+  <div class="ui buttons">
+    <%= submit "Login", class: "ui primary button" %>
+    <div class="or"></div>
+    <%= link "Back", to: '/', class: "ui button" %>
+  </div>
 <% end %>
