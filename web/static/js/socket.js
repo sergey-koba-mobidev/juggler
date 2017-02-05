@@ -75,7 +75,7 @@ if (buildId !== undefined) {
 
   var cmdStart = (payload, append = true) => {
     console.log("cmd_start", payload)
-    addMessageToOutput(" --- Started: " + payload.cmd + " --- \n", append)
+    addMessageToOutput("<div class='ui small compact message'>Started <b>" + payload.cmd + "</b> command</div> \n", append)
   }
   var cmdData = (payload, append = true) => {
     console.log("cmd_data", payload, append)
@@ -83,15 +83,15 @@ if (buildId !== undefined) {
   }
   var cmdResult = (payload, append = true) => {
     console.log("cmd_result", payload)
-    addMessageToOutput(" --- Finished: " + payload.cmd + ". Result: " + payload.status + " --- \n\n", append)
+    addMessageToOutput("<div class='ui small "+(payload.status == '0' ? 'positive' : 'negative')+" compact message'>Finished <b>" + payload.cmd + "</b>, result code: " + payload.status + " </div>\n", append)
   }
   var cmdFinished = (payload, append = true) => {
     console.log("cmd_finished", payload)
-    addMessageToOutput(" --- Finished build --- \n\n", append)
+    addMessageToOutput("<div class='ui small positive compact message'>Finished build</div>", append)
   }
   var cmdFinishedError = (payload, append = true) => {
     console.log("cmd_finished_error", payload)
-    addMessageToOutput(" --- Finished build with error --- \n\n", append)
+    addMessageToOutput("<div class='ui small negative compact message'>Finished build with error</div>", append)
   }
 
   channel.on("cmd_start", cmdStart)

@@ -36,9 +36,9 @@
     <div class="ui divider"></div>
 
     <div class="ui buttons">
-      <%= submit "Save", class: "ui positive button" %>
+      <%= submit raw("<i class='checkmark icon'></i> Save"), class: "ui labeled icon positive button" %>
       <div class="or"></div>
-      <%= link "Back", to: project_path(@conn, :index), class: "ui button" %>
+      <%= link raw("<i class='right arrow icon'></i> Back"), to: project_path(@conn, :index), class: "ui right labeled icon button" %>
     </div>
   </div>
 </div>

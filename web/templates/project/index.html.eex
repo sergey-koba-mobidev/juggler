@@ -1,31 +1,26 @@
 <h2>Projects</h2>
 
 <%= if length(@projects) > 0 do %>
-<table class="ui very basic celled table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
+<div class="ui divided relaxed items">
 <%= for project <- @projects do %>
-    <tr>
-      <td>
+  <div class="item">
+    <div class="middle aligned content">
+      <div class="header">
         <%= link project.name, to: project_path(@conn, :show, project) %>
-      </td>
-
-      <td>
-        <a class="ui left floated labeled icon button" href="<%= project_path(@conn, :edit, project) %>">
-          <i class="right arrow icon"></i>
+      </div>
+      <div class="extra">
+        <div class="ui right floated">
+          <%= link raw("<i class='trash outline icon'></i> Delete"), to: project_path(@conn, :delete, project), method: :delete, data: [confirm: "Are you sure?"], class: "ui labeled icon red button" %>
+        </div>
+        <a class="ui right floated labeled icon button" href="<%= project_path(@conn, :edit, project) %>">
+          <i class="setting icon"></i>
           Settings
         </a>
-        <%= link "Delete", to: project_path(@conn, :delete, project), method: :delete, data: [confirm: "Are you sure?"], class: "ui red button" %>
-      </td>
-    </tr>
+      </div>
+    </div>
+  </div>
 <% end %>
-  </tbody>
-</table>
+</div>
 <% end %>
 
-<%= link "New project", to: project_path(@conn, :new), class: "ui primary button" %>
+<%= link raw("<i class='plus icon'></i> New Project"), to: project_path(@conn, :new), class: "ui labeled icon primary button" %>

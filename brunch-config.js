@@ -56,6 +56,12 @@ exports.config = {
     babel: {
       // Do not use ES6 compiler in vendor code
       ignore: [/web\/static\/vendor/]
+    },
+    copycat:{
+      "css/themes" : ["node_modules/semantic-ui/dist/themes"],
+      //"images": ["someDirectoryInProject", "bower_components/some_package/assets/images"],
+      verbose : true, //shows each file that is copied to the destination directory
+      onlyChanged: true //only copy a file if it's modified time has changed (only effective when using brunch watch)
     }
   },
 

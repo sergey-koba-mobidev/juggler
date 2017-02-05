@@ -12,14 +12,14 @@
     Hi, <%= current_user(@conn).name %>
   </div>
   <div class="item">
-    <a class="ui button" href="<%= user_path(@conn, :logout) %>">Log out</a></li>
+    <a class="ui right labeled icon button" href="<%= user_path(@conn, :logout) %>"><i class="power icon"></i> Log out</a></li>
   </div>
   <% else %>
   <div class="item">
-    <a class="ui button" href="<%= user_path(@conn, :login) %>">Log in</a>
+    <a class="ui labeled icon button" href="<%= user_path(@conn, :login) %>"><i class="sign in icon"></i> Log in</a>
   </div>
   <div class="item">
-    <a class="ui primary button" href="<%= user_path(@conn, :new) %>">Sign Up</a>
+    <a class="ui labeled icon primary button" href="<%= user_path(@conn, :new) %>"><i class="add user icon"></i> Sign Up</a>
   </div>
   <% end %>
 </div>

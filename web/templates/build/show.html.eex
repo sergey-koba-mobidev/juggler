@@ -1,27 +1,22 @@
 <script type="text/javascript">
   window.buildId = <%= @build.id %>;
 </script>
-<h2>Build</h2>
 
-<ul>
-  <li>
-    <strong>Key:</strong>
-    <%= @build.key %>
-  </li>
-  <li>
-    <strong>State:</strong>
-    <%= @build.state %>
-  </li>
-</ul>
+<h2>
+  <%= build_icon(@build.state) %>
+  Build <%= @build.key %>
+</h2>
 
-Commands:
-<pre>
-  <%= @build.project.build_commands %>
-</pre>
+<h3>Commands</h3>
+<div class="ui segment">
+  <pre>
+    <%= @build.project.build_commands %>
+  </pre>
+</div>
 
-Output:
-<pre id="build-output">
+<h3>Output</h3>
+<div class="ui segment">
+  <pre id="build-output"></pre>
+</div>
 
-</pre>
-
-<%= link "Back", to: project_path(@conn, :show, @build.project_id), class: "btn btn-default btn-xs" %>
+<%= link raw("<i class='right arrow icon'></i> Back"), to: project_path(@conn, :show, @build.project_id), class: "ui right labeled icon button" %>

@@ -1,40 +1,29 @@
-<h2>Show project</h2>
+<h2><%= @project.name %></h2>
 
-<ul>
+<div class="ui buttons">
+  <%= link raw("<i class='setting icon'></i> Settings"), to: project_path(@conn, :edit, @project), class: "ui labeled icon button" %>
+  <div class="or"></div>
+  <%= link raw("<i class='right arrow icon'></i> Back"), to: project_path(@conn, :index), class: "ui right labeled icon button" %>
+</div>
 
-  <li>
-    <strong>Name:</strong>
-    <%= @project.name %>
-  </li>
+<h3>Builds</h3>
 
-</ul>
-
-<%= link "Edit", to: project_path(@conn, :edit, @project), class: "btn btn-default btn-xs" %>
-<%= link "Back", to: project_path(@conn, :index), class: "btn btn-default btn-xs" %>
-<%= form_for @build_changeset, project_build_path(@conn, :create, @project), fn f -> %>
-  <div class="form-group">
-    <%= submit "New build", class: "btn btn-success" %>
+<div class="ui items">
+  <%= for build <- @project.builds do %>
+  <div class="item">
+    <div class="middle aligned content">
+      <div class="header">
+        <%= Juggler.BuildView.build_icon(build.state) %>
+        <%= link build.key, to: project_build_path(@conn, :show, @project, build) %>
+      </div>
+      <div class="meta">
+        <span><%= build.inserted_at %></span>
+      </div>
+    </div>
   </div>
-<% end %>
+  <% end %>
+</div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Key</th>
-      <th>State</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for build <- @project.builds do %>
-    <tr>
-      <td><%= build.key %></td>
-      <td><%= build.state %></td>
-
-      <td class="text-right">
-        <%= link "Show", to: project_build_path(@conn, :show, @project, build), class: "btn btn-default btn-xs" %>
-      </td>
-    </tr>
+<%= form_for @build_changeset, project_build_path(@conn, :create, @project), fn f -> %>
+  <%= submit raw("<i class='plus icon'></i> New Build"), class: "ui labeled icon primary button" %>
 <% end %>
-  </tbody>
-</table>

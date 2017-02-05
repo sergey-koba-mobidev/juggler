@@ -15,8 +15,8 @@
   </div>
 
   <div class="ui buttons">
-    <%= submit "Login", class: "ui primary button" %>
+    <%= submit raw("<i class='sign in icon'></i> Login"), class: "ui labeled icon primary button" %>
     <div class="or"></div>
-    <%= link "Back", to: '/', class: "ui button" %>
+    <%= link raw("<i class='right arrow icon'></i> Back"), to: "/", class: "ui right labeled icon button" %>
   </div>
 <% end %>
