@@ -7,3 +7,4 @@ A simple elixir/phoenix based deployment tool.
 - servers/deploys
 - vue js
 - project channel to update build states and builds
+- edit profile, forgot password
