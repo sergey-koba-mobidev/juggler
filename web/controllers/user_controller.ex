@@ -25,6 +25,7 @@ defmodule Juggler.UserController do
   def login(conn, _params) do
     render(conn, "login.html")
   end
+
   def logout(conn, _params) do
     result = success(conn)
              ~>> fn conn -> destroy_session(conn) end
@@ -48,15 +49,15 @@ defmodule Juggler.UserController do
              ~>> fn user -> validate_password(user, password) end
              ~>> fn user -> create_session(conn, user) end
 
-   if success?(result) do
+    if success?(result) do
      conn = unwrap!(result)
      conn
      |> put_flash(:info, "Welcome to Juggler")
      |> redirect(to: project_path(conn, :index))
-   else
+    else
      conn
      |> put_flash(:error, result.error)
      |> render("login.html")
-   end
+    end
   end
 end

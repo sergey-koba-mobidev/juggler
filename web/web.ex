@@ -37,7 +37,7 @@ defmodule Juggler.Web do
       import Juggler.Router.Helpers
       import Juggler.Gettext
 
-      use Monad.Operators # Brings in the ~>> bind operator
+      use Monad.Operators
       import Monad.Result, only: [success?: 1,
                                   unwrap!: 1,
                                   success: 1,

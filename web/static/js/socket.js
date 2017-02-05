@@ -91,7 +91,7 @@ if (buildId !== undefined) {
   }
   var cmdFinishedError = (payload, append = true) => {
     console.log("cmd_finished_error", payload)
-    addMessageToOutput("<div class='ui small negative compact message'>Finished build with error</div>", append)
+    addMessageToOutput("<div class='ui small negative compact message'>Finished build with error: " + payload.error_msg + "</div>", append)
   }
 
   channel.on("cmd_start", cmdStart)
