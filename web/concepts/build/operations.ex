@@ -34,22 +34,26 @@ defmodule Juggler.BuildOperations do
   def start_docker_container(build) do
     project = Project |> Repo.get!(build.project_id)
     docker_image = project.docker_image
-    %Result{out: output, status: status} = Porcelain.shell("docker run -it -d " <> docker_image <> " /bin/bash", err: :out)
-    case status do
-      0 ->
-        container_id = String.trim(output, "\n")
-        changeset = Build.changeset(build, %{:container_id => container_id})
-        case Repo.update(changeset) do
-          {:ok, build} ->
-            Logger.info " ---> New docker cont " <> container_id <> " build: " <> Integer.to_string(build.id)
-            update_build_state(build, "running")
-            success(build)
-          {:error, _changeset} ->
-            error_msg = "Error updating build " <> Integer.to_string(build.id) <> " container_id to " <> container_id
-            Logger.error error_msg
-            error(error_msg)
-        end
-      _ -> error("Failed to start docker cont: " <> output)
+    if docker_image == nil do
+      error("Project environment is not configured, please select docker image in settings")
+    else
+      %Result{out: output, status: status} = Porcelain.shell("docker run -it -d " <> docker_image <> " /bin/bash", err: :out)
+      case status do
+        0 ->
+          container_id = String.trim(output, "\n")
+          changeset = Build.changeset(build, %{:container_id => container_id})
+          case Repo.update(changeset) do
+            {:ok, build} ->
+              Logger.info " ---> New docker cont " <> container_id <> " build: " <> Integer.to_string(build.id)
+              update_build_state(build, "running")
+              success(build)
+            {:error, _changeset} ->
+              error_msg = "Error updating build " <> Integer.to_string(build.id) <> " container_id to " <> container_id
+              Logger.error error_msg
+              error(error_msg)
+          end
+        _ -> error("Failed to start docker cont: " <> output)
+      end
     end
   end
 
