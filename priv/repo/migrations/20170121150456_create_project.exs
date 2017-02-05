@@ -5,6 +5,7 @@ defmodule Juggler.Repo.Migrations.CreateProject do
     create table(:projects) do
       add :name, :string
       add :build_commands, :string
+      add :docker_image, :string
       add :user_id, references(:users, on_delete: :delete_all)
 
       timestamps()

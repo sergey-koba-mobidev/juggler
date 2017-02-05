@@ -10,7 +10,7 @@
 <h3>Commands</h3>
 <div class="ui segment">
   <pre>
-    <%= @build.project.build_commands %>
+    <%= @build.commands %>
   </pre>
 </div>
 

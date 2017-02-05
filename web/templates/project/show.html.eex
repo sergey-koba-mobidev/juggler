@@ -24,6 +24,6 @@
   <% end %>
 </div>
 
-<%= form_for @build_changeset, project_build_path(@conn, :create, @project), fn f -> %>
+<%= form_for @build_changeset, project_build_path(@conn, :create, @project), fn _f -> %>
   <%= submit raw("<i class='plus icon'></i> New Build"), class: "ui labeled icon primary button" %>
 <% end %>

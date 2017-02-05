@@ -4,6 +4,7 @@ defmodule Juggler.Project do
   schema "projects" do
     field :name, :string
     field :build_commands, :string
+    field :docker_image, :string
     belongs_to :user, Juggler.User
     has_many :builds, Juggler.Build
 
@@ -15,7 +16,7 @@ defmodule Juggler.Project do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :build_commands, :user_id])
+    |> cast(params, [:name, :build_commands, :docker_image, :user_id])
     |> validate_required([:name, :user_id])
   end
 end

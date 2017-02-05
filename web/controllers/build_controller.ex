@@ -2,16 +2,20 @@ defmodule Juggler.BuildController do
   use Juggler.Web, :controller
 
   alias Juggler.Build
+  alias Juggler.Project
 
   plug Juggler.Plugs.Authenticated
   plug :authorize_build
 
   def create(conn, %{"project_id" => project_id}) do
+    project = Project |> Repo.get!(project_id)
+
     changeset = Build.changeset(%Build{}, %{
       :project_id => project_id,
       :key => Integer.to_string(DateTime.to_unix(DateTime.utc_now)),
-      :state => "new"
-      })
+      :state => "new",
+      :commands => project.build_commands
+    })
 
     case Repo.insert(changeset) do
       {:ok, build} ->

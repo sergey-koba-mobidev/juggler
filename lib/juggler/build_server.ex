@@ -16,8 +16,8 @@ defmodule Juggler.BuildServer do
   end
 
   def handle_cast({:new_build, build_id}, state) do
-    build = Build |> Repo.get!(build_id) |> Repo.preload([:project])
-    commands_arr = String.split(build.project.build_commands, "\n")
+    build = Build |> Repo.get!(build_id)
+    commands_arr = String.split(build.commands, "\n")
     update_build_state(build, "running")
     Logger.info " ---> Started build " <> Integer.to_string(build_id) <> " commands: " <> inspect(commands_arr)
     spawn fn -> exec_commands(build, commands_arr) end

@@ -31,6 +31,11 @@
     </div>
 
     <div class="ui tab" data-tab="env">
+      <div class="field">
+        <%= label f, :docker_image %>
+        <%= text_input f, :docker_image %>
+        <%= error_tag f, :docker_image %>
+      </div>
     </div>
 
     <div class="ui divider"></div>
