@@ -19,6 +19,8 @@ defmodule Juggler.Router do
     get "/", PageController, :index
     resources "/projects", ProjectController do
       resources "/builds", BuildController, only: [:create, :show]
+      get "/github", GithubController, :setup
+      get "/github/callback", GithubController, :callback
     end
     resources "/users", UserController, except: [:index, :delete]
     get "/login", UserController, :login

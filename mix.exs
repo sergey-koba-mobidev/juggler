@@ -19,7 +19,7 @@ defmodule Juggler.Mixfile do
   def application do
     [mod: {Juggler, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :porcelain, :comeonin]]
+                    :phoenix_ecto, :postgrex, :porcelain, :comeonin, :httpoison]]
   end
 
   # Specifies which paths to compile per environment.
@@ -40,7 +40,9 @@ defmodule Juggler.Mixfile do
      {:cowboy, "~> 1.0"},
      {:porcelain, "~> 2.0"},
      {:comeonin, "~> 3.0"},
-     {:monadex, "~> 1.1"}]
+     {:monadex, "~> 1.1"},
+     {:github_oauth, ">= 0.1.1"},
+     {:poison, "2.2.0", override: true}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

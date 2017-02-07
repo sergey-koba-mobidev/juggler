@@ -11,6 +11,9 @@ A simple elixir/phoenix based deployment tool.
 - dcg run web mix ecto.migrate
 - dcg up -d
 
+## Configure
+- create .env file based on sample.env
+
 ## TODO
 - stream command output
 - git integration
