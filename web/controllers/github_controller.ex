@@ -27,11 +27,18 @@ defmodule Juggler.GithubController do
       {:ok, build} ->
         conn
         |> put_flash(:info, "Integrated GitHub!")
-        |> redirect(to: project_path(conn, :edit, project_id))
+        |> redirect(to: project_path(conn, :select_project, project_id))
       {:error, _changeset} ->
         conn
         |> put_flash(:error, "Unable to integrate GitHub.")
         |> redirect(to: project_path(conn, :edit, project_id))
     end
+  end
+
+  def select_project(conn, %{"project_id" => project_id}) do
+    integration = Repo.get_by(Integration, project_id: project_id, key: "github")
+
+    projects = get_projects(integration.data["access_token"])
+    render(conn, "select_project.html", projects: projects)
   end
 end

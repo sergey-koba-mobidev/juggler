@@ -16,4 +16,9 @@ defmodule Juggler.GitHubOperations do
   def get_access_token(callback_url, code) do
     GithubOauth.get_token(config(callback_url), code)
   end
+
+  def get_projects(access_token) do
+    client = Tentacat.Client.new(%{access_token: access_token})
+    Tentacat.Repositories.list_mine(client)
+  end
 end
