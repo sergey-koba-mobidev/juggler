@@ -18,8 +18,9 @@ defmodule Juggler.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Juggler, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :porcelain, :comeonin, :httpoison, :tentacat]]
+     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger,
+                    :gettext, :phoenix_ecto, :postgrex, :porcelain, :comeonin,
+                    :httpoison, :tentacat, :bamboo]]
   end
 
   # Specifies which paths to compile per environment.
@@ -43,7 +44,9 @@ defmodule Juggler.Mixfile do
      {:monadex, "~> 1.1"},
      {:github_oauth, ">= 0.1.1"},
      {:poison, "2.2.0", override: true},
-     {:tentacat, "~> 0.5"}]
+     {:tentacat, "~> 0.5"},
+     {:bamboo, "~> 0.7"},
+     {:bamboo_smtp, "~> 1.2.1"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

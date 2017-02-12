@@ -11,3 +11,12 @@ services:
       - .:/app
     links:
       - postgres
+
+  web:
+    links:
+      - mailcatcher
+
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - "1080:1080"

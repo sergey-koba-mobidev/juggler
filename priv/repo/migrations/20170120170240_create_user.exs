@@ -6,6 +6,7 @@ defmodule Juggler.Repo.Migrations.CreateUser do
       add :name, :string
       add :email, :string
       add :encrypted_password, :string
+      add :reset_password_token, :string
 
       timestamps()
     end

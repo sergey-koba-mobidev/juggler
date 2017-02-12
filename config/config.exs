@@ -17,6 +17,16 @@ config :juggler, Juggler.Endpoint,
   pubsub: [name: Juggler.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :juggler, Juggler.Mailer,
+  adapter: Bamboo.SMTPAdapter,
+  server: System.get_env("SMTP_SERVER"),
+  port: elem(Integer.parse(System.get_env("SMTP_PORT")), 0),
+  username: System.get_env("SMTP_USERNAME"),
+  password: System.get_env("SMTP_PASSWORD"),
+  tls: :if_available, # can be `:always` or `:never`
+  ssl: false, # can be `true`
+  retries: 1
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

@@ -5,6 +5,7 @@ defmodule Juggler.User do
     field :name, :string
     field :email, :string
     field :encrypted_password, :string
+    field :reset_password_token, :string
 
     has_many :projects, Juggler.Project
     timestamps()
@@ -15,7 +16,7 @@ defmodule Juggler.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :email, :encrypted_password])
+    |> cast(params, [:name, :email, :encrypted_password, :reset_password_token])
     |> validate_required([:name, :email, :encrypted_password])
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)

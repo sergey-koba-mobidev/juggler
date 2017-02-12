@@ -1,8 +1,12 @@
 defmodule Juggler.UserController do
   use Juggler.Web, :controller
   alias Juggler.User
-  import Comeonin.Bcrypt
-  import Juggler.UserOperations
+  alias Juggler.User.Operations.{ValidateUserExists, ValidatePassword,
+    CreateSession, DestroySession, EncryptPasswordParam, Create, Update,
+    SetResetPasswordToken, SendResetPasswordEmail, GetByResetPasswordToken,
+    SetNewPassword}
+
+  plug Juggler.Plugs.Authenticated when action in [:update, :edit]
 
   def new(conn, _params) do
     changeset = User.changeset(%User{})
@@ -10,15 +14,17 @@ defmodule Juggler.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset(%User{}, Map.merge(user_params, %{"encrypted_password" => hashpwsalt(user_params["password"])}))
+    result = success(user_params)
+             ~>> fn user_params -> EncryptPasswordParam.call(user_params) end
+             ~>> fn user_params -> Create.call(user_params) end
 
-    case Repo.insert(changeset) do
-      {:ok, _project} ->
-        conn
-        |> put_flash(:info, "Thank you for signup")
-        |> redirect(to: project_path(conn, :index))
-      {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+    if success?(result) do
+      conn
+      |> put_flash(:info, "Thank you for signup")
+      |> redirect(to: project_path(conn, :index))
+    else
+      changeset = result.error
+      render(conn, "new.html", changeset: changeset)
     end
   end
 
@@ -29,17 +35,18 @@ defmodule Juggler.UserController do
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
-    user = Repo.get!(User, id)
-    if user_params["password"] != "", do: user_params = Map.merge(user_params, %{"encrypted_password" => hashpwsalt(user_params["password"])})
-    changeset = User.changeset(user, user_params)
+    result = success(user_params)
+             ~>> fn user_params -> EncryptPasswordParam.call(user_params) end
+             ~>> fn user_params -> Update.call(id, user_params) end
 
-    case Repo.update(changeset) do
-      {:ok, project} ->
-        conn
-        |> put_flash(:info, "Profile updated successfully.")
-        |> redirect(to: user_path(conn, :edit, user))
-      {:error, changeset} ->
-        render(conn, "edit.html", user: user, changeset: changeset)
+    if success?(result) do
+      user = unwrap!(result)
+      conn
+      |> put_flash(:info, "Profile updated successfully.")
+      |> redirect(to: user_path(conn, :edit, user))
+    else
+      changeset = result.error
+      render(conn, "edit.html", changeset: changeset)
     end
   end
 
@@ -48,8 +55,7 @@ defmodule Juggler.UserController do
   end
 
   def logout(conn, _params) do
-    result = success(conn)
-             ~>> fn conn -> destroy_session(conn) end
+    result = DestroySession.call(conn)
 
    if success?(result) do
      conn = unwrap!(result)
@@ -64,11 +70,10 @@ defmodule Juggler.UserController do
   end
 
   def authenticate(conn, %{"login" => %{"email" => email, "password" => password}}) do
-    user = nil
-    result = success(user)
-             ~>> fn _user -> validate_user_exists(email) end
-             ~>> fn user -> validate_password(user, password) end
-             ~>> fn user -> create_session(conn, user) end
+    result = success(email)
+             ~>> fn email -> ValidateUserExists.call(email) end
+             ~>> fn user -> ValidatePassword.call(user, password) end
+             ~>> fn user -> CreateSession.call(conn, user) end
 
     if success?(result) do
      conn = unwrap!(result)
@@ -87,6 +92,48 @@ defmodule Juggler.UserController do
   end
 
   def reset_password(conn, %{"reset_password" => %{"email" => email}}) do
-    # do smth
+    result = success(email)
+             ~>> fn email -> ValidateUserExists.call(email) end
+             ~>> fn user -> SetResetPasswordToken.call(user) end
+             ~>> fn user -> SendResetPasswordEmail.call(conn, user) end
+
+    if success?(result) do
+     conn
+     |> put_flash(:info, "Reset password email is sent to " <> email)
+     |> redirect(to: user_path(conn, :login))
+    else
+     conn
+     |> put_flash(:error, result.error)
+     |> redirect(to: user_path(conn, :forgot_password))
+    end
+  end
+
+  def new_password(conn, %{"email" => email, "token" => token}) do
+    result = GetByResetPasswordToken.call(email, token)
+
+    if success?(result) do
+     render conn, "new_password.html", user: unwrap!(result)
+    else
+     conn
+     |> put_flash(:error, result.error)
+     |> redirect(to: user_path(conn, :forgot_password))
+    end
+  end
+
+  def set_password(conn, %{"email" => email, "token" => token, "set_password" => user_params}) do
+    user_params = unwrap!(EncryptPasswordParam.call(user_params))
+    result = success(nil)
+             ~>> fn _    -> GetByResetPasswordToken.call(email, token) end
+             ~>> fn user -> SetNewPassword.call(user, user_params) end
+
+    if success?(result) do
+     conn
+     |> put_flash(:info, "Password for " <> email <> " was successfully changed.")
+     |> redirect(to: user_path(conn, :login))
+    else
+     conn
+     |> put_flash(:error, result.error)
+     |> redirect(to: user_path(conn, :forgot_password))
+    end
   end
 end

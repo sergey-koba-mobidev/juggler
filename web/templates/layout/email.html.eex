@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+  </head>
+  <body>
+    <%= render @view_module, @view_template, assigns %>
+    <p>- The Juggler Team.</p>
+    <p>- Please do nto reply, this is an automatic message.</p>
+  </body>
+</html>
