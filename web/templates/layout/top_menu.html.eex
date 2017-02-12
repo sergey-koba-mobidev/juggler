@@ -9,7 +9,7 @@
 <div class="right menu">
   <%= if is_logged_in(@conn) do %>
   <div class="item">
-    Hi, <%= current_user(@conn).name %>
+    Hi, <%= link current_user(@conn).name, to: user_path(@conn, :edit, current_user(@conn)) %>
   </div>
   <div class="item">
     <a class="ui right labeled icon button" href="<%= user_path(@conn, :logout) %>"><i class="power icon"></i> Log out</a></li>

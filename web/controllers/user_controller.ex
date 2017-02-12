@@ -22,6 +22,27 @@ defmodule Juggler.UserController do
     end
   end
 
+  def edit(conn, %{"id" => id}) do
+    user = Repo.get!(User, id)
+    changeset = User.changeset(user)
+    render(conn, "edit.html", user: user, changeset: changeset)
+  end
+
+  def update(conn, %{"id" => id, "user" => user_params}) do
+    user = Repo.get!(User, id)
+    if user_params["password"] != "", do: user_params = Map.merge(user_params, %{"encrypted_password" => hashpwsalt(user_params["password"])})
+    changeset = User.changeset(user, user_params)
+
+    case Repo.update(changeset) do
+      {:ok, project} ->
+        conn
+        |> put_flash(:info, "Profile updated successfully.")
+        |> redirect(to: user_path(conn, :edit, user))
+      {:error, changeset} ->
+        render(conn, "edit.html", user: user, changeset: changeset)
+    end
+  end
+
   def login(conn, _params) do
     render(conn, "login.html")
   end
@@ -59,5 +80,13 @@ defmodule Juggler.UserController do
      |> put_flash(:error, result.error)
      |> render("login.html")
     end
+  end
+
+  def forgot_password(conn, _params) do
+    render conn, "forgot_password.html"
+  end
+
+  def reset_password(conn, %{"reset_password" => %{"email" => email}}) do
+    # do smth
   end
 end

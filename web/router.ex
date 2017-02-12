@@ -6,7 +6,6 @@ defmodule Juggler.Router do
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
-    plug :put_secure_browser_headers
   end
 
   pipeline :api do
@@ -28,6 +27,8 @@ defmodule Juggler.Router do
     get "/login", UserController, :login
     get "/logout", UserController, :logout
     post "/authenticate", UserController, :authenticate
+    get "/forgot_password", UserController, :forgot_password
+    post "/reset_password", UserController, :reset_password
   end
 
   # Other scopes may use custom stacks.

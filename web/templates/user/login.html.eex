@@ -14,6 +14,10 @@
     <%= error_tag f, :encrypted_password %>
   </div>
 
+  <div class="ui segment">
+    <%= link "Forgot password?", to: user_path(@conn, :forgot_password) %>
+  </div>
+
   <div class="ui buttons">
     <%= submit raw("<i class='sign in icon'></i> Login"), class: "ui labeled icon primary button" %>
     <div class="or"></div>
