@@ -40,6 +40,14 @@
         <%= text_input f, :docker_image %>
         <%= error_tag f, :docker_image %>
       </div>
+      <div class="field">
+        <%= label f, "Environment Variables" %>
+        <div class="ui info message tiny">
+          <p>Please <b>one</b> variable per line in VAR_NAME=VAR_VALUE format.</p>
+        </div>
+        <%= textarea f, :env_vars %>
+        <%= error_tag f, :env_vars %>
+      </div>
     </div>
 
     <%= if @changeset.data.id do %>

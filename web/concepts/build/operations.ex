@@ -11,6 +11,7 @@ defmodule Juggler.BuildOperations do
                               success: 1,
                               error: 1]
 
+  #TODO: split to separate operations
   def exec_build(build_id) do
     build = Build |> Repo.get!(build_id)
     result = success(build)
@@ -37,7 +38,7 @@ defmodule Juggler.BuildOperations do
     if docker_image == nil do
       error("Project environment is not configured, please select docker image in settings")
     else
-      %Result{out: output, status: status} = Porcelain.shell("docker run -it -d " <> docker_image <> " /bin/bash", err: :out)
+      %Result{out: output, status: status} = Porcelain.shell("docker run -it -d " <> get_docker_env_vars_string(project) <> docker_image <> " /bin/bash", err: :out)
       case status do
         0 ->
           container_id = String.trim(output, "\n")
@@ -72,8 +73,15 @@ defmodule Juggler.BuildOperations do
     end
   end
 
+  def get_docker_env_vars_string(project) do
+    vars_arr = String.split(project.env_vars, "\r\n", trim: true)
+    vars_str = Enum.join(vars_arr, " -e ")
+    if vars_str != "", do: vars_str = " -e " <> vars_str <> " "
+    vars_str
+  end
+
   def get_commands_arr(commands) do
-    commands_arr = String.split(commands, "\r\n")
+    String.split(commands, "\r\n")
   end
 
   # Executes build commands in docker container
@@ -99,7 +107,7 @@ defmodule Juggler.BuildOperations do
     %Result{out: output, status: status} = Porcelain.shell(docker_command, err: :out)
     process_build_output(build, "cmd_data", %{output: output, cmd: command})
     process_build_output(build, "cmd_result", %{status: status, cmd: command})
-    Logger.info " ---> Finished build " <> Integer.to_string(build.id) <> " cmd: " <> inspect(command) <> " result: " <> Integer.to_string(status)
+    Logger.info " ---> Finished cmd " <> Integer.to_string(build.id) <> " cmd: " <> inspect(command) <> " result: " <> Integer.to_string(status)
     {:ok, status}
   end
 

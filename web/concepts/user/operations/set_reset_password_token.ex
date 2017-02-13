@@ -5,7 +5,7 @@ defmodule Juggler.User.Operations.SetResetPasswordToken do
   alias Juggler.Repo
 
   def call(user) do
-    changeset = User.changeset(user, %{"reset_password_token" => generate_token})
+    changeset = User.changeset(user, %{"reset_password_token" => generate_token()})
 
     case Repo.update(changeset) do
       {:ok, user} ->

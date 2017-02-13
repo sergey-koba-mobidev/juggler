@@ -19,7 +19,6 @@ A simple elixir/phoenix based deployment tool.
 - git integration
 - servers/deploys
 - ssh keys
-- env vards
 - project queue and runner
 - organizations
 - project collaborators
