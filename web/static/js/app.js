@@ -22,10 +22,7 @@ import "semantic-ui/dist/semantic.min"
 
 // Vue
 import Vue from 'vuejs'
-//import VueResource from 'vue-resource'
 import SSHKey from './components/ssh_key'
-//Vue.use(VueResource)
-//Vue.http.options.root = '/api'
 Vue.config.debug = process.env.NODE_ENV !== 'production';
 
 import socket from "./socket"
@@ -36,7 +33,13 @@ new Vue({
     'ssh-key': SSHKey
   },
   data: {
-    ssh_keys: [{name: 'dev ssh key', id:1},{name: 'prod ssh key', id:2}]
+    ssh_keys: []
+  },
+  mounted () {
+    var context =  this;
+    $.get( "/api/projects/" + window.projectId + "/ssh_keys", function( data ) {
+      context.ssh_keys = data.ssh_keys;
+    });
   },
   methods: {
     addNewSSHKey: function () {

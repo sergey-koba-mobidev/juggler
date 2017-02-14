@@ -8,6 +8,7 @@ defmodule Juggler.Project do
     field :docker_image, :string
     belongs_to :user, Juggler.User
     has_many :builds, Juggler.Build
+    has_many :ssh_keys, Juggler.SSHKey
     has_many :integrations, Juggler.Integration
 
     timestamps()

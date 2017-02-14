@@ -10,8 +10,7 @@
     "jquery": ">= 2.1",
     "semantic-ui": ">= 2.2",
     "vue": "^2.1.10",
-    "vue-brunch": "^2.0.0",
-    "vue-resource": "^1.1.0"
+    "vue-brunch": "^2.0.0"
   },
   "devDependencies": {
     "babel-brunch": "~6.0.0",

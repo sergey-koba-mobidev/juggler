@@ -33,8 +33,10 @@ defmodule Juggler.Router do
     post "/set_password", UserController, :set_password
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", Juggler do
-  #   pipe_through :api
-  # end
+  scope "/api", Juggler do
+    pipe_through :api
+    resources "/projects", ProjectController do
+      resources "/ssh_keys", SSHKeysController
+    end
+  end
 end
