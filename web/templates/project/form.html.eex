@@ -5,8 +5,8 @@
       <a class="item active" data-tab="general"><i class="options icon"></i> General</a>
       <a class="item" data-tab="build"><i class="terminal icon"></i> Build</a>
       <a class="item" data-tab="env"><i class="cloud icon"></i> Environment</a>
-      <a class="item" data-tab="ssh-keys"><i class="cloud icon"></i> SSH Keys</a>
       <%= if @changeset.data.id do %>
+      <a class="item" data-tab="ssh-keys"><i class="cloud icon"></i> SSH Keys</a>
       <a class="item" data-tab="integrations"><i class="exchange icon"></i> Integrations</a>
       <% end %>
     </div>
@@ -53,11 +53,16 @@
       </div>
     </div>
 
-    <div class="ui tab" data-tab="ssh-keys">
-      
+    <%= if @changeset.data.id do %>
+    <div class="ui tab divided items" data-tab="ssh-keys" id="ssh-keys-list">
+      <h2>SSH Keys</h2>
+      <ssh-key
+        v-for="item in ssh_keys"
+        v-bind:item="item"
+        :key="item.id">
+      </ssh-key>
     </div>
 
-    <%= if @changeset.data.id do %>
     <div class="ui tab" data-tab="integrations">
       <div class="ui info message">
         <p>Choose the source of project code</p>

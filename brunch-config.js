@@ -62,6 +62,10 @@ exports.config = {
       //"images": ["someDirectoryInProject", "bower_components/some_package/assets/images"],
       verbose : true, //shows each file that is copied to the destination directory
       onlyChanged: true //only copy a file if it's modified time has changed (only effective when using brunch watch)
+    },
+    vue: {
+      extractCSS: true,
+      out: 'priv/static/css/components.css'
     }
   },
 
@@ -79,6 +83,9 @@ exports.config = {
     globals: {
       $: 'jquery',
       jQuery: 'jquery'
+    },
+    aliases: {
+      vuejs: 'vue/dist/vue.common.js'
     }
   }
 };
