@@ -7,7 +7,7 @@
       <a class="item" data-tab="env"><i class="cloud icon"></i> Environment</a>
       <%= if @changeset.data.id do %>
       <a class="item" data-tab="ssh-keys"><i class="cloud icon"></i> SSH Keys</a>
-      <a class="item" data-tab="integrations"><i class="exchange icon"></i> Integrations</a>
+      <a class="item" data-tab="repo"><i class="exchange icon"></i> Repository</a>
       <% end %>
     </div>
   </div>
@@ -61,9 +61,21 @@
         v-bind:item="item"
         :key="item.id">
       </ssh-key>
+
+      <form class="ui form">
+        <div class="field">
+          <label>SSH Key Name</label>
+          <input type="text" v-model="key_name" placeholder="Staging server key">
+        </div>
+        <div class="field">
+          <label>SSH Key Value</label>
+          <textarea v-model="key_data" rows="8" cols="80" placeholder="----- BEGIN RSA PRIVATE KEY -----"></textarea>
+        </div>
+        <button class="ui labeled icon positive button" v-on:click="addNewSSHKey"><i class="plus icon"></i>Add</button>
+      </form>
     </div>
 
-    <div class="ui tab" data-tab="integrations">
+    <div class="ui tab" data-tab="repo">
       <div class="ui info message">
         <p>Choose the source of project code</p>
       </div>

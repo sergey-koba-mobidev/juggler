@@ -7,6 +7,12 @@ defmodule Juggler.SSHKeysView do
     }
   end
 
+  def render("show.json", %{ssh_key: ssh_key}) do
+    %{
+      ssh_key: ssh_key_json(ssh_key)
+    }
+  end
+
   def ssh_key_json(ssh_key) do
     %{
       id: ssh_key.id,
