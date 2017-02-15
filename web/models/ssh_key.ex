@@ -15,6 +15,6 @@ defmodule Juggler.SSHKey do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name, :data, :project_id])
-    |> validate_required([:name, :data])
+    |> validate_required([:name, :data, :project_id])
   end
 end

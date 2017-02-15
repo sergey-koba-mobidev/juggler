@@ -18,10 +18,9 @@ A simple elixir/phoenix based deployment tool.
 - stream command output
 - git integration
 - servers/deploys
-- ssh keys
 - project queue and runner
 - organizations
 - project collaborators
-- vue js
 - project channel to update build states and builds
-- edit profile, forgot password
+- custom dockerfile
+- pagination for builds and projects
