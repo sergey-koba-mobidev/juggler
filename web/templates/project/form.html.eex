@@ -6,7 +6,7 @@
       <a class="item" data-tab="build"><i class="terminal icon"></i> Build</a>
       <a class="item" data-tab="env"><i class="cloud icon"></i> Environment</a>
       <%= if @changeset.data.id do %>
-      <a class="item" data-tab="ssh-keys"><i class="cloud icon"></i> SSH Keys</a>
+      <a class="item" data-tab="ssh-keys"><i class="privacy icon"></i> SSH Keys</a>
       <a class="item" data-tab="repo"><i class="code icon"></i> Repository</a>
       <a class="item" data-tab="integrations"><i class="exchange icon"></i> Integrations</a>
       <% end %>

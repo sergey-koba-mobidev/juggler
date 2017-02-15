@@ -46,7 +46,8 @@ defmodule Juggler.Mixfile do
      {:poison, "2.2.0", override: true},
      {:tentacat, "~> 0.5"},
      {:bamboo, "~> 0.7"},
-     {:bamboo_smtp, "~> 1.2.1"}]
+     {:bamboo_smtp, "~> 1.2.1"},
+     {:kerosene, "~> 0.5.0"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

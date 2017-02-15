@@ -1,5 +1,7 @@
 <h2>Projects</h2>
 
+<%= link raw("<i class='plus icon'></i> New Project"), to: project_path(@conn, :new), class: "ui labeled icon primary button" %>
+
 <%= if length(@projects) > 0 do %>
 <div class="ui divided relaxed items">
 <%= for project <- @projects do %>
@@ -23,4 +25,4 @@
 </div>
 <% end %>
 
-<%= link raw("<i class='plus icon'></i> New Project"), to: project_path(@conn, :new), class: "ui labeled icon primary button" %>
+<%= paginate @conn, @kerosene %>

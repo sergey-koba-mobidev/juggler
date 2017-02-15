@@ -7,9 +7,12 @@ defmodule Juggler.ProjectController do
   plug Juggler.Plugs.Authenticated
   plug :authorize_project
 
-  def index(conn, _params) do
-    projects = Repo.preload(current_user(conn), :projects).projects
-    render(conn, "index.html", projects: projects)
+  def index(conn, params) do
+    user_id = current_user(conn).id
+    {projects, kerosene} =
+      from(p in Project, where: p.user_id == ^user_id)
+      |> Repo.paginate(params)
+    render(conn, "index.html", projects: projects, kerosene: kerosene)
   end
 
   def new(conn, _params) do
@@ -31,9 +34,10 @@ defmodule Juggler.ProjectController do
   end
 
   def show(conn, %{"id" => id}) do
-    project = Project |> Repo.get!(id) |> Repo.preload([:builds])
+    project = Project |> Repo.get!(id)
+    builds = from(b in Build, where: b.project_id == ^id, limit: 5) |> Repo.all
     build_changeset = Build.changeset(%Build{})
-    render(conn, "show.html", project: project, build_changeset: build_changeset)
+    render(conn, "show.html", project: project, build_changeset: build_changeset, builds: builds)
   end
 
   def edit(conn, %{"id" => id}) do

@@ -27,6 +27,9 @@ config :juggler, Juggler.Mailer,
   ssl: false, # can be `true`
   retries: 1
 
+config :kerosene,
+  theme: :semantic
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

@@ -9,7 +9,7 @@
 <h3>Builds</h3>
 
 <div class="ui items">
-  <%= for build <- @project.builds do %>
+  <%= for build <- @builds do %>
   <div class="item">
     <div class="middle aligned content">
       <div class="header">
@@ -24,6 +24,10 @@
   <% end %>
 </div>
 
-<%= form_for @build_changeset, project_build_path(@conn, :create, @project), fn _f -> %>
-  <%= submit raw("<i class='plus icon'></i> New Build"), class: "ui labeled icon primary button" %>
-<% end %>
+<div class="ui buttons">
+  <%= link raw("<i class='list icon'></i> See All Builds"), to: "/", class: "ui labeled icon button" %>
+
+  <%= form_for @build_changeset, project_build_path(@conn, :create, @project), fn _f -> %>
+    <%= submit raw("<i class='plus icon'></i> New Build"), class: "ui labeled icon primary button" %>
+  <% end %>
+</div>
