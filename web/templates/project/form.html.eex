@@ -7,7 +7,8 @@
       <a class="item" data-tab="env"><i class="cloud icon"></i> Environment</a>
       <%= if @changeset.data.id do %>
       <a class="item" data-tab="ssh-keys"><i class="cloud icon"></i> SSH Keys</a>
-      <a class="item" data-tab="repo"><i class="exchange icon"></i> Repository</a>
+      <a class="item" data-tab="repo"><i class="code icon"></i> Repository</a>
+      <a class="item" data-tab="integrations"><i class="exchange icon"></i> Integrations</a>
       <% end %>
     </div>
   </div>
@@ -83,6 +84,12 @@
         <a href="<%= project_github_path(@conn, :setup, @changeset.data.id) %>" class="ui labeled icon primary button"><i class="github icon"></i> GitHub</a>
         <div class="or"></div>
         <a class="ui right labeled icon primary button"><i class="bitbucket icon"></i> Bitbucket</a>
+      </div>
+    </div>
+
+    <div class="ui tab" data-tab="integrations">
+      <div class="ui info message">
+        <p>Here will be integrations with Slack or HipChat</p>
       </div>
     </div>
     <% end %>
