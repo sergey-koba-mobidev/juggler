@@ -4,7 +4,7 @@ defmodule Juggler.BuildOperations do
   alias Juggler.Project
   alias Juggler.BuildOutput
   alias Porcelain.Result
-  alias Juggler.Build.Operations.{InjectSSHKeys}
+  alias Juggler.Build.Operations.{InjectSSHKeys, BuildDockerImage}
   require Logger
   use Monad.Operators
   import Monad.Result, only: [success?: 1,
@@ -14,23 +14,32 @@ defmodule Juggler.BuildOperations do
 
   #TODO: split to separate operations
   def exec_build(build_id) do
-    build = Build |> Repo.get!(build_id)
-    result = success(build)
-             ~>> fn build -> start_docker_container(build) end
-             ~>> fn build -> InjectSSHKeys.call(build) end
-             ~>> fn build -> exec_commands(build, get_commands_arr(build.commands)) end
-             ~>> fn build -> remove_docker_container(build) end
-
-    if success?(result) do
-      build = unwrap!(result)
-      process_build_output(build, "cmd_finished", %{})
-      update_build_state(build, "finished")
-    else
+    # try do
       build = Build |> Repo.get!(build_id)
-      process_build_output(build, "cmd_finished_error", %{error_msg: result.error})
-      update_build_state(build, "error")
-      remove_docker_container(build)
-    end
+      result = success(build)
+               ~>> fn build -> BuildDockerImage.call(build) end
+               ~>> fn build -> start_docker_container(build) end
+               ~>> fn build -> InjectSSHKeys.call(build) end
+               ~>> fn build -> exec_commands(build, get_commands_arr(build.commands)) end
+               ~>> fn build -> remove_docker_container(build) end
+
+      if success?(result) do
+        build = unwrap!(result)
+        process_build_output(build, "cmd_finished", %{})
+        update_build_state(build, "finished")
+      else
+        stop_build_with_error(build_id, result.error)
+      end
+    # rescue
+    #   e -> stop_build_with_error(build_id, inspect(e))
+    # end
+  end
+
+  def stop_build_with_error(build_id, error_msg) do
+    build = Build |> Repo.get!(build_id)
+    process_build_output(build, "cmd_finished_error", %{error_msg: error_msg})
+    update_build_state(build, "error")
+    remove_docker_container(build)
   end
 
   # Starts new docker container and saves it's id to build
@@ -76,14 +85,17 @@ defmodule Juggler.BuildOperations do
   end
 
   def get_docker_env_vars_string(project) do
-    vars_arr = String.split(project.env_vars, "\r\n", trim: true)
+    vars_arr = String.split(project.env_vars || "", "\r\n", trim: true)
     vars_str = Enum.join(vars_arr, " -e ")
     if vars_str != "", do: vars_str = " -e " <> vars_str <> " "
     vars_str
   end
 
   def get_commands_arr(commands) do
-    String.split(commands, "\r\n")
+    case commands == nil do
+      false -> String.split(commands, "\r\n")
+      true  -> []
+    end
   end
 
   # Executes build commands in docker container

@@ -33,7 +33,7 @@
       </div>
       <div class="field">
         <%= label f, :build_commands %>
-        <%= textarea f, :build_commands %>
+        <%= textarea f, :build_commands, placeholder: "bundle install\nrake db:setup\n..." %>
         <%= error_tag f, :build_commands %>
       </div>
     </div>
@@ -41,15 +41,23 @@
     <div class="ui tab" data-tab="env">
       <div class="field">
         <%= label f, :docker_image %>
-        <%= text_input f, :docker_image %>
+        <%= text_input f, :docker_image, placeholder: "elixir:1.4.0" %>
         <%= error_tag f, :docker_image %>
+      </div>
+      <div class="field">
+        <%= label f, :dockerfile %>
+        <div class="ui info message tiny">
+          <p>Dockerfile setting has higher priority and will override Docker Image setting with it's own image tag value</p>
+        </div>
+        <%= textarea f, :dockerfile, placeholder: "FROM elixir:1.4.0\n..." %>
+        <%= error_tag f, :dockerfile %>
       </div>
       <div class="field">
         <%= label f, "Environment Variables" %>
         <div class="ui info message tiny">
           <p>Please <b>one</b> variable per line in VAR_NAME=VAR_VALUE format.</p>
         </div>
-        <%= textarea f, :env_vars %>
+        <%= textarea f, :env_vars, placeholder: "RAILS_ENV=test\n..." %>
         <%= error_tag f, :env_vars %>
       </div>
     </div>

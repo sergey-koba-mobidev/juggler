@@ -22,5 +22,4 @@ A simple elixir/phoenix based deployment tool.
 - organizations
 - project collaborators
 - project channel to update build states and builds
-- custom dockerfile
 - integrations (notification to slack, hipchat)

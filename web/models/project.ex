@@ -6,6 +6,7 @@ defmodule Juggler.Project do
     field :build_commands, :string
     field :env_vars, :string
     field :docker_image, :string
+    field :dockerfile, :string
     belongs_to :user, Juggler.User
     has_many :builds, Juggler.Build
     has_many :ssh_keys, Juggler.SSHKey
@@ -19,7 +20,7 @@ defmodule Juggler.Project do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :build_commands, :env_vars, :docker_image, :user_id])
+    |> cast(params, [:name, :build_commands, :env_vars, :docker_image, :dockerfile, :user_id])
     |> validate_required([:name, :user_id])
   end
 end
