@@ -6,7 +6,8 @@ defmodule Juggler.UserController do
     SetResetPasswordToken, SendResetPasswordEmail, GetByResetPasswordToken,
     SetNewPassword}
 
-  plug Juggler.Plugs.Authenticated when action in [:update, :edit]
+  plug Juggler.Plugs.Authenticated when action in [:update, :edit, :logout]
+  plug Juggler.Plugs.NotAuthenticated when action in [:new, :create, :login, :authenticate, :forgot_password, :reset_password, :new_password, :set_password]
 
   def new(conn, _params) do
     changeset = User.changeset(%User{})

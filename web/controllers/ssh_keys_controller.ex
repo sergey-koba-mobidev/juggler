@@ -5,7 +5,7 @@ defmodule Juggler.SSHKeysController do
   alias Juggler.Project
 
   plug Juggler.Plugs.Authenticated
-  plug :authorize_project
+  plug Juggler.Project.Plugs.Authenticate
 
   def index(conn, %{"project_id" => project_id}) do
       project = Project |> Repo.get!(project_id) |> Repo.preload([:ssh_keys])
@@ -32,19 +32,5 @@ defmodule Juggler.SSHKeysController do
     Repo.delete!(ssh_key)
 
     send_resp(conn, :no_content, "")
-  end
-
-  defp authorize_project(conn, _) do
-    case conn.params do
-      %{"project_id" => id} ->
-        project = Project |> Repo.get!(id)
-        if project.user_id == current_user(conn).id do
-          conn
-        else
-          conn |> put_flash(:info, "You can't access that page") |> redirect(to: project_path(conn, :index)) |> halt
-        end
-      _ ->
-        conn
-    end
   end
 end

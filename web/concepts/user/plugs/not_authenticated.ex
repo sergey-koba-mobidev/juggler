@@ -1,4 +1,4 @@
-defmodule Juggler.Plugs.Authenticated do
+defmodule Juggler.Plugs.NotAuthenticated do
   import Plug.Conn
   import Juggler.Router.Helpers
 
@@ -8,11 +8,10 @@ defmodule Juggler.Plugs.Authenticated do
 
   def call(conn, _) do
     conn = fetch_session(conn)
-    not_logged_in_url = user_path(conn, :login)
     if is_logged_in(get_session(conn, :current_user)) do
-      assign(conn, :current_user, get_session(conn, :current_user))
+      conn |> Phoenix.Controller.put_flash(:info, "You should logout first")  |> Phoenix.Controller.redirect(to: "/") |> halt
     else
-      conn |> Phoenix.Controller.put_flash(:info, "You should log in first")  |> Phoenix.Controller.redirect(to: not_logged_in_url) |> halt
+      conn
     end
   end
 

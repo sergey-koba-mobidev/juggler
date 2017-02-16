@@ -5,7 +5,7 @@ defmodule Juggler.BuildController do
   alias Juggler.Project
 
   plug Juggler.Plugs.Authenticated
-  plug :authorize_build
+  plug Juggler.Project.Plugs.Authenticate
 
   def create(conn, %{"project_id" => project_id}) do
     project = Project |> Repo.get!(project_id)
@@ -46,19 +46,5 @@ defmodule Juggler.BuildController do
   def start_build(conn, build_id) do
     Juggler.BuildServer.new_build(build_id)
     conn
-  end
-
-  defp authorize_build(conn, _) do
-    case conn.params do
-      %{"id" => id} ->
-        build = Build |> Repo.get!(id) |> Repo.preload([:project])
-        if build.project.user_id == current_user(conn).id do
-          conn
-        else
-          conn |> put_flash(:info, "You can't access that page") |> redirect(to: project_path(conn, :index)) |> halt
-        end
-      _ ->
-        conn
-    end
   end
 end

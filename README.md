@@ -23,3 +23,4 @@ A simple elixir/phoenix based deployment tool.
 - project collaborators
 - project channel to update build states and builds
 - integrations (notification to slack, hipchat)
+- tests

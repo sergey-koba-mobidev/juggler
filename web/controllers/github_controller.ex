@@ -4,6 +4,9 @@ defmodule Juggler.GithubController do
   alias Juggler.Integration
   require Logger
 
+  plug Juggler.Plugs.Authenticated
+  plug Juggler.Project.Plugs.Authenticate
+
   def setup(conn, %{"project_id" => project_id}) do
     callback_url = "http://c9a94cfc.ngrok.io" <> project_github_path(conn, :callback, project_id)
     #callback_url = project_github_url(conn, :callback, project_id)
