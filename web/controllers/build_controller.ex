@@ -30,6 +30,14 @@ defmodule Juggler.BuildController do
     end
   end
 
+  def index(conn, params = %{"project_id" => project_id}) do
+    project = Project |> Repo.get!(project_id)
+    {builds, kerosene} =
+      from(b in Build, where: b.project_id == ^project_id)
+      |> Repo.paginate(params)
+    render(conn, "index.html", builds: builds, kerosene: kerosene, project: project)
+  end
+
   def show(conn, %{"id" => id}) do
     build = Build |> Repo.get!(id) |> Repo.preload([:project])
     render(conn, "show.html", build: build)

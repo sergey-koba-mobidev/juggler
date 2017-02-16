@@ -1,12 +1,10 @@
-<h2><%= @project.name %></h2>
+<h2>Builds for <%= @project.name %></h2>
 
 <div class="ui buttons">
   <%= link raw("<i class='setting icon'></i> Settings"), to: project_path(@conn, :edit, @project), class: "ui labeled icon button" %>
   <div class="or"></div>
-  <%= link raw("<i class='right arrow icon'></i> Back"), to: project_path(@conn, :index), class: "ui right labeled icon button" %>
+  <%= link raw("<i class='right arrow icon'></i> Back"), to: project_path(@conn, :show, @project), class: "ui right labeled icon button" %>
 </div>
-
-<h3>Builds</h3>
 
 <div class="ui items">
   <%= for build <- @builds do %>
@@ -24,10 +22,4 @@
   <% end %>
 </div>
 
-<div class="ui buttons">
-  <%= link raw("<i class='list icon'></i> See All Builds"), to: project_build_path(@conn, :index, @project), class: "ui labeled icon button" %>
-
-  <%= form_for @build_changeset, project_build_path(@conn, :create, @project), fn _f -> %>
-    <%= submit raw("<i class='plus icon'></i> New Build"), class: "ui labeled icon primary button" %>
-  <% end %>
-</div>
+<%= paginate @conn, @kerosene %>

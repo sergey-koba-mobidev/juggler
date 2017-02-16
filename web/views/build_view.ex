@@ -1,5 +1,6 @@
 defmodule Juggler.BuildView do
   use Juggler.Web, :view
+  import Kerosene.HTML
 
   def build_icon(build_state) do
     case build_state do
