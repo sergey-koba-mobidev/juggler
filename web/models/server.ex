@@ -14,7 +14,7 @@ defmodule Juggler.Server do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :deploy_commands])
-    |> validate_required([:name, :deploy_commands])
+    |> cast(params, [:name, :deploy_commands, :project_id])
+    |> validate_required([:name, :deploy_commands, :project_id])
   end
 end

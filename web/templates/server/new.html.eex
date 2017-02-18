@@ -1,0 +1,6 @@
+<h2>New Server for <%= @project.name %></h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: project_server_path(@conn, :create, @project),
+                        project: @project,
+                        conn: @conn  %>

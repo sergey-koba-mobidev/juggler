@@ -8,9 +8,27 @@
 
 <div class="ui divider"></div>
 
-<h3>Servers</h3>
+<h3><i class='server icon'></i> Servers</h3>
+<div class="ui middle aligned divided list">
+<%= for server <- @servers do %>
+  <div class="item">
+    <div class="right floated content">
+      <div class="ui left floated">
+        <%= link raw("<i class='trash outline icon'></i> Delete"), to: project_server_path(@conn, :delete, @project, server), method: :delete, data: [confirm: "Are you sure?"], class: "ui labeled icon red button" %>
+      </div>
+      <a class="ui left floated labeled icon button" href="<%= project_server_path(@conn, :edit, @project, server) %>">
+        <i class="setting icon"></i>
+        Edit
+      </a>
+    </div>
+    <div class="content">
+      <h3><%= link server.name, to: project_server_path(@conn, :show, @project, server) %></h3>
+    </div>
+  </div>
+</div>
+<% end %>
 <div class="ui buttons">
-  <%= link raw("<i class='plus icon'></i> New Server"), to: "/", class: "ui labeled icon primary button" %>
+  <%= link raw("<i class='plus icon'></i> New Server"), to: project_server_path(@conn, :new, @project), class: "ui labeled icon primary button" %>
 </div>
 
 <div class="ui divider"></div>

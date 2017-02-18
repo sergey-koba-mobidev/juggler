@@ -1,4 +1,6 @@
 defmodule Juggler.Project.Plugs.Authenticate do
+  alias Juggler.Repo
+  alias Juggler.Project
   import Plug.Conn
   import Juggler.Router.Helpers
   import Juggler.UserHelpers

@@ -3,6 +3,7 @@ defmodule Juggler.ProjectController do
 
   alias Juggler.Project
   alias Juggler.Build
+  alias Juggler.Server
 
   plug Juggler.Plugs.Authenticated
   plug :authorize_project
@@ -36,8 +37,9 @@ defmodule Juggler.ProjectController do
   def show(conn, %{"id" => id}) do
     project = Project |> Repo.get!(id)
     builds = from(b in Build, where: b.project_id == ^id, limit: 5) |> Repo.all
+    servers = from(s in Server, where: s.project_id == ^id) |> Repo.all
     build_changeset = Build.changeset(%Build{})
-    render(conn, "show.html", project: project, build_changeset: build_changeset, builds: builds)
+    render(conn, "show.html", project: project, build_changeset: build_changeset, builds: builds, servers: servers)
   end
 
   def edit(conn, %{"id" => id}) do

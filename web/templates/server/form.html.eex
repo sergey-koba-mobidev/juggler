@@ -1,0 +1,22 @@
+<%= form_for @changeset, @action, [class: "ui form"], fn f -> %>
+      <div class="field">
+        <%= label f, :name %>
+        <%= text_input f, :name, placeholder: "Staging" %>
+        <%= error_tag f, :name %>
+      </div>
+
+      <div class="field">
+        <%= label f, :deploy_commands %>
+        <div class="ui info message tiny">
+          <p>Please <b>one</b> command per line!</p>
+        </div>
+        <%= textarea f, :deploy_commands, placeholder: "bundle install\ncap staging deploy\n..." %>
+        <%= error_tag f, :deploy_commands %>
+      </div>
+
+    <div class="ui buttons">
+      <%= submit raw("<i class='checkmark icon'></i> Save"), class: "ui labeled icon positive button" %>
+      <div class="or"></div>
+      <%= link raw("<i class='right arrow icon'></i> Back"), to: project_path(@conn, :show, @project), class: "ui right labeled icon button" %>
+    </div>
+<% end %>
