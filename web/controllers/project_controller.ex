@@ -1,9 +1,7 @@
 defmodule Juggler.ProjectController do
   use Juggler.Web, :controller
 
-  alias Juggler.Project
-  alias Juggler.Build
-  alias Juggler.Server
+  alias Juggler.{Project, Build, Server, Integration}
 
   plug Juggler.Plugs.Authenticated
   plug :authorize_project
@@ -45,7 +43,8 @@ defmodule Juggler.ProjectController do
   def edit(conn, %{"id" => id}) do
     project = Repo.get!(Project, id)
     changeset = Project.changeset(project)
-    render(conn, "edit.html", project: project, changeset: changeset)
+    integrations = from(i in Integration, where: [project_id: ^id, state: "integrated"] ) |> Repo.all
+    render(conn, "edit.html", project: project, changeset: changeset, integrations: integrations)
   end
 
   def update(conn, %{"id" => id, "project" => project_params}) do

@@ -1,0 +1,20 @@
+<div class="ui info message">
+  <p>You are integrated with GitHub</p>
+</div>
+
+<div class="ui items">
+  <div class="item">
+    <a class="ui tiny image">
+      <img src="<%= @integration.data["repo"]["owner"]["avatar_url"] %>">
+    </a>
+    <div class="middle aligned content">
+      <div class="header">
+        <i class="github icon"></i>
+        <a href="<%= @integration.data["repo"]["html_url"] %>" target="_blank"><%= @integration.data["repo"]["full_name"] %></a>
+      </div>
+      <div class="extra">
+        <%= link raw("<i class='trash outline icon'></i> Unlink"), to: "/", method: :delete, data: [confirm: "Are you sure?"], class: "ui right floated labeled icon red button" %>
+      </div>
+    </div>
+  </div>
+</div>

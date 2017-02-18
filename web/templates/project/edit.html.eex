@@ -6,4 +6,5 @@
 
 <%= render "form.html", changeset: @changeset,
                         action: project_path(@conn, :update, @project),
+                        integrations: @integrations,
                         conn: @conn %>

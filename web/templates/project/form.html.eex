@@ -85,14 +85,20 @@
     </div>
 
     <div class="ui tab" data-tab="repo">
-      <div class="ui info message">
-        <p>Choose the source of project code</p>
-      </div>
-      <div class="ui buttons">
-        <a href="<%= project_github_path(@conn, :setup, @changeset.data.id) %>" class="ui labeled icon primary button"><i class="github icon"></i> GitHub</a>
-        <!--<div class="or"></div>
-        <a class="ui right labeled icon primary button"><i class="bitbucket icon"></i> Bitbucket</a>-->
-      </div>
+      <%= if length(@integrations) > 0 do %>
+        <%= for integration <- @integrations do %>
+          <%= apply(Module.concat(Juggler, String.capitalize(integration.key) <> "View"), :render, ["integrated.html", %{:integration => integration}]) %>
+        <% end %>
+      <% else %>
+        <div class="ui info message">
+          <p>Choose the source of project code</p>
+        </div>
+        <div class="ui buttons">
+          <a href="<%= project_github_path(@conn, :setup, @changeset.data.id) %>" class="ui labeled icon primary button"><i class="github icon"></i> GitHub</a>
+          <!--<div class="or"></div>
+          <a class="ui right labeled icon primary button"><i class="bitbucket icon"></i> Bitbucket</a>-->
+        </div>
+      <% end %>
     </div>
 
     <div class="ui tab" data-tab="integrations">

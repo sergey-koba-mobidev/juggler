@@ -3,6 +3,7 @@ defmodule Juggler.Integration do
 
   schema "integrations" do
     field :key, :string
+    field :state, :string
     field :data, :map
     belongs_to :project, Juggler.Project
 
@@ -14,7 +15,7 @@ defmodule Juggler.Integration do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:key, :data, :project_id])
+    |> cast(params, [:key, :data, :project_id, :state])
     |> validate_required([:key, :data, :project_id])
   end
 end
