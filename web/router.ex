@@ -21,8 +21,8 @@ defmodule Juggler.Router do
       resources "/servers", ServerController
       get  "/github", GithubController, :setup
       get  "/github/callback", GithubController, :callback
-      get  "/github/select_project", GithubController, :select_project
-      post "/github/set_project", GithubController, :set_project
+      get  "/github/select_repo", GithubController, :select_repo
+      post "/github/set_repo", GithubController, :set_repo
     end
     resources "/users", UserController, except: [:index, :delete]
     get  "/login", UserController, :login

@@ -1,0 +1,15 @@
+<h2><i class='github icon'></i> Select GitHub Repo</h2>
+<div class="ui divided items">
+  <%= for repo <- @repos do %>
+  <div class="item">
+    <div class="middle aligned content">
+      <span class="header"><%= repo["name"] %></span>
+      <%= form_for @conn, project_github_path(@conn, :set_repo, @project), [name: :set_project, class: "ui right floated form"], fn f -> %>
+        <%= hidden_input f, :owner, value: repo["owner"]["login"] %>
+        <%= hidden_input f, :repo, value: repo["name"] %>
+        <%= submit raw("<i class='right chevron icon'></i> Select"), class: "ui right labeled icon primary button" %>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+</div>

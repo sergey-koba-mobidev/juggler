@@ -1,47 +1,67 @@
 defmodule Juggler.GithubController do
   use Juggler.Web, :controller
-  import Juggler.GitHubOperations
   alias Juggler.Integration
+  alias Juggler.Project
   require Logger
+  alias Juggler.GitHub.Operations.{ProcessCallback, GetRepos, GetAuthorizeUrl,
+                                  SetRepo}
 
   plug Juggler.Plugs.Authenticated
   plug Juggler.Project.Plugs.Authenticate
 
   def setup(conn, %{"project_id" => project_id}) do
-    callback_url = "http://c9a94cfc.ngrok.io" <> project_github_path(conn, :callback, project_id)
+    callback_url = "http://24a80fe8.ngrok.io" <> project_github_path(conn, :callback, project_id)
     #callback_url = project_github_url(conn, :callback, project_id)
-    redirect(conn, external: get_authorize_url(callback_url))
+    redirect(conn, external: GetAuthorizeUrl.call(callback_url).value)
   end
 
   def callback(conn, %{"project_id" => project_id, "code" => code}) do
     # TODO: refactor to monad
-    callback_url = "http://c9a94cfc.ngrok.io" <> project_github_path(conn, :callback, project_id)
+    callback_url = "http://24a80fe8.ngrok.io" <> project_github_path(conn, :callback, project_id)
     #callback_url = project_github_url(conn, :callback, project_id)
 
-    access_token = get_access_token(callback_url, code)
-
-    changeset = Integration.changeset(%Integration{}, %{
-      :project_id => project_id,
-      :key => "github",
-      :data => %{access_token: access_token}
-    })
-
-    case Repo.insert(changeset) do
-      {:ok, build} ->
+    result = ProcessCallback.call(project_id, callback_url, code)
+    case success?(result) do
+      true->
         conn
-        |> put_flash(:info, "Integrated GitHub!")
-        |> redirect(to: project_path(conn, :select_project, project_id))
-      {:error, _changeset} ->
+        |> put_flash(:info, "Got access to GitHub!")
+        |> redirect(to: project_github_path(conn, :select_repo, project_id))
+      false ->
         conn
         |> put_flash(:error, "Unable to integrate GitHub.")
         |> redirect(to: project_path(conn, :edit, project_id))
     end
   end
 
-  def select_project(conn, %{"project_id" => project_id}) do
+  def select_repo(conn, %{"project_id" => project_id}) do
+    integration = Repo.get_by(Integration, project_id: project_id, key: "github")
+    project = Project |> Repo.get!(project_id)
+
+    result = GetRepos.call(integration.data["access_token"])
+    case success?(result) do
+      true->
+        repos = result.value
+        render(conn, "select_repo.html", repos: repos, project: project)
+      false ->
+        conn
+        |> put_flash(:error, "Unable to get repos from GitHub.")
+        |> redirect(to: project_path(conn, :edit, project_id))
+    end
+  end
+
+  def set_repo(conn, %{"project_id" => project_id, "set_project" => %{"owner" => owner, "repo" => repo}}) do
     integration = Repo.get_by(Integration, project_id: project_id, key: "github")
 
-    projects = get_projects(integration.data["access_token"])
-    render(conn, "select_project.html", projects: projects)
+    result = SetRepo.call(owner, repo, integration)
+    case success?(result) do
+      true->
+        conn
+        |> put_flash(:info, "GitHub is integrated!")
+        |> redirect(to: project_path(conn, :edit, project_id))
+      false ->
+        conn
+        |> put_flash(:error, "Unable to set repo for GitHub integration.")
+        |> redirect(to: project_path(conn, :edit, project_id))
+    end
   end
 end

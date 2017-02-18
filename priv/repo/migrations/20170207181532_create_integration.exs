@@ -5,6 +5,7 @@ defmodule Juggler.Repo.Migrations.CreateIntegration do
     create table(:integrations) do
       add :key, :string
       add :data, :map
+      add :state, :string
       add :project_id, references(:projects, on_delete: :delete_all)
 
       timestamps()
