@@ -70,7 +70,7 @@ defmodule Juggler.ProjectController do
     Repo.delete!(project)
 
     conn
-    |> put_flash(:info, "Project deleted successfully.")
+    |> put_flash(:info, "Project was deleted successfully.")
     |> redirect(to: project_path(conn, :index))
   end
 

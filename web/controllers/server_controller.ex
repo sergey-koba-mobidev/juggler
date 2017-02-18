@@ -26,4 +26,22 @@ defmodule Juggler.ServerController do
         render(conn, "new.html", changeset: changeset, project: project)
     end
   end
+
+  def edit(conn, %{"project_id" => project_id, "id" => id}) do
+    project = Project |> Repo.get!(project_id)
+    server = Repo.get!(Server, id)
+    changeset = Server.changeset(server)
+    render(conn, "edit.html", server: server, project: project, changeset: changeset)
+  end
+
+  def delete(conn, %{"project_id" => project_id, "id" => id}) do
+    project = Project |> Repo.get!(project_id)
+    server = Repo.get!(Server, id)
+
+    Repo.delete!(server)
+
+    conn
+    |> put_flash(:info, "Server was deleted successfully.")
+    |> redirect(to: project_path(conn, :show, project))
+  end
 end

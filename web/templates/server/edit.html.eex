@@ -1,0 +1,6 @@
+<h2><i class='server icon'></i> Edit <%= @server.name %> for <%= @project.name %></h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: project_server_path(@conn, :update, @project, @server),
+                        project: @project,
+                        conn: @conn %>
