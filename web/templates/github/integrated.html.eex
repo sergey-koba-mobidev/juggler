@@ -12,8 +12,14 @@
         <i class="github icon"></i>
         <a href="<%= @integration.data["repo"]["html_url"] %>" target="_blank"><%= @integration.data["repo"]["full_name"] %></a>
       </div>
+      <div class="meta">
+        <%= @integration.data["repo"]["description"] %>
+      </div>
+      <div class="description">
+        <p><b>Webhook:</b> <%= @integration.data["webhook"]["config"]["url"] %></p>
+      </div>
       <div class="extra">
-        <%= link raw("<i class='trash outline icon'></i> Unlink"), to: "/", method: :delete, data: [confirm: "Are you sure?"], class: "ui right floated labeled icon red button" %>
+        <%= link raw("<i class='trash outline icon'></i> Unlink"), to: project_github_path(@conn, :unlink, @integration.project_id), method: :delete, data: [confirm: "Are you sure?"], class: "ui right floated labeled icon red button" %>
       </div>
     </div>
   </div>

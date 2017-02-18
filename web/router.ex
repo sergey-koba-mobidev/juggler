@@ -10,6 +10,8 @@ defmodule Juggler.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_flash
   end
 
   scope "/", Juggler do
@@ -23,6 +25,7 @@ defmodule Juggler.Router do
       get  "/github/callback", GithubController, :callback
       get  "/github/select_repo", GithubController, :select_repo
       post "/github/set_repo", GithubController, :set_repo
+      delete "/github/unlink", GithubController, :unlink
     end
     resources "/users", UserController, except: [:index, :delete]
     get  "/login", UserController, :login
@@ -38,6 +41,7 @@ defmodule Juggler.Router do
     pipe_through :api
     resources "/projects", ProjectController do
       resources "/ssh_keys", SSHKeysController
+      post  "/github/webhook", GithubController, :webhook
     end
   end
 end

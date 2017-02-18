@@ -87,7 +87,7 @@
     <div class="ui tab" data-tab="repo">
       <%= if length(@integrations) > 0 do %>
         <%= for integration <- @integrations do %>
-          <%= apply(Module.concat(Juggler, String.capitalize(integration.key) <> "View"), :render, ["integrated.html", %{:integration => integration}]) %>
+          <%= apply(Module.concat(Juggler, String.capitalize(integration.key) <> "View"), :render, ["integrated.html", %{:integration => integration, :conn => @conn}]) %>
         <% end %>
       <% else %>
         <div class="ui info message">
