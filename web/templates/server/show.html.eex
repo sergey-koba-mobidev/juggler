@@ -1,0 +1,18 @@
+<h2><i class='server icon'></i> <%= @server.name %></h2>
+
+<div class="ui buttons">
+  <a class="ui left labeled icon button" href="<%= project_server_path(@conn, :edit, @project, @server) %>">
+    <i class="setting icon"></i>
+    Edit
+  </a>
+  <div class="ui left">
+    <%= link raw("<i class='trash outline icon'></i> Delete"), to: project_server_path(@conn, :delete, @project, @server), method: :delete, data: [confirm: "Are you sure?"], class: "ui labeled icon red button" %>
+  </div>
+</div>
+
+<h3>Deploys</h3>
+<div class="ui buttons">
+  <%= link raw("<i class='list icon'></i> See All Deploys"), to: "/", class: "ui labeled icon button" %>
+</div>
+
+<%= link raw("<i class='right arrow icon'></i> Back"), to: project_path(@conn, :show, @project), class: "ui right labeled icon button" %>
