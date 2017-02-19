@@ -18,6 +18,7 @@ A simple Elixir/Phoenix + Docker based continious integration tool.
 
 ## TODO
 - stream command output
+- top menu active state
 - git clone during build
 - deploys
 - project queue and runner
