@@ -99,6 +99,14 @@
           <a class="ui right labeled icon primary button"><i class="bitbucket icon"></i> Bitbucket</a>-->
         </div>
       <% end %>
+      <div class="field">
+        <%= label f, :branches %>
+        <div class="ui info message tiny">
+          <p>Provide a list of automatically build branches</p>
+        </div>
+        <%= textarea f, :branches, placeholder: "master\nfeature\/.*" %>
+        <%= error_tag f, :branches %>
+      </div>
     </div>
 
     <div class="ui tab" data-tab="integrations">

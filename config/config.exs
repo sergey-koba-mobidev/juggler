@@ -27,8 +27,9 @@ config :juggler, Juggler.Mailer,
   ssl: false, # can be `true`
   retries: 1
 
-config :kerosene,
-  theme: :semantic
+config :kerosene, theme: :semantic
+
+config :porcelain, driver: Porcelain.Driver.Basic
 
 # Configures Elixir's Logger
 config :logger, :console,

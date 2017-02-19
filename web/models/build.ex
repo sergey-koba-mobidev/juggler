@@ -8,6 +8,7 @@ defmodule Juggler.Build do
     field :container_id, :string
     field :output, :string
     belongs_to :project, Juggler.Project
+    belongs_to :source, Juggler.Source
     has_many :build_outputs, Juggler.BuildOutput
 
     timestamps()
@@ -18,7 +19,7 @@ defmodule Juggler.Build do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:key, :output, :commands, :container_id, :project_id, :state])
+    |> cast(params, [:key, :output, :commands, :container_id, :project_id, :source_id, :state])
     |> validate_required([:key, :state, :project_id])
   end
 end

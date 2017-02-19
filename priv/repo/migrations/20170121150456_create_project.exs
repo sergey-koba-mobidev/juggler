@@ -8,6 +8,7 @@ defmodule Juggler.Repo.Migrations.CreateProject do
       add :env_vars, :string
       add :docker_image, :string
       add :dockerfile, :text
+      add :branches, :text
       add :user_id, references(:users, on_delete: :delete_all)
 
       timestamps()
