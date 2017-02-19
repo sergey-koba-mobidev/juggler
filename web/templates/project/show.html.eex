@@ -40,17 +40,7 @@
       <h3>Builds</h3>
       <div class="ui items">
         <%= for build <- @builds do %>
-        <div class="item">
-          <div class="middle aligned content">
-            <div class="header">
-              <%= Juggler.BuildView.build_icon(build.state) %>
-              <%= link build.key, to: project_build_path(@conn, :show, @project, build) %>
-            </div>
-            <div class="meta">
-              <span><%= build.inserted_at %></span>
-            </div>
-          </div>
-        </div>
+          <%= render Juggler.BuildView, "list_item.html", conn: @conn, project: @project, build: build %>
         <% end %>
       </div>
       <div class="ui buttons">

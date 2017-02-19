@@ -3,7 +3,7 @@
 </script>
 
 <h2>
-  <%= build_icon(@build.state) %>
+  <%= icon(@build) %>
   Build <%= @build.key %>
 </h2>
 

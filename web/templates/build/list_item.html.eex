@@ -1,0 +1,15 @@
+<div class="item">
+  <div class="ui mini image">
+      <img src="<%= avatar_url(@build) %>">
+  </div>
+  <div class="middle aligned content">
+    <div class="header">
+      <%= icon(@build) %>
+      <%= link @build.key, to: project_build_path(@conn, :show, @project, @build) %>
+    </div>
+    <div class="meta">
+      <span><%= time_ago(@build) %></span>
+      <span><%= code_source(@build) %></span>
+    </div>
+  </div>
+</div>

@@ -16,7 +16,7 @@ A simple elixir/phoenix based deployment tool.
 
 ## TODO
 - stream command output
-- git webhooks
+- git clone during build
 - deploys
 - project queue and runner
 - organizations
