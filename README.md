@@ -1,5 +1,7 @@
 # Juggler
-A simple elixir/phoenix based deployment tool.
+A simple Elixir/Phoenix + Docker based continious integration tool.
+
+![Juggler example](http://s.pictub.club/2017/02/20/sKIyDI.png)
 
 ## Install
 - dcg build

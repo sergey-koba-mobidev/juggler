@@ -37,7 +37,7 @@ defmodule Juggler.BuildView do
     else
       source = Source |> Repo.get!(build.source_id)
       case source.key do
-        "github" -> raw("<i class='github icon'></i> " <> String.replace(source.data["ref"], "refs/heads/", ""))
+        "github" -> raw("<i class='github icon'></i> <a href='" <> source.data["compare"] <> "' target='_blank'>" <> String.replace(source.data["ref"], "refs/heads/", "") <> "</a>")
         _ -> ""
       end
     end

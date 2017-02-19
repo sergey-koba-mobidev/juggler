@@ -25,8 +25,8 @@
       <h3><%= link server.name, to: project_server_path(@conn, :show, @project, server) %></h3>
     </div>
   </div>
-</div>
 <% end %>
+</div>
 <div class="ui buttons">
   <%= link raw("<i class='plus icon'></i> New Server"), to: project_server_path(@conn, :new, @project), class: "ui labeled icon primary button" %>
 </div>
