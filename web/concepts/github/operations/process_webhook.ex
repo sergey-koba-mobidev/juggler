@@ -1,5 +1,6 @@
 defmodule Juggler.GitHub.Operations.ProcessWebhook do
   alias Juggler.{Repo, Source, Build, Project}
+  alias Juggler.Build.Operations.StartBuild
   require Logger
   use Monad.Operators
   import Monad.Result, only: [success?: 1,
@@ -47,7 +48,7 @@ defmodule Juggler.GitHub.Operations.ProcessWebhook do
 
       case Repo.insert(changeset) do
         {:ok, build} ->
-          Juggler.BuildServer.new_build(build.id)
+          StartBuild.call(build)
           success(build)
         {:error, _changeset} ->
           error("Can't create build with webhook")

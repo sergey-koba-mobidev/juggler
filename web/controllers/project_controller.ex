@@ -23,7 +23,8 @@ defmodule Juggler.ProjectController do
     changeset = Project.changeset(%Project{}, Map.merge(project_params, %{"user_id" => current_user(conn).id}))
 
     case Repo.insert(changeset) do
-      {:ok, _project} ->
+      {:ok, project} ->
+        Verk.add_queue(String.to_atom("project_" <> Integer.to_string(project.id)), 1)
         conn
         |> put_flash(:info, "Project created successfully.")
         |> redirect(to: project_path(conn, :index))
@@ -64,6 +65,7 @@ defmodule Juggler.ProjectController do
   def delete(conn, %{"id" => id}) do
     project = Repo.get!(Project, id)
 
+    Verk.remove_queue(String.to_atom("project_" <> Integer.to_string(id)))
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
     Repo.delete!(project)

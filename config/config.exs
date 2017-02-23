@@ -31,6 +31,20 @@ config :kerosene, theme: :semantic
 
 config :porcelain, driver: Porcelain.Driver.Basic
 
+config :verk, queues: [default: 2, priority: 10],
+  max_retry_count: 3,
+  poll_interval: 2000,
+  start_job_log_level: :info,
+  done_job_log_level: :info,
+  fail_job_log_level: :info,
+  #node_id: "1",
+  redis_url: "redis://redis:6379"
+
+config :verk_web, :authorization,
+  username: {:system, "VERK_BASIC_AUTH_USERNAME"},
+  password: {:system, "VERK_BASIC_AUTH_PASSWORD"},
+  realm:    "Verk Web"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

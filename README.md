@@ -4,6 +4,7 @@ A simple Elixir/Phoenix + Docker based continious integration tool.
 ![Juggler example](http://s.pictub.club/2017/02/20/sKIyDI.png)
 
 ## Install
+- create `.env` file based on `sample.env`
 - dcg build
 - dcg up -d
 - dcg run web mix deps.get
@@ -16,11 +17,14 @@ A simple Elixir/Phoenix + Docker based continious integration tool.
 ## Configure
 - create .env file based on sample.env
 
-## TODO
+## Usage
+- Go to [http://localhost:4000](http://localhost:4000)
+- To see queues and jobs go to [http://localhost:4000/verk/queues](http://localhost:4000/verk/queues)
+
+## Roadmap
 - stream command output
 - git clone during build
 - deploys
-- project queue and runner
 - organizations
 - project collaborators
 - project channel to update build states and builds

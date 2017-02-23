@@ -1,8 +1,8 @@
 defmodule Juggler.BuildController do
   use Juggler.Web, :controller
 
-  alias Juggler.Build
-  alias Juggler.Project
+  alias Juggler.{Build, Project}
+  alias Juggler.Build.Operations.StartBuild
 
   plug Juggler.Plugs.Authenticated
   plug Juggler.Project.Plugs.Authenticate
@@ -19,9 +19,9 @@ defmodule Juggler.BuildController do
 
     case Repo.insert(changeset) do
       {:ok, build} ->
+        StartBuild.call(build)
         conn
         |> put_flash(:info, "Build started successfully.")
-        |> start_build(build.id)
         |> redirect(to: project_build_path(conn, :show, project_id, build))
       {:error, _changeset} ->
         conn
@@ -41,10 +41,5 @@ defmodule Juggler.BuildController do
   def show(conn, %{"id" => id}) do
     build = Build |> Repo.get!(id) |> Repo.preload([:project])
     render(conn, "show.html", build: build)
-  end
-
-  def start_build(conn, build_id) do
-    Juggler.BuildServer.new_build(build_id)
-    conn
   end
 end

@@ -16,8 +16,14 @@ services:
       - "4000:4000"
     links:
       - postgres
+      - redis
 
   postgres:
     image: postgres:latest
     ports:
       - "5432"
+
+  redis:
+    image: redis:2.8
+    ports:
+      - "6379"

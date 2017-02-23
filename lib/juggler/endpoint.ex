@@ -1,6 +1,8 @@
 defmodule Juggler.Endpoint do
   use Phoenix.Endpoint, otp_app: :juggler
 
+  use VerkWeb.Mount, path: "/verk"
+
   socket "/socket", Juggler.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
