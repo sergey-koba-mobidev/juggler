@@ -4,7 +4,7 @@ defmodule Juggler.BuildOperations do
   alias Juggler.Project
   alias Juggler.BuildOutput
   alias Porcelain.Result
-  alias Juggler.Build.Operations.{InjectSSHKeys, BuildDockerImage}
+  alias Juggler.Build.Operations.{InjectSSHKeys, BuildDockerImage, InjectSourceCode}
   require Logger
   use Monad.Operators
   import Monad.Result, only: [success?: 1,
@@ -20,6 +20,7 @@ defmodule Juggler.BuildOperations do
                ~>> fn build -> BuildDockerImage.call(build) end
                ~>> fn build -> start_docker_container(build) end
                ~>> fn build -> InjectSSHKeys.call(build) end
+               ~>> fn build -> InjectSourceCode.call(build) end
                ~>> fn build -> exec_commands(build, get_commands_arr(build.commands)) end
                ~>> fn build -> remove_docker_container(build) end
 
