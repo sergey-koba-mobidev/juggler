@@ -1,6 +1,6 @@
 defmodule Juggler.Build.Operations.InjectSourceCode do
   alias Porcelain.Result
-  alias Juggler.{Repo, Project, Integration}
+  alias Juggler.{Repo, Project, Integration, Source}
   require Logger
   use Monad.Operators
   import Monad.Result, only: [success: 1,
@@ -39,13 +39,12 @@ defmodule Juggler.Build.Operations.InjectSourceCode do
 
   def clone_url(build, source) do
     integration = Repo.get_by(Integration, project_id: build.project_id, key: "github")
-    String.replace(integration.data["repository"]["clone_url"], "https://", "https://" <> integration.data["access_token"] <> "@")
+    String.replace(source.data["repository"]["clone_url"], "https://", "https://" <> integration.data["access_token"] <> "@")
   end
 
   def git_checkout(build, source) do
-    integration = Repo.get_by(Integration, project_id: build.project_id, key: "github")
     Logger.info " ---> Checkout git revision for source " <> Integer.to_string(source.id)
-    docker_command = "docker exec " <> build.container_id <> " git checkout " <> integration.data["head_commit"]["id"] <> " ."
+    docker_command = "docker exec " <> build.container_id <> " git checkout " <> source.data["head_commit"]["id"] <> " ."
     %Result{out: output, status: status} = Porcelain.shell(docker_command, err: :out)
     Logger.info " ---> Checkouted git revision for source " <> Integer.to_string(source.id) <> " result: " <> Integer.to_string(status)
     case status do

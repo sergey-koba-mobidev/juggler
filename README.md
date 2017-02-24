@@ -23,7 +23,6 @@ A simple Elixir/Phoenix + Docker based continious integration tool.
 
 ## Roadmap
 - stream command output
-- git clone during build
 - deploys
 - organizations
 - project collaborators
