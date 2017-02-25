@@ -29,7 +29,7 @@
 
 <h3>Output</h3>
 <div class="ui segment">
-  <pre id="deploy-output"></pre>
+  <pre id="output"></pre>
 </div>
 
 <%= link raw("<i class='right arrow icon'></i> Back"), to: project_path(@conn, :show, @deploy.project_id), class: "ui right labeled icon button" %>

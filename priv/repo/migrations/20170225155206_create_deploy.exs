@@ -5,6 +5,7 @@ defmodule Juggler.Repo.Migrations.CreateDeploy do
     create table(:deploys) do
       add :key, :string
       add :state, :string
+      add :container_id, :string
       add :commands, :text
       add :user_id, references(:users, on_delete: :nothing)
       add :build_id, references(:builds, on_delete: :delete_all)

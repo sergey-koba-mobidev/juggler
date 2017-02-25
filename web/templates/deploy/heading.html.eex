@@ -3,7 +3,7 @@
     <div class="header"><%= icon(@deploy) %> <%= @deploy.key %></div>
     <div class="meta">
       <span class="right floated time"><%= time_ago(@deploy) %></span>
-      <span class="category"><%= link @deploy.build.key, to: project_build_path(@conn, :show, @project, @deploy.build) %></span>
+      <span class="category">Build: <%= link @deploy.build.key, to: project_build_path(@conn, :show, @project, @deploy.build) %></span>
     </div>
   </div>
   <div class="extra content">

@@ -55,11 +55,13 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let buildOutput = $('#build-output')
+let outputCont = $('#output')
 let buildId = window.buildId
+let deployId = window.deployId
 
-if (buildId !== undefined) {
-  let channel = socket.channel("build:" + buildId, {})
+if (buildId !== undefined || deployId !== undefined) {
+  let channelName = (buildId !== undefined) ? ("build:" + buildId) : ("deploy:" + deployId)
+  let channel = socket.channel(channelName, {})
 
   channel.join()
     .receive("ok", resp => { console.log("Joined successfully", resp) })
@@ -67,9 +69,9 @@ if (buildId !== undefined) {
 
   var addMessageToOutput = (msg, append) => {
     if (append || append == null) {
-      buildOutput.append(msg)
+      outputCont.append(msg)
     } else {
-      buildOutput.prepend(msg)
+      outputCont.prepend(msg)
     }
   }
 
@@ -87,12 +89,12 @@ if (buildId !== undefined) {
   }
   var cmdFinished = (payload, append = true) => {
     console.log("cmd_finished", payload)
-    addMessageToOutput("<div class='ui small positive compact message'>Finished build</div>", append)
+    addMessageToOutput("<div class='ui small positive compact message'>Finished</div>", append)
     $("#deploy-build").show();
   }
   var cmdFinishedError = (payload, append = true) => {
     console.log("cmd_finished_error", payload)
-    addMessageToOutput("<div class='ui small negative compact message'>Finished build with error: " + payload.error_msg + "</div>", append)
+    addMessageToOutput("<div class='ui small negative compact message'>Finished with error: " + payload.error_msg + "</div>", append)
   }
 
   channel.on("cmd_start", cmdStart)
