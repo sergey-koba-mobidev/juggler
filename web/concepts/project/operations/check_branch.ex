@@ -6,7 +6,7 @@ defmodule Juggler.Project.Operations.CheckBranch do
 
   def call(project, branch) do
     result = false
-    if project.branches != nil do
+    if project.branches != nil && branch != nil do
       branches_arr = String.split(project.branches, "\r\n")
       result = check_branches(branches_arr, String.replace(branch, "refs/heads/", ""))
     end

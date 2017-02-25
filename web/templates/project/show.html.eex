@@ -53,9 +53,13 @@
 
     <div class="column">
       <h3>Deploys</h3>
-
+      <div class="ui items">
+        <%= for deploy <- @deploys do %>
+          <%= render Juggler.DeployView, "list_item.html", conn: @conn, project: @project, deploy: deploy %>
+        <% end %>
+      </div>
       <div class="ui buttons">
-        <%= link raw("<i class='list icon'></i> See All Deploys"), to: "/", class: "ui labeled icon button" %>
+        <%= link raw("<i class='list icon'></i> See All Deploys"), to: project_deploy_path(@conn, :index, @project), class: "ui labeled icon button" %>
       </div>
     </div>
 

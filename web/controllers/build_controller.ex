@@ -1,7 +1,7 @@
 defmodule Juggler.BuildController do
   use Juggler.Web, :controller
 
-  alias Juggler.{Build, Project}
+  alias Juggler.{Build, Project, Deploy, Server}
   alias Juggler.Build.Operations.StartBuild
 
   plug Juggler.Plugs.Authenticated
@@ -40,6 +40,8 @@ defmodule Juggler.BuildController do
 
   def show(conn, %{"id" => id}) do
     build = Build |> Repo.get!(id) |> Repo.preload([:project])
-    render(conn, "show.html", build: build)
+    servers = from(s in Server, where: s.project_id == ^build.project_id) |> Repo.all
+    deploy_changeset = Deploy.changeset(%Deploy{})
+    render(conn, "show.html", build: build, deploy_changeset: deploy_changeset, servers: servers)
   end
 end

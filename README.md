@@ -29,3 +29,9 @@ A simple Elixir/Phoenix + Docker based continious integration tool.
 - project channel to update build states and builds
 - integrations (notification to slack, hipchat)
 - tests
+- rebuild button
+- email notifications about failed builds/deploys
+- notifications settings
+- build and deploy duration
+- deploys for server
+- last webhook for Repository tab in project settings

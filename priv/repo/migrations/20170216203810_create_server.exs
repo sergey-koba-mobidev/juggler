@@ -5,7 +5,7 @@ defmodule Juggler.Repo.Migrations.CreateServer do
     create table(:servers) do
       add :name, :string
       add :deploy_commands, :text
-      add :project_id, references(:projects, on_delete: :nothing)
+      add :project_id, references(:projects, on_delete: :delete_all)
 
       timestamps()
     end

@@ -31,6 +31,18 @@ defmodule Juggler.BuildView do
     end
   end
 
+  def user_name(build) do
+    if build.source_id == nil do
+      "Juggler"
+    else
+      source = Source |> Repo.get!(build.source_id)
+      case source.key do
+        "github" -> source.data["sender"]["login"]
+        _ -> "Juggler"
+      end
+    end
+  end
+
   def code_source(build) do
     if build.source_id == nil do
       ""

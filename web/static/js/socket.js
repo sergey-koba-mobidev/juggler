@@ -88,6 +88,7 @@ if (buildId !== undefined) {
   var cmdFinished = (payload, append = true) => {
     console.log("cmd_finished", payload)
     addMessageToOutput("<div class='ui small positive compact message'>Finished build</div>", append)
+    $("#deploy-build").show();
   }
   var cmdFinishedError = (payload, append = true) => {
     console.log("cmd_finished_error", payload)

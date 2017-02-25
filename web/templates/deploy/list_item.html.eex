@@ -1,0 +1,14 @@
+<div class="item">
+  <div class="ui mini image">
+      <img src="<%= avatar_url(@deploy) %>">
+  </div>
+  <div class="middle aligned content">
+    <div class="header">
+      <%= icon(@deploy) %>
+      <%= link @deploy.key, to: project_deploy_path(@conn, :show, @project, @deploy) %>
+    </div>
+    <div class="meta">
+      <span><%= time_ago(@deploy) %></span>
+    </div>
+  </div>
+</div>

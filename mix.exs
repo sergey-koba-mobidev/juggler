@@ -20,7 +20,8 @@ defmodule Juggler.Mixfile do
     [mod: {Juggler, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger,
                     :gettext, :phoenix_ecto, :postgrex, :porcelain, :comeonin,
-                    :httpoison, :tentacat, :bamboo, :timex, :verk, :verk_web]]
+                    :httpoison, :tentacat, :bamboo, :timex, :verk, :verk_web,
+                    :exgravatar]]
   end
 
   # Specifies which paths to compile per environment.
@@ -50,7 +51,8 @@ defmodule Juggler.Mixfile do
      {:kerosene, "~> 0.5.0"},
      {:timex, "~> 3.0"},
      {:verk_web, "~> 0.13"},
-     {:verk, "~> 0.13"}]
+     {:verk, "~> 0.13"},
+     {:exgravatar, "~> 2.0.0"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

@@ -2,16 +2,39 @@
   window.buildId = <%= @build.id %>;
 </script>
 
-<h2>
-  <%= icon(@build) %>
-  Build <%= @build.key %>
-</h2>
+<h2>Build</h2>
+<%= render "heading.html", conn: @conn, project: @build.project, build: @build %>
 
-<h3>Commands</h3>
-<div class="ui segment">
-  <pre>
-    <%= @build.commands %>
-  </pre>
+<div class="ui two column grid">
+  <div class="row">
+
+    <div class="column">
+      <h3>Commands</h3>
+      <div class="ui segment">
+        <pre>
+          <%= @build.commands %>
+        </pre>
+      </div>
+    </div>
+
+    <div class="column" id="deploy-build">
+      <h3><i class='server icon'></i> Server</h3>
+      <div class="ui segment">
+        <%= form_for @deploy_changeset, project_deploy_path(@conn, :create, @build.project), [class: "ui form"], fn f -> %>
+        <%= hidden_input f, :build_id, value: @build.id %>
+        <div class="two fields">
+          <div class="field">
+          <%= select f, :server_id, @servers |> Enum.map(&{&1.name, &1.id}), class: "ui fluid dropdown"%>
+          </div>
+          <div class="field">
+            <%= submit raw("<i class='upload icon'></i> Deploy"), class: "ui labeled icon primary button" %>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <h3>Output</h3>

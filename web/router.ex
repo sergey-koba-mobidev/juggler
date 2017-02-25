@@ -20,6 +20,7 @@ defmodule Juggler.Router do
     get "/", PageController, :index
     resources "/projects", ProjectController do
       resources "/builds", BuildController, only: [:create, :show, :index]
+      resources "/deploys", DeployController, only: [:create, :show, :index]
       resources "/servers", ServerController
       get  "/github", GithubController, :setup
       get  "/github/callback", GithubController, :callback

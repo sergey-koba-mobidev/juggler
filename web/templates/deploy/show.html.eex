@@ -1,0 +1,35 @@
+<script type="text/javascript">
+  window.deployId = <%= @deploy.id %>;
+</script>
+
+<h2>Deploy</h2>
+<%= render "heading.html", conn: @conn, project: @deploy.project, deploy: @deploy %>
+
+<div class="ui two column grid">
+  <div class="row">
+
+    <div class="column">
+      <h3>Commands</h3>
+      <div class="ui segment">
+        <pre>
+          <%= @deploy.commands %>
+        </pre>
+      </div>
+    </div>
+
+    <div class="column">
+      <h3><i class='server icon'></i> Server</h3>
+      <div class="ui segment">
+        <%= link @deploy.server.name, to: project_server_path(@conn, :show, @deploy.project, @deploy.server) %>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<h3>Output</h3>
+<div class="ui segment">
+  <pre id="deploy-output"></pre>
+</div>
+
+<%= link raw("<i class='right arrow icon'></i> Back"), to: project_path(@conn, :show, @deploy.project_id), class: "ui right labeled icon button" %>

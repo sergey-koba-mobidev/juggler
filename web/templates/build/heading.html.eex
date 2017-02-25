@@ -1,0 +1,17 @@
+<div class="ui card">
+  <div class="content">
+    <div class="header"><%= icon(@build) %> <%= @build.key %></div>
+    <div class="meta">
+      <span class="right floated time"><%= time_ago(@build) %></span>
+      <span class="category"><%= code_source(@build) %></span>
+    </div>
+    <div class="description">
+      <p></p>
+    </div>
+  </div>
+  <div class="extra content">
+    <div class="right floated author">
+      <img class="ui avatar image" src="<%= avatar_url(@build) %>"> <%= user_name(@build) %>
+    </div>
+  </div>
+</div>
