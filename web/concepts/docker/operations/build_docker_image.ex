@@ -1,4 +1,4 @@
-defmodule Juggler.Build.Operations.BuildDockerImage do
+defmodule Juggler.Docker.Operations.BuildDockerImage do
   alias Porcelain.Result
   alias Juggler.Repo
   alias Juggler.Project
@@ -11,24 +11,19 @@ defmodule Juggler.Build.Operations.BuildDockerImage do
                               success: 1,
                               error: 1]
 
-  def call(build) do
-    project = Project |> Repo.get!(build.project_id)
+  def call(project_id) do
+    project = Project |> Repo.get!(project_id)
     case project.dockerfile do
-      ""   -> success(build)
-      nil  -> success(build)
+      ""   -> success(project)
+      nil  -> success(project)
       text ->
-        image_tag = "juggler:project_" <> Integer.to_string(build.project_id)
-        dockerfile_name = "dfproject_" <> Integer.to_string(build.project_id)
+        image_tag = "juggler:project_" <> Integer.to_string(project_id)
+        dockerfile_name = "dfproject_" <> Integer.to_string(project_id)
         result = success(nil)
           ~>> fn _ -> write_dockerfile(dockerfile_name, text) end
           ~>> fn _ -> build_image(dockerfile_name, image_tag) end
           ~>> fn _ -> remove_dockerfile(dockerfile_name) end
           ~>> fn _ -> update_project(project, image_tag) end
-
-        case success?(result) do
-          true  -> success(build)
-          false -> error(result.error)
-        end
     end
   end
 

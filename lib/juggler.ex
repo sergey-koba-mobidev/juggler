@@ -21,7 +21,13 @@ defmodule Juggler do
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Juggler.Supervisor]
-    Supervisor.start_link(children, opts)
+    res = Supervisor.start_link(children, opts)
+
+    for project <- Juggler.Repo.all(Juggler.Project) do
+      Verk.add_queue(String.to_atom("project_" <> Integer.to_string(project.id)), 1)
+    end
+
+    res
   end
 
   # Tell Phoenix to update the endpoint configuration

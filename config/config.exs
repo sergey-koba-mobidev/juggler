@@ -31,7 +31,7 @@ config :kerosene, theme: :semantic
 
 config :porcelain, driver: Porcelain.Driver.Basic
 
-config :verk, queues: [default: 2, priority: 10],
+config :verk, queues: [default: 2],
   max_retry_count: 3,
   poll_interval: 2000,
   start_job_log_level: :info,

@@ -5,7 +5,7 @@ defmodule Juggler.Repo.Migrations.CreateSource do
     create table(:sources) do
       add :key, :string
       add :data, :map
-      add :project_id, references(:projects, on_delete: :nothing)
+      add :project_id, references(:projects, on_delete: :delete_all)
 
       timestamps()
     end

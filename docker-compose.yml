@@ -25,5 +25,7 @@ services:
 
   redis:
     image: redis:2.8
+    volumes:
+      - /data
     ports:
       - "6379"
