@@ -15,6 +15,6 @@
 .help-block {
   color: #DB2828!important
 }
-#deploy-build {
+#deploy-build, #restart-button {
   display: none;
 }

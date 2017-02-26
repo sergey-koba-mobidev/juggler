@@ -3,9 +3,18 @@
 </script>
 
 <h2>Build</h2>
-<%= render "heading.html", conn: @conn, project: @build.project, build: @build %>
 
 <div class="ui two column grid">
+  <div class="row">
+    <div class="column">
+      <%= render "heading.html", conn: @conn, project: @build.project, build: @build %>
+    </div>
+    <div class="column">
+      <%= link raw("<i class='refresh icon'></i> Restart"), to: project_build_build_path(@conn, :restart, @build.project_id, @build), class: "ui labeled icon primary button", id: "restart-button" %>
+      <%= link raw("<i class='right arrow icon'></i> Back"), to: project_path(@conn, :show, @build.project_id), class: "ui right labeled icon button" %>
+    </div>
+  </div>
+
   <div class="row">
 
     <div class="column">
@@ -41,5 +50,3 @@
 <div class="ui segment">
   <pre id="output"></pre>
 </div>
-
-<%= link raw("<i class='right arrow icon'></i> Back"), to: project_path(@conn, :show, @build.project_id), class: "ui right labeled icon button" %>

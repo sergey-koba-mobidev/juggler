@@ -95,6 +95,7 @@ if (buildId !== undefined || deployId !== undefined) {
   var cmdFinishedError = (payload, append = true) => {
     console.log("cmd_finished_error", payload)
     addMessageToOutput("<div class='ui small negative compact message'>Finished with error: " + payload.error_msg + "</div>", append)
+    $("#restart-button").show();
   }
 
   channel.on("cmd_start", cmdStart)

@@ -3,11 +3,18 @@
 </script>
 
 <h2>Deploy</h2>
-<%= render "heading.html", conn: @conn, project: @deploy.project, deploy: @deploy %>
-
 <div class="ui two column grid">
   <div class="row">
+    <div class="column">
+      <%= render "heading.html", conn: @conn, project: @deploy.project, deploy: @deploy %>
+    </div>
+    <div class="column">
+      <%= link raw("<i class='refresh icon'></i> Restart"), to: project_deploy_deploy_path(@conn, :restart, @deploy.project_id, @deploy), class: "ui labeled icon primary button", id: "restart-button" %>
+      <%= link raw("<i class='right arrow icon'></i> Back"), to: project_path(@conn, :show, @deploy.project_id), class: "ui right labeled icon button" %>
+    </div>
+  </div>
 
+  <div class="row">
     <div class="column">
       <h3>Commands</h3>
       <div class="ui segment">
@@ -31,5 +38,3 @@
 <div class="ui segment">
   <pre id="output"></pre>
 </div>
-
-<%= link raw("<i class='right arrow icon'></i> Back"), to: project_path(@conn, :show, @deploy.project_id), class: "ui right labeled icon button" %>

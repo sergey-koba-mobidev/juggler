@@ -2,7 +2,7 @@ defmodule Juggler.BuildController do
   use Juggler.Web, :controller
 
   alias Juggler.{Build, Project, Deploy, Server}
-  alias Juggler.Build.Operations.StartBuild
+  alias Juggler.Build.Operations.{StartBuild, RestartBuild}
 
   plug Juggler.Plugs.Authenticated
   plug Juggler.Project.Plugs.Authenticate
@@ -43,5 +43,13 @@ defmodule Juggler.BuildController do
     servers = from(s in Server, where: s.project_id == ^build.project_id) |> Repo.all
     deploy_changeset = Deploy.changeset(%Deploy{})
     render(conn, "show.html", build: build, deploy_changeset: deploy_changeset, servers: servers)
+  end
+
+  def restart(conn, %{"build_id" => id}) do
+    build = Build |> Repo.get!(id)
+    RestartBuild.call(build)
+    conn
+    |> put_flash(:info, "Build restarted successfully.")
+    |> redirect(to: project_build_path(conn, :show, build.project_id, build))
   end
 end
