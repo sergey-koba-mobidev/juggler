@@ -16,7 +16,8 @@
         <%= @integration.data["repo"]["description"] %>
       </div>
       <div class="description">
-        <p><b>Webhook:</b> <%= @integration.data["webhook"]["config"]["url"] %></p>
+        <p><b>Webhook Url:</b> <%= @integration.data["webhook"]["config"]["url"] %></p>
+        <p><%= render "inline_source.html", conn: @conn, source: Juggler.Integration.latest_source(@integration) %></p>
       </div>
       <div class="extra">
         <%= link raw("<i class='trash outline icon'></i> Unlink"), to: project_github_path(@conn, :unlink, @integration.project_id), method: :delete, data: [confirm: "Are you sure?"], class: "ui right floated labeled icon red button" %>

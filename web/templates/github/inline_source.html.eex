@@ -1,0 +1,7 @@
+<%= if @source != nil do %>
+  <b>Last Webhook:</b>
+  <img src="<%= @source.data["sender"]["avatar_url"] %>" class="ui avatar image">
+  <span><%= @source.data["sender"]["login"] %></span>
+  <span><%= @source.data["ref"] %></span>
+  <span><%= @source.data["head_commit"]["timestamp"] %></span>
+<% end %>
