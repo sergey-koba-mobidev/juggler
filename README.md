@@ -30,5 +30,4 @@ A simple Elixir/Phoenix + Docker based continious integration tool.
 - tests
 - email notifications about failed builds/deploys
 - notifications settings
-- last webhook for Repository tab in project settings
 - add revision as ENV variable
