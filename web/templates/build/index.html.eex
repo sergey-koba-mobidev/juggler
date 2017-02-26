@@ -1,4 +1,4 @@
-<h2>Builds for <%= @project.name %></h2>
+<h2><i class='cubes icon'></i> Builds for <%= @project.name %></h2>
 
 <div class="ui buttons">
   <%= link raw("<i class='setting icon'></i> Settings"), to: project_path(@conn, :edit, @project), class: "ui labeled icon button" %>

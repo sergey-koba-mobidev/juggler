@@ -17,4 +17,8 @@ defmodule Juggler.Server do
     |> cast(params, [:name, :deploy_commands, :project_id])
     |> validate_required([:name, :deploy_commands, :project_id])
   end
+
+  def latest_deploy(server) do
+    Juggler.Repo.one(from d in Juggler.Deploy, where: d.server_id == ^server.id, order_by: [desc: d.inserted_at], limit: 1)
+  end
 end

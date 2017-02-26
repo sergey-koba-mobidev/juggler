@@ -2,7 +2,7 @@
   window.buildId = <%= @build.id %>;
 </script>
 
-<h2>Build</h2>
+<h2><i class='cubes icon'></i> Build</h2>
 
 <div class="ui two column grid">
   <div class="row">

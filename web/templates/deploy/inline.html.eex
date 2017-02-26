@@ -1,0 +1,8 @@
+<%= if @deploy != nil do %>
+  <i class='upload icon'></i> 
+  <img src="<%= avatar_url(@deploy) %>" class="ui avatar image">
+  <%= icon(@deploy) %>
+  <%= link @deploy.key, to: project_deploy_path(@conn, :show, @project, @deploy) %>
+  <span><%= time_ago(@deploy) %></span>
+  <span><%= duration(@deploy) %></span>
+<% end %>

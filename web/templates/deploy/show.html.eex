@@ -2,7 +2,7 @@
   window.deployId = <%= @deploy.id %>;
 </script>
 
-<h2>Deploy</h2>
+<h2><i class='upload icon'></i> Deploy</h2>
 <div class="ui two column grid">
   <div class="row">
     <div class="column">

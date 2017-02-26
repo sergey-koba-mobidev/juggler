@@ -1,0 +1,17 @@
+<div class="item">
+  <div class="right floated content">
+    <a class="ui left floated labeled icon button" href="<%= project_server_path(@conn, :edit, @project, @server) %>">
+      <i class="setting icon"></i>
+      Edit
+    </a>
+    <div class="ui left floated">
+      <%= link raw("<i class='trash outline icon'></i> Delete"), to: project_server_path(@conn, :delete, @project, @server), method: :delete, data: [confirm: "Are you sure?"], class: "ui labeled icon red button" %>
+    </div>
+  </div>
+  <div class="left floated content">
+    <h3><%= link @server.name, to: project_server_path(@conn, :show, @project, @server), class: "header" %></h3>
+  </div>
+  <div class="left floated content">
+    <%= render Juggler.DeployView, "inline.html", conn: @conn, project: @project, deploy: Juggler.Server.latest_deploy(@server) %>
+  </div>
+</div>

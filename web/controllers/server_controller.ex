@@ -1,16 +1,17 @@
 defmodule Juggler.ServerController do
   use Juggler.Web, :controller
-  alias Juggler.Repo
-  alias Juggler.Project
-  alias Juggler.Server
+  alias Juggler.{Repo, Project, Server, Deploy}
 
   plug Juggler.Plugs.Authenticated
   plug Juggler.Project.Plugs.Authenticate
 
-  def show(conn, %{"project_id" => project_id, "id" => id}) do
+  def show(conn, params = %{"project_id" => project_id, "id" => id}) do
     project = Project |> Repo.get!(project_id)
     server = Server |> Repo.get!(id)
-    render(conn, "show.html", server: server, project: project)
+    {deploys, kerosene} =
+      from(d in Deploy, where: d.server_id == ^server.id)
+      |> Repo.paginate(params)
+    render(conn, "show.html", server: server, project: project, deploys: deploys, kerosene: kerosene)
   end
 
   def new(conn, %{"project_id" => project_id}) do

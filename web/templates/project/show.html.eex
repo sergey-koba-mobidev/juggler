@@ -11,20 +11,7 @@
 <h3><i class='server icon'></i> Servers</h3>
 <div class="ui middle aligned divided list">
 <%= for server <- @servers do %>
-  <div class="item">
-    <div class="right floated content">
-      <a class="ui left floated labeled icon button" href="<%= project_server_path(@conn, :edit, @project, server) %>">
-        <i class="setting icon"></i>
-        Edit
-      </a>
-      <div class="ui left floated">
-        <%= link raw("<i class='trash outline icon'></i> Delete"), to: project_server_path(@conn, :delete, @project, server), method: :delete, data: [confirm: "Are you sure?"], class: "ui labeled icon red button" %>
-      </div>
-    </div>
-    <div class="content">
-      <h3><%= link server.name, to: project_server_path(@conn, :show, @project, server) %></h3>
-    </div>
-  </div>
+  <%= render Juggler.ServerView, "list_item.html", conn: @conn, project: @project, server: server %>
 <% end %>
 </div>
 <div class="ui buttons">
@@ -37,7 +24,7 @@
   <div class="row">
 
     <div class="column">
-      <h3>Builds</h3>
+      <h3><i class='cubes icon'></i> Builds</h3>
       <div class="ui items">
         <%= for build <- @builds do %>
           <%= render Juggler.BuildView, "list_item.html", conn: @conn, project: @project, build: build %>
@@ -52,7 +39,7 @@
     </div>
 
     <div class="column">
-      <h3>Deploys</h3>
+      <h3><i class='upload icon'></i> Deploys</h3>
       <div class="ui items">
         <%= for deploy <- @deploys do %>
           <%= render Juggler.DeployView, "list_item.html", conn: @conn, project: @project, deploy: deploy %>
