@@ -1,6 +1,7 @@
 defmodule Juggler.DeployView do
   use Juggler.Web, :view
-  alias Juggler.{User, Repo}
+  use Timex
+  alias Juggler.{User, Repo, Server}
   import Kerosene.HTML
   import Exgravatar
 
@@ -8,7 +9,7 @@ defmodule Juggler.DeployView do
     case deploy.state do
           "finished" -> raw("<i class='checkmark green icon'></i>")
           "error"    -> raw("<i class='remove red icon'></i>")
-          "running"  -> raw("<i class='refresh blue icon'></i>")
+          "running"  -> raw("<i class='refresh loading blue icon'></i>")
           "new"      -> raw("<i class='hourglass start icon'></i>")
     end
   end
@@ -35,6 +36,19 @@ defmodule Juggler.DeployView do
     else
       user = User |> Repo.get!(deploy.user_id)
       user.name
+    end
+  end
+
+  def server(conn, deploy) do
+    server = Server |> Repo.get!(deploy.server_id)
+    link server.name, to: project_server_path(conn, :show, deploy.project_id, server)
+  end
+
+  def duration(deploy) do
+    dur_str = Duration.from_seconds(Timex.diff(deploy.updated_at, deploy.inserted_at, :seconds)) |> Timex.format_duration(:humanized)
+    case dur_str == "" do
+      true -> ""
+      false -> raw("<i class='wait icon'></i>  " <> dur_str)
     end
   end
 end

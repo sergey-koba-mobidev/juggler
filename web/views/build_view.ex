@@ -1,5 +1,6 @@
 defmodule Juggler.BuildView do
   use Juggler.Web, :view
+  use Timex
   import Kerosene.HTML
   alias Juggler.{Source, Repo}
 
@@ -7,7 +8,7 @@ defmodule Juggler.BuildView do
     case build.state do
           "finished" -> raw("<i class='checkmark green icon'></i>")
           "error"    -> raw("<i class='remove red icon'></i>")
-          "running"  -> raw("<i class='refresh blue icon'></i>")
+          "running"  -> raw("<i class='refresh loading blue icon'></i>")
           "new"      -> raw("<i class='hourglass start icon'></i>")
     end
   end
@@ -52,6 +53,14 @@ defmodule Juggler.BuildView do
         "github" -> raw("<i class='github icon'></i> <a href='" <> source.data["compare"] <> "' target='_blank'>" <> String.replace(source.data["ref"], "refs/heads/", "") <> "</a>")
         _ -> ""
       end
+    end
+  end
+
+  def duration(build) do
+    dur_str = Duration.from_seconds(Timex.diff(build.updated_at, build.inserted_at, :seconds)) |> Timex.format_duration(:humanized)
+    case dur_str == "" do
+      true -> ""
+      false -> raw("<i class='wait icon'></i>  " <> dur_str)
     end
   end
 end

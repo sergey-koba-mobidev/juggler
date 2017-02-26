@@ -10,6 +10,7 @@
     <div class="meta">
       <span><%= time_ago(@build) %></span>
       <span><%= code_source(@build) %></span>
+      <span><%= duration(@build) %></span>
     </div>
   </div>
 </div>

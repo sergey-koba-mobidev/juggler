@@ -23,7 +23,6 @@ A simple Elixir/Phoenix + Docker based continious integration tool.
 
 ## Roadmap
 - stream command output
-- deploys
 - organizations
 - project collaborators
 - project channel to update build states and builds
@@ -32,6 +31,6 @@ A simple Elixir/Phoenix + Docker based continious integration tool.
 - rebuild button
 - email notifications about failed builds/deploys
 - notifications settings
-- build and deploy duration
-- deploys for server
 - last webhook for Repository tab in project settings
+- deploys list for server
+- show last deploy for server and status
