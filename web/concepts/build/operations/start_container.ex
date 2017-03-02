@@ -1,7 +1,8 @@
 defmodule Juggler.Build.Operations.StartContainer do
   alias Juggler.Docker.Operations.StartDockerContainer
   alias Juggler.Build.Operations.UpdateState
-  alias Juggler.{Repo, Build}
+  alias Juggler.Source.Operations.GetEnvVars
+  alias Juggler.{Repo, Build, Source}
   require Logger
   import Monad.Result, only: [success?: 1,
                               unwrap!: 1,
@@ -9,7 +10,8 @@ defmodule Juggler.Build.Operations.StartContainer do
                               error: 1]
 
   def call(build) do
-    result = StartDockerContainer.call(build.project_id)
+    custom_env_vars = GetEnvVars.call(build.source_id)
+    result = StartDockerContainer.call(build.project_id, custom_env_vars)
 
     if success?(result) do
       changeset = Build.changeset(build, %{:container_id => result.value})

@@ -8,13 +8,14 @@ defmodule Juggler.Docker.Operations.StartDockerContainer do
                               success: 1,
                               error: 1]
 
-  def call(project_id) do
+  def call(project_id, custom_params \\ "") do
     project = Project |> Repo.get!(project_id)
     docker_image = project.docker_image
     if docker_image == nil do
       error("Project environment is not configured, please select docker image in settings")
     else
-      %Result{out: output, status: status} = Porcelain.shell("docker run -it -d -w=\"/juggler_app\" " <> get_docker_env_vars_string(project) <> docker_image <> " /bin/bash", err: :out)
+      Logger.info "--> docker run -it -d -w=\"/juggler_app\" " <> custom_params <> " " <> get_docker_env_vars_string(project) <> docker_image <> " /bin/bash"
+      %Result{out: output, status: status} = Porcelain.shell("docker run -it -d -w=\"/juggler_app\" " <> custom_params <> " " <> get_docker_env_vars_string(project) <> docker_image <> " /bin/bash", err: :out)
       case status do
         0 ->
           container_id = String.trim(output, "\n")

@@ -30,4 +30,4 @@ A simple Elixir/Phoenix + Docker based continious integration tool.
 - tests
 - email notifications about failed builds/deploys
 - notifications settings
-- add revision as ENV variable
+- check ssh keys are working in container

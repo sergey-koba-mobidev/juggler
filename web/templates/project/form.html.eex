@@ -36,6 +36,9 @@
         <%= textarea f, :build_commands, placeholder: "bundle install\nrake db:setup\n..." %>
         <%= error_tag f, :build_commands %>
       </div>
+      <div class="ui info message tiny">
+        <p>Integration with Repository provides REVISION and BRANCH_NAME env variables</p>
+      </div>
     </div>
 
     <div class="ui tab" data-tab="env">
