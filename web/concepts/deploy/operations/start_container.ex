@@ -1,6 +1,7 @@
 defmodule Juggler.Deploy.Operations.StartContainer do
   alias Juggler.Docker.Operations.StartDockerContainer
   alias Juggler.Deploy.Operations.UpdateState
+  alias Juggler.Source.Operations.GetEnvVars
   alias Juggler.{Repo, Deploy, Build}
   require Logger
   import Monad.Result, only: [success?: 1,

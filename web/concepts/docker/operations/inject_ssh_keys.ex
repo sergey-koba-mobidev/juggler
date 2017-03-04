@@ -37,5 +37,15 @@ defmodule Juggler.Docker.Operations.InjectSSHKeys do
     %Result{out: output, status: status} = Porcelain.shell(docker_command, err: :out)
     Logger.info " ---> Finished injecting ssh key " <> ssh_key_id <> " result: " <> Integer.to_string(status)
     {:ok, status}
+    case status == 0 do
+      true  ->
+        Logger.info " ---> Adding ssh key to config" <> ssh_key_id
+        docker_command = "docker exec " <> container_id <> " bash -c 'echo \"IdentityFile /root/.ssh/id_rsa" <> ssh_key_id <> "\" >> /root/.ssh/config'"
+        %Result{out: output, status: status} = Porcelain.shell(docker_command, err: :out)
+        Logger.info " ---> Finished adding ssh key to config " <> ssh_key_id <> " result: " <> Integer.to_string(status)
+        {:ok, status}
+      false ->
+        {:ok, status}
+    end
   end
 end
