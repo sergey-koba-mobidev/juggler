@@ -1,7 +1,7 @@
 defmodule Juggler.ProjectController do
   use Juggler.Web, :controller
 
-  alias Juggler.{Project, Build, Server, Integration, Deploy}
+  alias Juggler.{Project, ProjectUser, Build, Server, Integration, Deploy}
   alias Juggler.Project.Operations.CreateProject
 
   plug Juggler.Plugs.Authenticated
@@ -10,8 +10,11 @@ defmodule Juggler.ProjectController do
   def index(conn, params) do
     user_id = current_user(conn).id
     {projects, kerosene} =
-      from(p in Project, where: p.user_id == ^user_id)
-      |> Repo.paginate(params)
+      from(u in ProjectUser,
+        where: u.user_id == ^user_id,
+        join: p in Project, on: p.id == u.project_id,
+        select: p
+      ) |> Repo.paginate(params)
     render(conn, "index.html", projects: projects, kerosene: kerosene)
   end
 
