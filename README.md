@@ -25,9 +25,11 @@ A simple Elixir/Phoenix + Docker based continious integration tool.
 - stream command output + timeout on user input
 - build/deploy stop button
 - organizations
-- project collaborators
+- project collaborators (list, plug, permissions, templates)
 - project channel to update build states and builds
 - integrations (notification to slack, hipchat)
 - tests
 - email notifications about failed builds/deploys
 - notifications settings
+- free and unlimited plans
+- faq and terms pages

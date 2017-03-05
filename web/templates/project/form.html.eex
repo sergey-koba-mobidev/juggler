@@ -9,6 +9,7 @@
       <a class="item" data-tab="ssh-keys"><i class="privacy icon"></i> SSH Keys</a>
       <a class="item" data-tab="repo"><i class="code icon"></i> Repository</a>
       <a class="item" data-tab="integrations"><i class="exchange icon"></i> Integrations</a>
+      <a class="item" data-tab="collaborators"><i class="users icon"></i> Collaborators</a>
       <% end %>
     </div>
   </div>
@@ -36,9 +37,7 @@
         <%= textarea f, :build_commands, placeholder: "bundle install\nrake db:setup\n..." %>
         <%= error_tag f, :build_commands %>
       </div>
-      <div class="ui info message tiny">
-        <p>Integration with Repository provides REVISION and BRANCH_NAME env variables</p>
-      </div>
+      <%= render "env_vars.html" %>
     </div>
 
     <div class="ui tab" data-tab="env">
@@ -105,7 +104,7 @@
       <div class="field">
         <%= label f, :branches %>
         <div class="ui info message tiny">
-          <p>Provide a list of automatically build branches</p>
+          <p>Provide a list of automatically built branches</p>
         </div>
         <%= textarea f, :branches, placeholder: "master\nfeature\/.*" %>
         <%= error_tag f, :branches %>
@@ -116,6 +115,33 @@
       <div class="ui info message">
         <p>Here will be integrations with Slack or HipChat</p>
       </div>
+    </div>
+
+    <div class="ui tab divided items" data-tab="collaborators" id="collaborators-list">
+      <h2>Collaborators</h2>
+      <collaborator
+        v-for="item in collaborators"
+        v-bind:item="item"
+        :key="item.id">
+      </collaborator>
+
+      <form class="ui form">
+        <div class="three fields">
+          <div class="field">
+            <label>User</label>
+            <input type="hidden" v-model="user_id">
+            <input type="email" id="user-email" placeholder="User email">
+          </div>
+          <div class="field">
+            <label>Role</label>
+            <select v-model="user_role">
+              <option value="edit">Build and Deploy</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </div>
+        </div>
+        <button class="ui labeled icon positive button" v-on:click="addNewCollaborator"><i class="plus icon"></i>Add</button>
+      </form>
     </div>
     <% end %>
 

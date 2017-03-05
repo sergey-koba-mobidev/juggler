@@ -44,7 +44,8 @@ exports.config = {
       "web/static",
       "test/static",
       "node_modules/semantic-ui/dist/semantic.min.js",
-      "node_modules/semantic-ui/dist/components"
+      "node_modules/semantic-ui/dist/components",
+      "node_modules/selectize/dist/js/selectize.min.js",
     ],
 
     // Where to compile files to
@@ -78,7 +79,8 @@ exports.config = {
   npm: {
     enabled: true,
     styles: {
-      'semantic-ui': ['dist/semantic.min.css']
+      'semantic-ui': ['dist/semantic.min.css'],
+      'selectize': ['dist/css/selectize.default.css']
     },
     globals: {
       $: 'jquery',

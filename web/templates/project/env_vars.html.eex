@@ -1,0 +1,8 @@
+<div class="ui info message tiny">
+  <p>
+    <ul>
+      <li>Integration with <b>Repository</b> in settings provides <b>REVISION</b> and <b>BRANCH_NAME</b> env variables</li>
+      <li>Juggler also sets <b>JUGGLER=1</b> env var for each build and deploy</li>
+    </ul>
+  </p>
+</div>

@@ -2,6 +2,7 @@ defmodule Juggler.ProjectController do
   use Juggler.Web, :controller
 
   alias Juggler.{Project, Build, Server, Integration, Deploy}
+  alias Juggler.Project.Operations.CreateProject
 
   plug Juggler.Plugs.Authenticated
   plug :authorize_project
@@ -20,16 +21,14 @@ defmodule Juggler.ProjectController do
   end
 
   def create(conn, %{"project" => project_params}) do
-    changeset = Project.changeset(%Project{}, Map.merge(project_params, %{"user_id" => current_user(conn).id}))
+    result = CreateProject.call(Map.merge(project_params, %{"user_id" => current_user(conn).id}))
 
-    case Repo.insert(changeset) do
-      {:ok, project} ->
-        Verk.add_queue(String.to_atom("project_" <> Integer.to_string(project.id)), 1)
-        conn
-        |> put_flash(:info, "Project created successfully.")
-        |> redirect(to: project_path(conn, :index))
-      {:error, changeset} ->  
-        render(conn, "new.html", changeset: changeset)
+    if success?(result) do
+      conn
+      |> put_flash(:info, "Project created successfully.")
+      |> redirect(to: project_path(conn, :show, result.value))
+    else
+      render(conn, "new.html", changeset: result.error)
     end
   end
 

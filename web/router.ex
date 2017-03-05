@@ -46,7 +46,9 @@ defmodule Juggler.Router do
     pipe_through :api
     resources "/projects", ProjectController do
       resources "/ssh_keys", SSHKeysController
+      resources "/collaborators", CollaboratorController
       post  "/github/webhook", GithubController, :webhook
     end
+    get "/users", UserController, :search
   end
 end

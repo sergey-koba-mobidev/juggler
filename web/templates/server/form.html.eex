@@ -12,6 +12,7 @@
         </div>
         <%= textarea f, :deploy_commands, placeholder: "bundle install\ncap staging deploy\n..." %>
         <%= error_tag f, :deploy_commands %>
+        <%= render Juggler.ProjectView, "env_vars.html" %>
       </div>
 
     <div class="ui buttons">

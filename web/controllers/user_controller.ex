@@ -6,7 +6,7 @@ defmodule Juggler.UserController do
     SetResetPasswordToken, SendResetPasswordEmail, GetByResetPasswordToken,
     SetNewPassword}
 
-  plug Juggler.Plugs.Authenticated when action in [:update, :edit, :logout]
+  plug Juggler.Plugs.Authenticated when action in [:update, :edit, :logout, :search]
   plug Juggler.Plugs.NotAuthenticated when action in [:new, :create, :login, :authenticate, :forgot_password, :reset_password, :new_password, :set_password]
 
   def new(conn, _params) do
@@ -136,5 +136,13 @@ defmodule Juggler.UserController do
      |> put_flash(:error, result.error)
      |> redirect(to: user_path(conn, :forgot_password))
     end
+  end
+
+  def search(conn, %{"q" => email}) do
+    users = from(u in User,
+      where: like(u.email, ^"%#{email}%"),
+      limit: 10,
+      select: map(u, [:id, :name, :email])) |> Repo.all
+    render conn, "index.json", users: users
   end
 end

@@ -21,43 +21,14 @@ import "phoenix_html"
 import "semantic-ui/dist/semantic.min"
 
 // Vue
-import Vue from 'vuejs'
-import SSHKey from './components/ssh_key'
-Vue.config.debug = process.env.NODE_ENV !== 'production';
+import "./vue_app"
 
+// Socket
 import socket from "./socket"
 
-if (window.projectId !== undefined) {
-  new Vue({
-    el: '#ssh-keys-list',
-    components: {
-      'ssh-key': SSHKey
-    },
-    data: {
-      ssh_keys: [],
-      key_name: '',
-      key_data: ''
-    },
-    mounted () {
-      var context =  this;
-      $.get( "/api/projects/" + window.projectId + "/ssh_keys", function( data ) {
-        context.ssh_keys = data.ssh_keys
-      });
-    },
-    methods: {
-      addNewSSHKey: function (e) {
-        e.preventDefault();
-        var context = this;
-        $.post( "/api/projects/" + window.projectId + "/ssh_keys", { ssh_key: {name: this.key_name, data: this.key_data} }, function( data ) {
-            context.ssh_keys.push(data.ssh_key);
-        });
-        this.key_name = ''
-        this.key_data = ''
-      }
-    }
-  })
-}
+import "selectize"
 
+// Misc
 $(function() {
   $('.tabular.menu .item').tab();
 })
