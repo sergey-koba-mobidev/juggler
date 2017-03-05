@@ -4,7 +4,7 @@
       <h1 class="ui inverted header">
         JUGGLER
       </h1>
-      <h2>Productive Elixir and Docker based continious integration tool</h2>
+      <h2>Productive Elixir and Docker based continuous integration tool</h2>
       <a class="ui huge primary button" href="<%= user_path(@conn, :new) %>">Get Started <i class="right arrow icon"></i></a>
     </div>
 

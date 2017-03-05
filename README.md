@@ -1,7 +1,7 @@
 # Juggler
-A simple Elixir/Phoenix + Docker based continious integration tool.
+A simple Elixir/Phoenix + Docker based continuous integration tool.
 
-![Juggler example](http://s.pictub.club/2017/02/20/sKIyDI.png)
+![Juggler example](https://pictub.club/image/slLW55)
 
 ## Install
 - create `.env` file based on `sample.env`
