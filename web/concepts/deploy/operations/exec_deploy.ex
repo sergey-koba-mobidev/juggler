@@ -55,7 +55,9 @@ defmodule Juggler.Deploy.Operations.ExecDeploy do
   def stop_deploy_with_error(deploy_id, error_msg) do
     deploy = Deploy |> Repo.get!(deploy_id)
     ProcessOutput.call(deploy, "cmd_finished_error", %{error_msg: error_msg})
-    UpdateState.call(deploy, "error")
-    RemoveDockerContainer.call(deploy.container_id)
+    if deploy.state != "stopped" do
+      UpdateState.call(deploy, "error")
+      RemoveDockerContainer.call(deploy.container_id)
+    end
   end
 end

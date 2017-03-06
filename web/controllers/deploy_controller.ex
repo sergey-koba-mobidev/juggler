@@ -2,7 +2,7 @@ defmodule Juggler.DeployController do
   use Juggler.Web, :controller
 
   alias Juggler.{Build, Project, Deploy, Server}
-  alias Juggler.Deploy.Operations.{StartDeploy, RestartDeploy}
+  alias Juggler.Deploy.Operations.{StartDeploy, RestartDeploy, StopDeploy}
 
   plug Juggler.Plugs.Authenticated
   plug Juggler.Project.Plugs.Authenticate
@@ -51,7 +51,15 @@ defmodule Juggler.DeployController do
     deploy = Deploy |> Repo.get!(id)
     RestartDeploy.call(deploy)
     conn
-    |> put_flash(:info, "Build restarted successfully.")
+    |> put_flash(:info, "Deploy restarted successfully.")
+    |> redirect(to: project_deploy_path(conn, :show, deploy.project_id, deploy))
+  end
+
+  def stop(conn, %{"deploy_id" => id}) do
+    deploy = Deploy |> Repo.get!(id)
+    StopDeploy.call(deploy)
+    conn
+    |> put_flash(:info, "Deploy stopped successfully.")
     |> redirect(to: project_deploy_path(conn, :show, deploy.project_id, deploy))
   end
 end

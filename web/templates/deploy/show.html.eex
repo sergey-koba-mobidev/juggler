@@ -9,6 +9,9 @@
       <%= render "heading.html", conn: @conn, project: @deploy.project, deploy: @deploy %>
     </div>
     <div class="column">
+      <%= if @deploy.state == "running" do %>
+        <%= link raw("<i class='stop circle outline icon'></i> Stop"), to: project_deploy_deploy_path(@conn, :stop, @deploy.project_id, @deploy), class: "ui labeled icon red button", id: "stop-button" %>
+      <% end %>
       <%= link raw("<i class='refresh icon'></i> Restart"), to: project_deploy_deploy_path(@conn, :restart, @deploy.project_id, @deploy), class: "ui labeled icon primary button", id: "restart-button" %>
       <%= link raw("<i class='right arrow icon'></i> Back"), to: project_path(@conn, :show, @deploy.project_id), class: "ui right labeled icon button" %>
     </div>

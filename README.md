@@ -23,7 +23,6 @@ A simple Elixir/Phoenix + Docker based continuous integration tool.
 
 ## Roadmap
 - stream command output + timeout on user input
-- build/deploy stop button
 - organizations
 - project collaborators (plug, permissions, templates)
 - project channel to update build states and builds
