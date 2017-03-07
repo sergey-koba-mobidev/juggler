@@ -3,6 +3,9 @@ defmodule Juggler.ProjectController do
 
   alias Juggler.{Project, ProjectUser, Build, Server, Integration, Deploy}
   alias Juggler.Project.Operations.CreateProject
+  alias Juggler.Role.Operations.CheckProjectPermission
+
+  import Juggler.Role.Helpers
 
   plug Juggler.Plugs.Authenticated
   plug :authorize_project
@@ -82,7 +85,7 @@ defmodule Juggler.ProjectController do
     case conn.params do
       %{"id" => id} ->
         project = Repo.get!(Project, id)
-        if project.user_id == current_user(conn).id do
+        if CheckProjectPermission.call(project, current_user(conn), controller_to_string(conn.private.phoenix_controller), Atom.to_string(conn.private.phoenix_action)) do
           conn
         else
           conn |> put_flash(:info, "You can't access that page") |> redirect(to: project_path(conn, :index)) |> halt

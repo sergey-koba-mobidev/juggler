@@ -42,7 +42,7 @@ defmodule Juggler.Web do
                                   unwrap!: 1,
                                   success: 1,
                                   error: 1]
-      import Juggler.UserHelpers
+      import Juggler.User.Helpers
     end
   end
 
@@ -59,7 +59,7 @@ defmodule Juggler.Web do
       import Juggler.Router.Helpers
       import Juggler.ErrorHelpers
       import Juggler.Gettext
-      import Juggler.UserHelpers
+      import Juggler.User.Helpers
     end
   end
 

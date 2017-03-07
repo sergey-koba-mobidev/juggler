@@ -8,7 +8,7 @@ defmodule Juggler.Collaborator.Operations.AddCollaborator do
 
   def call(collaborator_params) do
     changeset = ProjectUser.changeset(%ProjectUser{}, collaborator_params)
-    if Enum.member?(["admin", "edit"], collaborator_params["role"]) do
+    if Enum.member?(["admin", "member"], collaborator_params["role"]) do
       case Repo.insert(changeset) do
         {:ok, collaborator} ->
           success(collaborator)

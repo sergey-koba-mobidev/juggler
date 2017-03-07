@@ -1,9 +1,11 @@
 defmodule Juggler.Project.Plugs.Authenticate do
-  alias Juggler.Repo
-  alias Juggler.Project
+  alias Juggler.{Repo, Project}
+  alias Juggler.Role.Operations.CheckProjectPermission
   import Plug.Conn
   import Juggler.Router.Helpers
-  import Juggler.UserHelpers
+  import Juggler.User.Helpers
+  import Juggler.Role.Helpers
+  require Logger
 
   def init(options) do
     options
@@ -14,10 +16,10 @@ defmodule Juggler.Project.Plugs.Authenticate do
     case conn.params do
       %{"project_id" => id} ->
         project = Project |> Repo.get!(id)
-        if project.user_id == current_user(conn).id do
+        if CheckProjectPermission.call(project, current_user(conn), controller_to_string(conn.private.phoenix_controller), Atom.to_string(conn.private.phoenix_action)) do
           conn
         else
-          conn |> Phoenix.Controller.put_flash(:info, "You can't access that page") |> Phoenix.Controller.redirect(to: not_logged_in_url) |> halt
+          conn |> Phoenix.Controller.put_flash(:info, "You can't access that page") |> Phoenix.Controller.redirect(to: project_path(conn, :index)) |> halt
         end
       _ ->
         conn

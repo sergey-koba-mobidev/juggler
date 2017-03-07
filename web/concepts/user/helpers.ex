@@ -1,4 +1,4 @@
-defmodule Juggler.UserHelpers do
+defmodule Juggler.User.Helpers do
   alias Juggler.User
   alias Juggler.Repo
 

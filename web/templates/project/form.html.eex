@@ -135,7 +135,7 @@
           <div class="field">
             <label>Role</label>
             <select v-model="user_role">
-              <option value="edit">Build and Deploy</option>
+              <option value="member">Member (Build and Deploy)</option>
               <option value="admin">Administrator</option>
             </select>
           </div>

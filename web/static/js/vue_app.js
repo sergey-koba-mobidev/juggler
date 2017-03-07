@@ -41,7 +41,7 @@ if (window.projectId !== undefined) {
     data: {
       collaborators: [],
       user_id: '',
-      user_role: 'edit',
+      user_role: 'member',
       select: null
     },
     mounted () {
