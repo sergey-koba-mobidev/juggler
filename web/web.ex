@@ -60,6 +60,7 @@ defmodule Juggler.Web do
       import Juggler.ErrorHelpers
       import Juggler.Gettext
       import Juggler.User.Helpers
+      import Juggler.Role.Helpers
     end
   end
 

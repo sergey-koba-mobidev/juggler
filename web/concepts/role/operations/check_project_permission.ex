@@ -1,15 +1,11 @@
 defmodule Juggler.Role.Operations.CheckProjectPermission do
   alias Juggler.{Repo, ProjectUser}
-  import Monad.Result, only: [success?: 1,
-                              unwrap!: 1,
-                              success: 1,
-                              error: 1]
   require Logger
 
   def call(project, user, controller, action) do
     project_user = Repo.get_by(ProjectUser, project_id: project.id, user_id: user.id)
     if project_user == nil do
-      error("No role for project")
+      false
     else
       module = Module.concat(Juggler.Role, String.capitalize(project_user.role))
       allows = apply(module, :allow, [])

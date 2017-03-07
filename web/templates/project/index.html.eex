@@ -11,13 +11,17 @@
         <%= link project.name, to: project_path(@conn, :show, project) %>
       </div>
       <div class="extra">
+        <%= if allowed?("delete", "project", project, current_user(@conn)) do %>
         <div class="ui right floated">
           <%= link raw("<i class='trash outline icon'></i> Delete"), to: project_path(@conn, :delete, project), method: :delete, data: [confirm: "Are you sure?"], class: "ui labeled icon red button" %>
         </div>
+        <% end %>
+        <%= if allowed?("delete", "edit", project, current_user(@conn)) do %>
         <a class="ui right floated labeled icon button" href="<%= project_path(@conn, :edit, project) %>">
           <i class="setting icon"></i>
           Settings
         </a>
+        <% end %>
       </div>
     </div>
   </div>
