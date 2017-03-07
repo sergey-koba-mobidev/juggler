@@ -1,13 +1,17 @@
 <h2><i class='server icon'></i> <%= @server.name %></h2>
 
 <div class="ui buttons">
-  <a class="ui left labeled icon button" href="<%= project_server_path(@conn, :edit, @project, @server) %>">
-    <i class="setting icon"></i>
-    Edit
-  </a>
-  <div class="ui left">
-    <%= link raw("<i class='trash outline icon'></i> Delete"), to: project_server_path(@conn, :delete, @project, @server), method: :delete, data: [confirm: "Are you sure?"], class: "ui labeled icon red button" %>
-  </div>
+  <%= if allowed?("edit", "server", @project, current_user(@conn)) do %>
+    <a class="ui left labeled icon button" href="<%= project_server_path(@conn, :edit, @project, @server) %>">
+      <i class="setting icon"></i>
+      Edit
+    </a>
+  <% end %>
+  <%= if allowed?("delete", "server", @project, current_user(@conn)) do %>
+    <div class="ui left">
+      <%= link raw("<i class='trash outline icon'></i> Delete"), to: project_server_path(@conn, :delete, @project, @server), method: :delete, data: [confirm: "Are you sure?"], class: "ui labeled icon red button" %>
+    </div>
+  <% end %>
 </div>
 
 <h3><i class='upload icon'></i> Deploys</h3>

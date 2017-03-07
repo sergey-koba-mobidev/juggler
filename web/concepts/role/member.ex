@@ -3,6 +3,7 @@ defmodule Juggler.Role.Member do
   def allow do
     [
       {"project", "show"},
+      {"server", "show"},
       {"build", ".*"},
       {"deploy", ".*"}
     ]

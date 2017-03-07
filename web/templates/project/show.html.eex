@@ -1,8 +1,10 @@
 <h2><%= @project.name %></h2>
 
 <div class="ui buttons">
-  <%= link raw("<i class='setting icon'></i> Settings"), to: project_path(@conn, :edit, @project), class: "ui labeled icon button" %>
-  <div class="or"></div>
+  <%= if allowed?("delete", "project", @project, current_user(@conn)) do %>
+    <%= link raw("<i class='setting icon'></i> Settings"), to: project_path(@conn, :edit, @project), class: "ui labeled icon button" %>
+    <div class="or"></div>
+  <% end %>
   <%= link raw("<i class='right arrow icon'></i> Back"), to: project_path(@conn, :index), class: "ui right labeled icon button" %>
 </div>
 
@@ -14,9 +16,11 @@
   <%= render Juggler.ServerView, "list_item.html", conn: @conn, project: @project, server: server %>
 <% end %>
 </div>
-<div class="ui buttons">
-  <%= link raw("<i class='plus icon'></i> New Server"), to: project_server_path(@conn, :new, @project), class: "ui labeled icon primary button" %>
-</div>
+<%= if allowed?("new", "server", @project, current_user(@conn)) do %>
+  <div class="ui buttons">
+    <%= link raw("<i class='plus icon'></i> New Server"), to: project_server_path(@conn, :new, @project), class: "ui labeled icon primary button" %>
+  </div>
+<% end %>
 
 <div class="ui divider"></div>
 
