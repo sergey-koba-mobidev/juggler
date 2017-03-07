@@ -11,6 +11,7 @@ defmodule Juggler.DeployView do
           "error"    -> raw("<i class='remove red icon'></i>")
           "running"  -> raw("<i class='refresh loading blue icon'></i>")
           "new"      -> raw("<i class='hourglass start icon'></i>")
+          "stopped"  -> raw("<i class='stop circle outline red icon'></i>")
     end
   end
 

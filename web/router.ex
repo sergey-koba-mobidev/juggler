@@ -21,9 +21,11 @@ defmodule Juggler.Router do
     resources "/projects", ProjectController do
       resources "/builds", BuildController, only: [:create, :show, :index] do
         get "/restart", BuildController, :restart
+        get "/stop", BuildController, :stop
       end
       resources "/deploys", DeployController, only: [:create, :show, :index] do
         get "/restart", DeployController, :restart
+        get "/stop", DeployController, :stop
       end
       resources "/servers", ServerController
       get  "/github", GithubController, :setup

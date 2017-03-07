@@ -90,12 +90,18 @@ if (buildId !== undefined || deployId !== undefined) {
   var cmdFinished = (payload, append = true) => {
     console.log("cmd_finished", payload)
     addMessageToOutput("<div class='ui small positive compact message'>Finished</div>", append)
-    $("#deploy-build").show();
+    if ($("#stop-button").length) {
+      $("#stop-button").hide()
+    }
+    $("#deploy-build").show()
   }
   var cmdFinishedError = (payload, append = true) => {
     console.log("cmd_finished_error", payload)
     addMessageToOutput("<div class='ui small negative compact message'>Finished with error: " + payload.error_msg + "</div>", append)
-    $("#restart-button").show();
+    if ($("#stop-button").length) {
+      $("#stop-button").hide()
+    }
+    $("#restart-button").show()
   }
 
   channel.on("cmd_start", cmdStart)

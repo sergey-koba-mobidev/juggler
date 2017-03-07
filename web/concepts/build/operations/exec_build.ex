@@ -54,7 +54,9 @@ defmodule Juggler.Build.Operations.ExecBuild do
   def stop_build_with_error(build_id, error_msg) do
     build = Build |> Repo.get!(build_id)
     ProcessOutput.call(build, "cmd_finished_error", %{error_msg: error_msg})
-    UpdateState.call(build, "error")
-    RemoveDockerContainer.call(build.container_id)
+    if build.state != "stopped" do
+      UpdateState.call(build, "error")
+      RemoveDockerContainer.call(build.container_id)
+    end
   end
 end
