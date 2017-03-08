@@ -104,11 +104,22 @@ if (buildId !== undefined || deployId !== undefined) {
     $("#restart-button").show()
   }
 
+  var cmdNewState = (payload) => {
+    $(".card .content .header i").replaceWith(payload.html)
+    if (payload.state == "running") {
+      $("#stop-button").show()
+    } else {
+      $("#stop-button").hide()
+    }
+  }
+
   channel.on("cmd_start", cmdStart)
   channel.on("cmd_data", cmdData)
   channel.on("cmd_result", cmdResult)
   channel.on("cmd_finished", cmdFinished)
   channel.on("cmd_finished_error", cmdFinishedError)
+  channel.on("new_deploy_state", cmdNewState)
+  channel.on("new_build_state", cmdNewState)
 
   channel.on("cmd_old", ({outputs}) => {
     console.log("cmd_old", outputs)

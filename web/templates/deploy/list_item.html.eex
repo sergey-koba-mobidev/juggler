@@ -5,11 +5,11 @@
   <div class="middle aligned content">
     <div class="header">
       <%= icon(@deploy) %>
-      <%= link @deploy.key, to: project_deploy_path(@conn, :show, @project, @deploy) %>
+      <%= link @deploy.key, to: project_deploy_path(Juggler.Endpoint, :show, @project, @deploy) %>
     </div>
     <div class="meta">
       <span><%= time_ago(@deploy) %></span>
-      <span><i class='server icon'></i> <%= server(@conn, @deploy) %></span>
+      <span><i class='server icon'></i> <%= server(Juggler.Endpoint, @deploy) %></span>
       <span><%= duration(@deploy) %></span>
     </div>
   </div>

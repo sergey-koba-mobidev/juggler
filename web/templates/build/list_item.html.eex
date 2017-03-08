@@ -5,7 +5,7 @@
   <div class="middle aligned content">
     <div class="header">
       <%= icon(@build) %>
-      <%= link @build.key, to: project_build_path(@conn, :show, @project, @build) %>
+      <%= link @build.key, to: project_build_path(Juggler.Endpoint, :show, @project, @build) %>
     </div>
     <div class="meta">
       <span><%= time_ago(@build) %></span>

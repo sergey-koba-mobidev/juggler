@@ -12,7 +12,7 @@ defmodule Juggler.Build.Operations.ExecBuild do
                               error: 1]
 
   def call(build_id) do
-    # try do
+    try do
       build = Build |> Repo.get!(build_id)
       result = success(build)
                ~>> fn _ -> BuildDockerImage.call(build.project_id) end
@@ -28,9 +28,9 @@ defmodule Juggler.Build.Operations.ExecBuild do
       else
         stop_build_with_error(build_id, result.error)
       end
-    # rescue
-    #   e -> stop_build_with_error(build_id, inspect(e))
-    # end
+    rescue
+      e -> stop_build_with_error(build_id, inspect(e))
+    end
   end
 
   def inject_ssh_keys(build) do

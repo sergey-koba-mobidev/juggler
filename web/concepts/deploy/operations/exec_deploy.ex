@@ -12,7 +12,7 @@ defmodule Juggler.Deploy.Operations.ExecDeploy do
                               error: 1]
 
   def call(deploy_id) do
-    # try do
+    try do
       deploy = Deploy |> Repo.get!(deploy_id)
       result = success(deploy)
                ~>> fn _ -> BuildDockerImage.call(deploy.project_id) end
@@ -28,9 +28,9 @@ defmodule Juggler.Deploy.Operations.ExecDeploy do
       else
         stop_deploy_with_error(deploy_id, result.error)
       end
-    # rescue
-    #   e -> stop_deploy_with_error(deploy_id, inspect(e))
-    # end
+    rescue
+      e -> stop_deploy_with_error(deploy_id, inspect(e))
+    end
   end
 
   def inject_ssh_keys(deploy) do

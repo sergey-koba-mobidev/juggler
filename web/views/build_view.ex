@@ -6,11 +6,11 @@ defmodule Juggler.BuildView do
 
   def icon(build) do
     case build.state do
-          "finished" -> raw("<i class='checkmark green icon'></i>")
-          "error"    -> raw("<i class='remove red icon'></i>")
-          "running"  -> raw("<i class='refresh loading blue icon'></i>")
-          "new"      -> raw("<i class='hourglass start icon'></i>")
-          "stopped"  -> raw("<i class='stop circle outline red icon'></i>")
+      "finished" -> raw("<i class='checkmark green icon' title='finished'></i>")
+      "error"    -> raw("<i class='remove red icon' title='error'></i>")
+      "running"  -> raw("<i class='refresh loading blue icon' title='running'></i>")
+      "new"      -> raw("<i class='hourglass start icon' title='new'></i>")
+      "stopped"  -> raw("<i class='stop circle outline red icon' title='stopped'></i>")
     end
   end
 

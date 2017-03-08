@@ -33,3 +33,4 @@ A simple Elixir/Phoenix + Docker based continuous integration tool.
 - tests
 - email notifications about failed builds/deploys
 - notifications settings
+- build and deploys to vue js
