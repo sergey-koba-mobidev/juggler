@@ -27,8 +27,8 @@ A simple Elixir/Phoenix + Docker based continuous integration tool.
 - faq and terms pages
 
 ## Roadmap
-- organizations
 - integrations (notification to slack, hipchat)
+- organizations
 - tests
 - email notifications about failed builds/deploys
 - notifications settings
