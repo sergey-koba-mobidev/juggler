@@ -23,8 +23,8 @@ defmodule Juggler do
     opts = [strategy: :one_for_one, name: Juggler.Supervisor]
     res = Supervisor.start_link(children, opts)
 
-    for project <- Juggler.Repo.all(Juggler.Project) do
-      Verk.add_queue(String.to_atom("project_" <> Integer.to_string(project.id)), 1)
+    for user <- Juggler.Repo.all(Juggler.User) do
+      Juggler.User.Operations.CreateQueue.call(user)
     end
 
     res

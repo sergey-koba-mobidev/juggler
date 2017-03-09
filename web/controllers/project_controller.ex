@@ -27,14 +27,22 @@ defmodule Juggler.ProjectController do
   end
 
   def create(conn, %{"project" => project_params}) do
-    result = CreateProject.call(Map.merge(project_params, %{"user_id" => current_user(conn).id}))
-
-    if success?(result) do
+    user = current_user(conn)
+    project_count = Repo.one(from p in Project, where: p.user_id == ^user.id, select: count(p.id))
+    if project_count == Juggler.Subscription.Operations.GetProjectsCount.call(user) do
       conn
-      |> put_flash(:info, "Project created successfully.")
-      |> redirect(to: project_path(conn, :show, result.value))
+      |> put_flash(:error, "Max Projects count reached according to your Subscription plan")
+      |> redirect(to: project_path(conn, :index))
     else
-      render(conn, "new.html", changeset: result.error)
+      result = CreateProject.call(Map.merge(project_params, %{"user_id" => user.id}))
+
+      if success?(result) do
+        conn
+        |> put_flash(:info, "Project created successfully.")
+        |> redirect(to: project_path(conn, :show, result.value))
+      else
+        render(conn, "new.html", changeset: result.error)
+      end
     end
   end
 
@@ -71,9 +79,6 @@ defmodule Juggler.ProjectController do
   def delete(conn, %{"id" => id}) do
     project = Repo.get!(Project, id)
 
-    Verk.remove_queue(String.to_atom("project_" <> id))
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
     Repo.delete!(project)
 
     conn

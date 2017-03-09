@@ -4,7 +4,7 @@ defmodule Juggler.UserController do
   alias Juggler.User.Operations.{ValidateUserExists, ValidatePassword,
     CreateSession, DestroySession, EncryptPasswordParam, Create, Update,
     SetResetPasswordToken, SendResetPasswordEmail, GetByResetPasswordToken,
-    SetNewPassword}
+    SetNewPassword, SubscribeToPlan, CreateQueue}
 
   plug Juggler.Plugs.Authenticated when action in [:update, :edit, :logout, :search]
   plug Juggler.Plugs.NotAuthenticated when action in [:new, :create, :login, :authenticate, :forgot_password, :reset_password, :new_password, :set_password]
@@ -18,6 +18,8 @@ defmodule Juggler.UserController do
     result = success(user_params)
              ~>> fn user_params -> EncryptPasswordParam.call(user_params) end
              ~>> fn user_params -> Create.call(user_params) end
+             ~>> fn user -> SubscribeToPlan.call(user, "free") end
+             ~>> fn user -> CreateQueue.call(user) end
 
     if success?(result) do
       conn

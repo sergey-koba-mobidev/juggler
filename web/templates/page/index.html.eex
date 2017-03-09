@@ -5,7 +5,11 @@
         JUGGLER
       </h1>
       <h2>Productive Elixir and Docker based continuous integration tool</h2>
+      <%= if is_logged_in(@conn) do %>
+      <a class="ui huge primary button" href="<%= project_path(@conn, :new) %>">New Project <i class="right arrow icon"></i></a>
+      <% else %>
       <a class="ui huge primary button" href="<%= user_path(@conn, :new) %>">Get Started <i class="right arrow icon"></i></a>
+      <% end %>
     </div>
 
 </div>

@@ -18,6 +18,11 @@ defmodule Juggler.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/suspended", PageController, :subscription_suspended
+    get "/plans", PageController, :plans
+    get "/about", PageController, :about
+    get "/terms", PageController, :terms
+
     resources "/projects", ProjectController do
       resources "/builds", BuildController, only: [:create, :show, :index] do
         get "/restart", BuildController, :restart

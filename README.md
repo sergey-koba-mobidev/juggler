@@ -23,7 +23,6 @@ A simple Elixir/Phoenix + Docker based continuous integration tool.
 
 ## Alpha Roadmap
 - stream command output + timeout on user input
-- free and unlimited plans
 - faq and terms pages
 
 ## Roadmap

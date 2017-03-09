@@ -10,7 +10,6 @@ defmodule Juggler.Project.Operations.CreateProject do
 
     case Repo.insert(changeset) do
       {:ok, project} ->
-        Verk.add_queue(String.to_atom("project_" <> Integer.to_string(project.id)), 1)
         changeset_owner = ProjectUser.changeset(%ProjectUser{}, %{
           "user_id" => project_params["user_id"],
           "project_id" => project.id,
