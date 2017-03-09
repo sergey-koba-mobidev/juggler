@@ -1,0 +1,28 @@
+<div class="ui circular segment">
+  <h2 class="ui header">
+    Free
+    <div class="sub header"><%= Juggler.Plan.Free.projects_count %> projects</div>
+    <div class="sub header"><%= Juggler.Plan.Free.workers_count %> worker</div>
+  </h2>
+</div>
+<div class="ui circular segment">
+  <h2 class="ui header">
+    Basic
+    <div class="sub header"><b><%= Juggler.Plan.Basic.projects_count %></b> projects</div>
+    <div class="sub header"><b><%= Juggler.Plan.Basic.workers_count %></b> workers</div>
+  </h2>
+</div>
+<div class="ui circular segment">
+  <h2 class="ui header">
+    Premium
+    <div class="sub header"><b><%= Juggler.Plan.Premium.projects_count %></b> projects</div>
+    <div class="sub header"><b><%= Juggler.Plan.Premium.workers_count %></b> workers</div>
+  </h2>
+</div>
+<div class="ui inverted circular segment">
+  <h2 class="ui inverted header">
+    VIP
+    <div class="sub header"><b><%= Juggler.Plan.VIP.projects_count %></b> projects</div>
+    <div class="sub header"><b><%= Juggler.Plan.VIP.workers_count %></b> workers</div>
+  </h2>
+</div>
