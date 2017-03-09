@@ -1,3 +1,7 @@
+<script type="text/javascript">
+  window.projectId = <%= @project.id %>;
+</script>
+
 <h2><%= @project.name %></h2>
 
 <div class="ui buttons">

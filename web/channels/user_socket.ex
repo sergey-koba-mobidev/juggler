@@ -4,6 +4,7 @@ defmodule Juggler.UserSocket do
   ## Channels
   channel "build:*", Juggler.BuildChannel
   channel "deploy:*", Juggler.DeployChannel
+  channel "project:*", Juggler.ProjectChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

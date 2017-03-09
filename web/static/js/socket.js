@@ -58,7 +58,20 @@ socket.connect()
 let outputCont = $('#output')
 let buildId = window.buildId
 let deployId = window.deployId
+let projectId = window.projectId
 
+// Project channel
+if (projectId !== undefined) {
+  let channel = socket.channel("project:" + projectId, {})
+
+  channel.join()
+    .receive("ok", resp => { console.log("Joined successfully", resp) })
+    .receive("error", resp => { console.log("Unable to join", resp) })
+
+  
+}
+
+// Build and Deploy channels
 if (buildId !== undefined || deployId !== undefined) {
   let channelName = (buildId !== undefined) ? ("build:" + buildId) : ("deploy:" + deployId)
   let channel = socket.channel(channelName, {})

@@ -1,4 +1,4 @@
-<div class="item">
+<div class="item" id="build-list-item-<%= @build.id %>">
   <div class="ui mini image">
       <img src="<%= avatar_url(@build) %>">
   </div>
