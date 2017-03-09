@@ -33,7 +33,7 @@
 
     <div class="column">
       <h3><i class='cubes icon'></i> Builds</h3>
-      <div class="ui items">
+      <div class="ui items" id="builds">
         <%= for build <- @builds do %>
           <%= render Juggler.BuildView, "list_item.html", conn: @conn, project: @project, build: build %>
         <% end %>
@@ -48,7 +48,7 @@
 
     <div class="column">
       <h3><i class='upload icon'></i> Deploys</h3>
-      <div class="ui items">
+      <div class="ui items" id="deploys">
         <%= for deploy <- @deploys do %>
           <%= render Juggler.DeployView, "list_item.html", conn: @conn, project: @project, deploy: deploy %>
         <% end %>

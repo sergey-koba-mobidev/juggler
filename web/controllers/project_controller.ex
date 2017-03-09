@@ -40,8 +40,8 @@ defmodule Juggler.ProjectController do
 
   def show(conn, %{"id" => id}) do
     project = Project |> Repo.get!(id)
-    builds = from(b in Build, where: b.project_id == ^id, limit: 5) |> Repo.all
-    deploys = from(d in Deploy, where: d.project_id == ^id, limit: 5) |> Repo.all
+    builds = from(b in Build, where: b.project_id == ^id, order_by: [desc: b.inserted_at], limit: 5) |> Repo.all
+    deploys = from(d in Deploy, where: d.project_id == ^id, order_by: [desc: d.inserted_at], limit: 5) |> Repo.all
     servers = from(s in Server, where: s.project_id == ^id) |> Repo.all
     build_changeset = Build.changeset(%Build{})
     render(conn, "show.html", project: project, build_changeset: build_changeset, builds: builds, servers: servers, deploys: deploys)

@@ -37,7 +37,7 @@ defmodule Juggler.DeployController do
   def index(conn, params = %{"project_id" => project_id}) do
     project = Project |> Repo.get!(project_id)
     {deploys, kerosene} =
-      from(d in Deploy, where: d.project_id == ^project_id)
+      from(d in Deploy, where: d.project_id == ^project_id, order_by: [desc: d.inserted_at])
       |> Repo.paginate(params)
     render(conn, "index.html", deploys: deploys, kerosene: kerosene, project: project)
   end

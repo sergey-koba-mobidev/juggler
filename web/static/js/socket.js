@@ -68,7 +68,20 @@ if (projectId !== undefined) {
     .receive("ok", resp => { console.log("Joined successfully", resp) })
     .receive("error", resp => { console.log("Unable to join", resp) })
 
-  
+    var newDeployState = (payload) => {
+      $("#deploy-list-item-" + payload.id + " .content .header i").replaceWith(payload.html)
+    }
+    var newBuildState = (payload) => {
+      $("#build-list-item-" + payload.id + " .content .header i").replaceWith(payload.html)
+    }
+    var newBuild = (payload) => {
+      $("#builds").prepend(payload.html)
+    }
+
+    channel.on("new_deploy_state", newDeployState)
+    channel.on("new_build_state", newBuildState)
+    channel.on("new_build", newBuild)
+    //channel.on("new_deploy", newDeploy)
 }
 
 // Build and Deploy channels

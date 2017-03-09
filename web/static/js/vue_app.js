@@ -3,7 +3,7 @@ import SSHKey from './components/ssh_key'
 import Collaborator from './components/collaborator'
 Vue.config.debug = process.env.NODE_ENV !== 'production';
 
-if (window.projectId !== undefined) {
+if (window.projectId !== undefined && $('#ssh-keys-list').length > 0) {
   new Vue({
     el: '#ssh-keys-list',
     components: {
