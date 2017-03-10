@@ -2,6 +2,7 @@ defmodule Juggler.Build.Operations.ExecCommands do
   require Logger
   alias Juggler.Build.Operations.ProcessOutput
   alias Porcelain.Result
+  alias Porcelain.Process, as: Proc
   import Monad.Result, only: [success?: 1,
                               unwrap!: 1,
                               success: 1,
@@ -36,10 +37,12 @@ defmodule Juggler.Build.Operations.ExecCommands do
   def exec_command(build, command) do
     Logger.info " ---> Executing build " <> Integer.to_string(build.id) <> " cmd: " <> inspect(command)
     ProcessOutput.call(build, "cmd_start", %{cmd: command})
-    # TODO: refactor to streams
+
     docker_command = "docker exec " <> build.container_id <> " " <> command
-    %Result{out: output, status: status} = Porcelain.shell(docker_command, err: :out)
-    ProcessOutput.call(build, "cmd_data", %{output: output, cmd: command})
+    proc = %Proc{out: outstream} = Porcelain.spawn_shell(docker_command, out: :stream, err: :out, result: :keep)
+    Enum.each(outstream, fn(output) -> ProcessOutput.call(build, "cmd_data", %{output: output, cmd: command}) end)
+    {:ok, %Result{status: status}} = Proc.await(proc, Integer.parse(System.get_env("COMMAND_TIMEOUT")))
+
     ProcessOutput.call(build, "cmd_result", %{status: status, cmd: command})
     Logger.info " ---> Finished cmd " <> Integer.to_string(build.id) <> " cmd: " <> inspect(command) <> " result: " <> Integer.to_string(status)
     {:ok, status}

@@ -16,6 +16,7 @@ defmodule Juggler.BuildChannel do
     #outputs = Repo.all(assoc(build, :build_outputs))
     outputs = Repo.all(
       from o in assoc(build, :build_outputs),
+        order_by: [desc: o.inserted_at],
         select: %{id: o.id, event: o.event, payload: o.payload}
     )
     Logger.info "----- OUTPUTS!!! " <> inspect(outputs)

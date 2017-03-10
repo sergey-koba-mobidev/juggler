@@ -15,6 +15,7 @@ defmodule Juggler.DeployChannel do
     deploy = Repo.get(Deploy, socket.assigns.deploy_id)
     outputs = Repo.all(
       from o in assoc(deploy, :deploy_outputs),
+        order_by: [desc: o.inserted_at],
         select: %{id: o.id, event: o.event, payload: o.payload}
     )
     Logger.info "----- OUTPUTS!!! " <> inspect(outputs)

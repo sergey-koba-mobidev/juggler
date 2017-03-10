@@ -22,7 +22,6 @@ A simple Elixir/Phoenix + Docker based continuous integration tool.
 - To see queues and jobs go to [http://localhost:4000/verk/queues](http://localhost:4000/verk/queues)
 
 ## Alpha Roadmap
-- stream command output + timeout on user input
 - faq and terms pages
 
 ## Roadmap
