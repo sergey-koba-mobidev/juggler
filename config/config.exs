@@ -17,10 +17,16 @@ config :juggler, Juggler.Endpoint,
   pubsub: [name: Juggler.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+if (System.get_env("SMTP_PORT") == nil) do
+  smtp_port = 0
+else
+  smtp_port = elem(Integer.parse(System.get_env("SMTP_PORT")), 0)
+end
+
 config :juggler, Juggler.Mailer,
   adapter: Bamboo.SMTPAdapter,
   server: System.get_env("SMTP_SERVER"),
-  port: elem(Integer.parse(System.get_env("SMTP_PORT")), 0),
+  port: smtp_port,
   username: System.get_env("SMTP_USERNAME"),
   password: System.get_env("SMTP_PASSWORD"),
   tls: :if_available, # can be `:always` or `:never`
