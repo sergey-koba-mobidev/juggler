@@ -9,6 +9,9 @@
 <a class="<%= page_active_class(@conn, page_path(@conn, :plans)) %> item" href="<%= page_path(@conn, :plans) %>">Plans</a>
 <a class="<%= page_active_class(@conn, page_path(@conn, :about)) %> item" href="<%= page_path(@conn, :about) %>">About</a>
 <a class="<%= page_active_class(@conn, page_path(@conn, :support)) %> item" href="<%= page_path(@conn, :support) %>">Support</a>
+<div class="item">
+  <a class="ui teal label" href="<%= page_path(@conn, :terms) %>">ALPHA</a>
+</div>
 <div class="right menu">
   <%= if is_logged_in(@conn) do %>
   <div class="item">

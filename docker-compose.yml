@@ -5,7 +5,7 @@ services:
     env_file: .env
     command: mix phoenix.server
     environment:
-      - MIX_ENV=dev
+      - MIX_ENV=prod
       - PORT=4000
       - PG_HOST=postgres
       - PG_USERNAME=postgres

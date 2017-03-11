@@ -13,6 +13,8 @@ services:
       - postgres
 
   web:
+    environment:
+      - MIX_ENV=dev
     links:
       - mailcatcher
 
