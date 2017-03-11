@@ -33,8 +33,8 @@ RUN mix deps.get --only prod
 RUN MIX_ENV=prod mix compile
 
 # npm
-RUN npm install
+RUN echo -ne '\n \n \3033[1B\nsemantic/\n' | (npm install)
 
 # Compile assets
-RUN brunch build --production
+RUN node node_modules/brunch/bin/brunch build --production
 RUN MIX_ENV=prod mix phoenix.digest
