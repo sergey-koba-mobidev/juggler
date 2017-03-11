@@ -28,9 +28,9 @@ WORKDIR /app
 
 # Production
 # Initial setup
-$ mix deps.get --only prod
-$ MIX_ENV=prod mix compile
+RUN mix deps.get --only prod
+RUN MIX_ENV=prod mix compile
 
 # Compile assets
-$ brunch build --production
-$ MIX_ENV=prod mix phoenix.digest
+RUN brunch build --production
+RUN MIX_ENV=prod mix phoenix.digest
