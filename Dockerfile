@@ -27,6 +27,8 @@ EXPOSE 4000
 WORKDIR /app
 
 # Production
+RUN npm install
+
 # Initial setup
 RUN mix deps.get --only prod
 RUN MIX_ENV=prod mix compile

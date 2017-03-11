@@ -1,8 +1,9 @@
 version: '2'
 services:
   web:
-    build: .
-    env_file: .env
+    image: sergkoba/juggler:latest
+    labels:
+      io.rancher.container.pull_image: always
     command: mix phoenix.server
     environment:
       - MIX_ENV=prod
@@ -12,8 +13,6 @@ services:
     volumes:
       - .:/app
       - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - "4000:4000"
     links:
       - postgres
       - redis

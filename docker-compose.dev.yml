@@ -13,10 +13,14 @@ services:
       - postgres
 
   web:
+    build: .
+    env_file: .env
     environment:
       - MIX_ENV=dev
     links:
       - mailcatcher
+    ports:
+      - "4000:4000"
 
   mailcatcher:
     image: schickling/mailcatcher
