@@ -13,11 +13,20 @@ use Mix.Config
 # which you typically run after static files are built.
 config :juggler, Juggler.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [host: "example.com", port: 80],
+  url: [host: "juggler-ci.com", port: 80],
   cache_static_manifest: "priv/static/manifest.json"
 
 # Do not print debug messages in production
 config :logger, level: :info
+
+# Configure your database
+config :juggler, Juggler.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "postgres",
+  database: "juggler_dev",
+  hostname: "postgres",
+  pool_size: 10
 
 # ## SSL Support
 #

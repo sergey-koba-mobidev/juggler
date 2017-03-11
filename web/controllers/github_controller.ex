@@ -15,15 +15,15 @@ defmodule Juggler.GithubController do
   plug Juggler.Project.Plugs.Authenticate when not action in [:webhook]
 
   def setup(conn, %{"project_id" => project_id}) do
-    callback_url = "http://04dc71bf.ngrok.io" <> project_github_path(conn, :callback, project_id)
-    #callback_url = project_github_url(conn, :callback, project_id)
+    #callback_url = "http://04dc71bf.ngrok.io" <> project_github_path(conn, :callback, project_id)
+    callback_url = project_github_url(conn, :callback, project_id)
     redirect(conn, external: GetAuthorizeUrl.call(callback_url).value)
   end
 
   def callback(conn, %{"project_id" => project_id, "code" => code}) do
     # TODO: refactor to monad
-    callback_url = "http://04dc71bf.ngrok.io" <> project_github_path(conn, :callback, project_id)
-    #callback_url = project_github_url(conn, :callback, project_id)
+    #callback_url = "http://04dc71bf.ngrok.io" <> project_github_path(conn, :callback, project_id)
+    callback_url = project_github_url(conn, :callback, project_id)
 
     result = ProcessCallback.call(project_id, callback_url, code)
     case success?(result) do
@@ -56,8 +56,8 @@ defmodule Juggler.GithubController do
 
   def set_repo(conn, %{"project_id" => project_id, "set_project" => %{"owner" => owner, "repo" => repo}}) do
     integration = Repo.get_by(Integration, project_id: project_id, key: "github")
-    webhook_url = "http://04dc71bf.ngrok.io" <> project_github_path(conn, :webhook, project_id)
-    #webhook_url = project_github_url(conn, :webhook, project_id)
+    #webhook_url = "http://04dc71bf.ngrok.io" <> project_github_path(conn, :webhook, project_id)
+    webhook_url = project_github_url(conn, :webhook, project_id)
 
     result = success(nil)
               ~>> fn _ -> SetRepo.call(owner, repo, integration) end
