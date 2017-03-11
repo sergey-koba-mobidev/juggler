@@ -21,6 +21,7 @@ defmodule Juggler.Router do
     get "/suspended", PageController, :subscription_suspended
     get "/plans", PageController, :plans
     get "/about", PageController, :about
+    get "/support", PageController, :support
     get "/terms", PageController, :terms
 
     resources "/projects", ProjectController do

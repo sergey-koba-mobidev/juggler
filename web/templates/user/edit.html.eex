@@ -1,33 +1,49 @@
 <h2>Your Profile</h2>
-
-<%= form_for @changeset, user_path(@conn, :update, current_user(@conn)), [class: "ui form"], fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="ui negative message">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+<div class="ui grid">
+  <div class="four wide column">
+    <div class="ui tabular vertical menu">
+      <a class="item active" data-tab="general"><i class="options icon"></i> General</a>
+      <a class="item" data-tab="subscription"><i class="payment icon"></i> Subscription</a>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= label f, :name %>
-    <%= text_input f, :name %>
-    <%= error_tag f, :name %>
   </div>
+  <div class="twelve wide column">
+    <div class="ui tab active" data-tab="general">
+      <%= form_for @changeset, user_path(@conn, :update, current_user(@conn)), [class: "ui form"], fn f -> %>
+        <%= if @changeset.action do %>
+          <div class="ui negative message">
+            <p>Oops, something went wrong! Please check the errors below.</p>
+          </div>
+        <% end %>
 
-  <div class="field">
-    <%= label f, :email %>
-    <%= text_input f, :email, readonly: true, disabled: true %>
-    <%= error_tag f, :email %>
-  </div>
+        <div class="field">
+          <%= label f, :name %>
+          <%= text_input f, :name %>
+          <%= error_tag f, :name %>
+        </div>
 
-  <div class="field">
-    <%= label f, :password %>
-    <%= password_input f, :password %>
-    <%= error_tag f, :encrypted_password %>
-  </div>
+        <div class="field">
+          <%= label f, :email %>
+          <%= text_input f, :email, readonly: true, disabled: true %>
+          <%= error_tag f, :email %>
+        </div>
 
-  <div class="ui buttons">
-    <%= submit raw("<i class='user icon'></i> Update"), class: "ui labeled icon primary button" %>
-    <div class="or"></div>
-    <%= link raw("<i class='right arrow icon'></i> Back"), to: "/", class: "ui right labeled icon button" %>
+        <div class="field">
+          <%= label f, :password %>
+          <%= password_input f, :password %>
+          <%= error_tag f, :encrypted_password %>
+        </div>
+
+        <div class="ui buttons">
+          <%= submit raw("<i class='user icon'></i> Update"), class: "ui labeled icon primary button" %>
+          <div class="or"></div>
+          <%= link raw("<i class='right arrow icon'></i> Back"), to: "/", class: "ui right labeled icon button" %>
+        </div>
+      <% end %>
+    </div>
+    <div class="ui tab" data-tab="subscription">
+      <div class="ui info message">
+        <p>You are subscribed to a <b><a href="<%= page_path(@conn, :plans) %>"><%= plan_name(current_user(@conn)) %></a></b> plan</p>
+      </div>
+    </div>
   </div>
-<% end %>
+</div>

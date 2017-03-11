@@ -16,6 +16,9 @@ defmodule Juggler.PageController do
   def about(conn, _params) do
     render conn, "about.html"
   end
+  def support(conn, _params) do
+    render conn, "support.html"
+  end
 
   def terms(conn, _params) do
     render conn, "terms.html"

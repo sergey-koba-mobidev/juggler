@@ -1,6 +1,7 @@
 defmodule Juggler.UserView do
   use Juggler.Web, :view
   import Exgravatar
+  alias Juggler.{Repo, Subscription}
 
   def render("index.json", %{users: users}) do
     %{
@@ -21,5 +22,10 @@ defmodule Juggler.UserView do
       email: user.email,
       avatar_url: gravatar_url(user.email)
     }
+  end
+
+  def plan_name(user) do
+    subscription = Repo.get_by!(Subscription, user_id: user.id)
+    String.capitalize(subscription.plan)
   end
 end

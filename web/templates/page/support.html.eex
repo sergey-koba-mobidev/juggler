@@ -1,0 +1,8 @@
+<h3 class="ui dividing header">
+  Support
+</h3>
+<p>If you have a problem, question or feedback please follow this link to send us a message</p>
+<a class="ui right labeled positive icon button" href="https://github.com/sergey-koba-mobidev/juggler/issues/new" target="_blank">
+  <i class="add icon"></i>
+  New Issue 
+</a>
