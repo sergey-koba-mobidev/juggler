@@ -33,7 +33,7 @@ RUN mix deps.get --only prod
 RUN MIX_ENV=prod mix compile
 
 # npm
-RUN echo -ne '\n \n \3033[1B\nsemantic/\n' | (npm install)
+RUN npm install
 
 # Compile assets
 RUN node node_modules/brunch/bin/brunch build --production
