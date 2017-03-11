@@ -22,7 +22,7 @@
     <%= password_input f, :password %>
     <%= error_tag f, :encrypted_password %>
   </div>
-
+  <p>By pressing "Sign Up" you agree with <%= link "Terms of Service", to: page_path(@conn, :terms) %></p>
   <div class="ui buttons">
     <%= submit raw("<i class='add user icon'></i> Sign up"), class: "ui labeled icon primary button" %>
     <div class="or"></div>

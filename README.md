@@ -22,7 +22,7 @@ A simple Elixir/Phoenix + Docker based continuous integration tool.
 - To see queues and jobs go to [http://localhost:4000/verk/queues](http://localhost:4000/verk/queues)
 
 ## Alpha Roadmap
-- faq and terms pages
+- about page
 
 ## Roadmap
 - integrations (notification to slack, hipchat)
