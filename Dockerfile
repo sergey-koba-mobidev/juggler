@@ -18,5 +18,19 @@ RUN mix archive.install --force https://github.com/phoenixframework/archives/raw
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
 RUN apt-get install -y -q nodejs
 
+# Copy app code
+COPY . /app
+
+EXPOSE 4000
+
 # Set /app as workdir
 WORKDIR /app
+
+# Production
+# Initial setup
+$ mix deps.get --only prod
+$ MIX_ENV=prod mix compile
+
+# Compile assets
+$ brunch build --production
+$ MIX_ENV=prod mix phoenix.digest
