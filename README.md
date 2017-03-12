@@ -22,6 +22,8 @@ A simple Elixir/Phoenix + Docker based continuous integration tool.
 - To see queues and jobs go to [http://localhost:4000/verk/queues](http://localhost:4000/verk/queues)
 
 ## Alpha Roadmap
+- first image download/build fails the build
+- timeout not working well
 - about page
 
 ## Beta Roadmap
@@ -31,6 +33,7 @@ A simple Elixir/Phoenix + Docker based continuous integration tool.
 - Scalability - decouple workers from web
 - SSL
 - Custom git server
+- Speed up containers
 
 ## Roadmap
 - organizations
@@ -38,3 +41,5 @@ A simple Elixir/Phoenix + Docker based continuous integration tool.
 - email notifications about failed builds/deploys
 - notifications settings
 - build and deploys to vue js
+- predefined containers to user
+- smart pipeline
