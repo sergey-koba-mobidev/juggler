@@ -41,7 +41,7 @@ defmodule Juggler.Build.Operations.ExecCommands do
     docker_command = "docker exec " <> build.container_id <> " " <> command
     proc = %Proc{out: outstream} = Porcelain.spawn_shell(docker_command, out: :stream, err: :out, result: :keep)
     Enum.each(outstream, fn(output) -> ProcessOutput.call(build, "cmd_data", %{output: output, cmd: command}) end)
-    {:ok, %Result{status: status}} = Proc.await(proc, Integer.parse(System.get_env("COMMAND_TIMEOUT")))
+    {:ok, %Result{status: status}} = Proc.await(proc, elem(Integer.parse(System.get_env("COMMAND_TIMEOUT")),0))
 
     ProcessOutput.call(build, "cmd_result", %{status: status, cmd: command})
     Logger.info " ---> Finished cmd " <> Integer.to_string(build.id) <> " cmd: " <> inspect(command) <> " result: " <> Integer.to_string(status)

@@ -4,6 +4,7 @@ services:
     image: sergkoba/juggler:latest
     labels:
       io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: juggler=true
     command: mix phoenix.server
     environment:
       - MIX_ENV=prod
@@ -11,7 +12,6 @@ services:
       - PG_HOST=postgres
       - PG_USERNAME=postgres
     volumes:
-      - .:/app
       - /var/run/docker.sock:/var/run/docker.sock
     links:
       - postgres
@@ -19,12 +19,25 @@ services:
 
   postgres:
     image: postgres:latest
+    labels:
+      io.rancher.scheduler.affinity:host_label: juggler=true
     ports:
       - "5432"
 
   redis:
     image: redis:2.8
+    labels:
+      io.rancher.scheduler.affinity:host_label: juggler=true
     volumes:
       - /data
     ports:
       - "6379"
+
+  lb:
+    ports:
+      - 80:80/tcp
+    labels:
+      io.rancher.container.create_agent: 'true'
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.scheduler.affinity:host_label: juggler=true
+    image: rancher/lb-service-haproxy:v0.6.2

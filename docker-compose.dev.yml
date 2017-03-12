@@ -17,6 +17,8 @@ services:
     env_file: .env
     environment:
       - MIX_ENV=dev
+    volumes:
+      - .:/app
     links:
       - mailcatcher
     ports:

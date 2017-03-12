@@ -1,0 +1,26 @@
+version: '2'
+services:
+  lb:
+    scale: 1
+    lb_config:
+      certs: []
+      port_rules:
+      - hostname: 'juggler-ci.com'
+        path: ''
+        priority: 1
+        protocol: http
+        service: web
+        source_port: 80
+        target_port: 4000
+      health_check:
+        port: 42
+        interval: 2000
+        unhealthy_threshold: 3
+        healthy_threshold: 2
+        response_timeout: 2000
+  postgres:
+    scale: 1
+  web:
+    scale: 1
+  redis:
+    scale: 1

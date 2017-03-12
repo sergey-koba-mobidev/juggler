@@ -24,8 +24,15 @@ A simple Elixir/Phoenix + Docker based continuous integration tool.
 ## Alpha Roadmap
 - about page
 
-## Roadmap
+## Beta Roadmap
+- Gitlab
+- Bitbucket
 - integrations (notification to slack, hipchat)
+- Scalability - decouple workers from web
+- SSL
+- Custom git server
+
+## Roadmap
 - organizations
 - tests
 - email notifications about failed builds/deploys
